@@ -134,4 +134,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     handleLogin(formDetal, 'pass-detal', 'error-detal', '26', urlAppSheetDetal);
     handleLogin(formMayorista, 'pass-mayorista', 'error-mayorista', '53', urlAppSheetMayorista);
+
+    // ===== LIVE CLOCK & STATUS =====
+    function updateClock() {
+        const now = new Date();
+        const h = now.getHours();
+        const m = now.getMinutes();
+        const s = now.getSeconds();
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        const h12 = h % 12 || 12;
+        const timeStr = `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
+        const clockEl = document.getElementById('live-clock');
+        const statusEl = document.getElementById('clock-status');
+        if (clockEl) clockEl.textContent = timeStr;
+
+        // Check if open (Mon-Sat, 10AM-6PM)
+        const day = now.getDay(); // 0=Sun
+        const isWeekday = day >= 1 && day <= 6;
+        const isOpen = isWeekday && h >= 10 && h < 18;
+
+        if (statusEl) {
+            const dot = statusEl.querySelector('.status-dot');
+            const label = statusEl.querySelector('span:last-child');
+            if (isOpen) {
+                dot.classList.remove('closed-dot');
+                label.textContent = 'Abierto Ahora';
+                label.style.color = '#25D366';
+            } else {
+                dot.classList.add('closed-dot');
+                label.textContent = 'Cerrado';
+                label.style.color = '#ff6b6b';
+            }
+        }
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ===== ANIMATED BARS =====
+    const barObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const fills = entry.target.querySelectorAll('.bar-fill');
+                fills.forEach(fill => {
+                    const w = fill.dataset.width || 0;
+                    fill.style.setProperty('--target-width', w + '%');
+                    fill.classList.add('animated');
+                });
+                barObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.schedule-bar-item').forEach(el => barObserver.observe(el));
 });

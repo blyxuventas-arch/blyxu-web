@@ -22,11 +22,47 @@ body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text);
 .glow-3 { width:350px; height:350px; background:#5a189a; top:40%; left:50%; animation-delay:-12s; }
 @keyframes gFloat { 0%{transform:translate(0,0) scale(1)} 50%{transform:translate(80px,40px) scale(1.15)} 100%{transform:translate(-40px,80px) scale(.9)} }
 
-/* ===== BANNER ===== */
-.top-banner { width:100%; background:linear-gradient(90deg,#3c096c,#7b2cbf,#9d4edd,#3c096c); background-size:200% 100%; animation:bannerShift 8s linear infinite; padding:.7rem 0; overflow:hidden; position:relative; z-index:100; }
-.banner-track { display:flex; width:max-content; animation:scrollBanner 18s linear infinite; white-space:nowrap; font-size:.88rem; font-weight:500; color:rgba(255,255,255,.9); }
-@keyframes bannerShift { 0%{background-position:0 0} 100%{background-position:200% 0} }
-@keyframes scrollBanner { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+/* ===== SCHEDULE VISUAL ===== */
+.schedule-visual { display:grid; grid-template-columns:280px 1fr; gap:4rem; align-items:start; }
+
+/* Clock */
+.schedule-clock-wrap { display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
+.schedule-clock { position:relative; width:200px; height:200px; display:flex; align-items:center; justify-content:center; }
+.clock-ring { position:absolute; inset:0; border-radius:50%; border:2px solid transparent; border-top-color:var(--purple-light); border-right-color:var(--purple); animation:clockSpin 4s linear infinite; }
+.clock-ring-2 { border-top-color:var(--purple-pale); border-right-color:transparent; border-bottom-color:var(--purple-light); animation:clockSpin 6s linear infinite reverse; inset:12px; }
+@keyframes clockSpin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+.clock-center { text-align:center; z-index:2; background:rgba(10,6,18,.8); border-radius:50%; width:150px; height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid var(--glass-border); box-shadow:0 0 40px rgba(123,44,191,.15); }
+.clock-icon { font-size:2rem; margin-bottom:.3rem; }
+.clock-live { font-size:1.8rem; font-weight:800; background:linear-gradient(to right,#fff,var(--purple-light)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.clock-label { font-size:.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-top:.2rem; }
+.clock-status { display:flex; align-items:center; gap:.5rem; padding:.5rem 1.2rem; background:var(--glass); border:1px solid var(--glass-border); border-radius:50px; font-size:.85rem; font-weight:600; }
+.status-dot { width:10px; height:10px; border-radius:50%; background:#25D366; box-shadow:0 0 10px #25D366; animation:statusPulse 2s infinite; }
+.status-dot.closed-dot { background:#ff6b6b; box-shadow:0 0 10px #ff6b6b; }
+@keyframes statusPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+/* Bars */
+.schedule-bars-wrap { display:flex; flex-direction:column; gap:1.2rem; }
+.schedule-bar-item { background:var(--glass); border:1px solid var(--glass-border); border-radius:14px; padding:1.2rem 1.5rem; transition:all .35s; }
+.schedule-bar-item:hover { border-color:rgba(199,125,255,.3); transform:translateX(6px); box-shadow:0 8px 25px rgba(0,0,0,.3); }
+.bar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:.7rem; }
+.bar-day { font-size:1rem; font-weight:600; }
+.bar-time { font-size:.85rem; color:var(--text-muted); font-weight:500; }
+.closed-text { color:#ff6b6b; font-weight:600; }
+.bar-track { position:relative; width:100%; height:6px; background:rgba(255,255,255,.05); border-radius:6px; overflow:hidden; }
+.bar-fill { height:100%; width:0; background:linear-gradient(90deg, var(--bar-color), rgba(255,255,255,.3)); border-radius:6px; transition:width 1.5s cubic-bezier(.16,1,.3,1); position:relative; }
+.bar-fill.animated { width:var(--target-width); }
+.bar-glow { position:absolute; top:0; right:0; width:20px; height:100%; background:var(--bar-color); border-radius:50%; filter:blur(8px); opacity:0; transition:opacity 1s 1s; }
+.bar-fill.animated ~ .bar-glow { opacity:.6; }
+.schedule-bar-closed { opacity:.5; }
+.schedule-bar-closed:hover { opacity:.7; }
+.bar-status-tag { font-size:.78rem; margin-top:.6rem; font-weight:500; letter-spacing:.5px; }
+.open-tag { color:rgba(37,211,102,.8); }
+.closed-tag { color:rgba(255,107,107,.6); }
+
+@media(max-width:768px){
+    .schedule-visual { grid-template-columns:1fr; justify-items:center; gap:2.5rem; }
+    .schedule-bars-wrap { width:100%; }
+}
 
 /* ===== NAVBAR ===== */
 .navbar { position:fixed; top:0; left:0; width:100%; z-index:999; padding:1rem 0; transition:all .4s ease; }
