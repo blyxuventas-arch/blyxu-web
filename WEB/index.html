@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blyxu | Portal de Acceso</title>
+    <!-- Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+
+    <!-- Banner Superior para Anuncios -->
+    <div class="top-banner">
+        🚀 ¡Envíos gratis a todo el país en pedidos mayores a $150.000! Conoce nuestras ofertas exclusivas en nuestras sedes. 🌟
+    </div>
+
+
+
+    <div class="container">
+        <header class="header" style="margin-bottom: 2.5rem;">
+            <!-- Logo de Blyxu -->
+            <img src="logo.png" alt="Blyxu Logo" class="brand-logo">
+        </header>
+
+        <!-- VISTA INICIAL (Catálogo) -->
+        <div id="intro-view" class="intro-view">
+            <h1 style="color:white; font-size: 2.5rem; margin-bottom: 2.5rem; text-align:center; font-weight:800;">
+                Bienvenidos al Ecosistema Blyxu
+            </h1>
+            <button id="btn-conoce-catalogo" class="btn-hero-glow" style="margin-bottom: 5rem;">
+                <span>CONOCE NUESTRO CATÁLOGO</span>
+            </button>
+            
+            <div class="schedule-timeline-section" style="width:100%; max-width: 650px; padding: 2.5rem; border-radius: 24px; background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); border: 1px solid rgba(199,125,255,0.2); margin-top: 1rem; animation: slideDown 1s ease-out;">
+                <div class="section-title" style="margin-bottom: 2.5rem;">
+                    <h2 style="font-size: 2rem; color:#ffffff;">Horario de Atención</h2>
+                </div>
+                <div class="timeline-wrapper" style="margin: 0 auto;">
+                    <div class="timeline-glow-line"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="font-size:1.15rem; margin-bottom:0.3rem;">Lunes a Viernes</h4>
+                            <p style="font-size: 1.05rem; color:#fff;">10:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" style="padding-bottom: 0;">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="font-size:1.15rem; margin-bottom:0.3rem;">Sábados</h4>
+                            <p style="font-size: 1.05rem; color:#fff;">10:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENIDO COMPLETO (Oculto Inicialmente) -->
+        <div id="main-content" style="display: none; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 100%;">
+            <p class="subtitle" style="text-align:center; margin-bottom: 3rem; font-size: 1.2rem;">
+                Selecciona tu perfil de cliente para ingresar
+            </p>
+
+        <div class="cards-wrapper">
+            <!-- Minorista / Detal Card -->
+            <div class="card retail-card">
+                <div class="card-content">
+                    <div class="icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                            <path d="M3 6h18"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                    </div>
+                    <h2>Cliente Al Detal</h2>
+                    <p>Accede a nuestro catálogo público y descubre nuestras últimas colecciones de productos.</p>
+                    
+                    <form id="form-detal" class="login-form">
+                        <div class="input-group">
+                            <input type="password" id="pass-detal" required placeholder="Contraseña de acceso">
+                        </div>
+                        <div id="error-detal" style="display: none; color: #ff6b6b; font-size: 0.85rem; text-align: right; margin-top: -0.5rem;">Contraseña incorrecta</div>
+                        <button type="submit" class="btn btn-retail">Ingresar al Catálogo</button>
+                        <a href="https://wa.me/573112368622?text=Solicito%20clave%20para%20ingresar%20al%20cat%C3%A1logo" target="_blank" class="btn-whatsapp">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            Solicitar clave por WhatsApp
+                        </a>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Mayorista Card -->
+            <div class="card wholesale-card">
+                <div class="card-content">
+                    <div class="icon-wrapper wholesale-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="16" height="16" x="4" y="4" rx="2" ry="2"/>
+                            <rect width="6" height="6" x="9" y="9" rx="1"/>
+                            <path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/>
+                            <path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/>
+                            <path d="M9 2v2"/><path d="M9 20v2"/>
+                        </svg>
+                    </div>
+                    <h2>Cliente Mayorista</h2>
+                    <p>Accede con tus credenciales exclusivas a precios y promociones al por mayor.</p>
+                    
+                    <form id="form-mayorista" class="login-form">
+                        <div class="input-group">
+                            <input type="password" id="pass-mayorista" required placeholder="Contraseña de acceso">
+                        </div>
+                        <div id="error-mayorista" style="display: none; color: #ff6b6b; font-size: 0.85rem; text-align: right; margin-top: -0.5rem;">Contraseña incorrecta</div>
+                        <button type="submit" class="btn btn-wholesale">Ingresar como Mayorista</button>
+                        <a href="https://wa.me/573112368622?text=Solicito%20clave%20para%20ingresar%20al%20cat%C3%A1logo" target="_blank" class="btn-whatsapp">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            Solicitar clave por WhatsApp
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Destacados (Info Falsa / Ejemplo) -->
+        <div class="features-section">
+            <div class="section-title">
+                <h2>¿Por qué elegir Blyxu?</h2>
+                <p>Descubre un ecosistema premium diseñado para abastecer tu negocio y revolucionar tu propio estilo.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600" alt="Audio y Tecnología">
+                    <div class="feature-content">
+                        <h3>Última Tecnología</h3>
+                        <p>Los dispositivos más innovadores del mercado al alcance de un clic. Certificados directamente por sus fabricantes.</p>
+                    </div>
+                </div>
+                <div class="feature-box">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=600" alt="Relojería">
+                    <div class="feature-content">
+                        <h3>Accesorios Premium</h3>
+                        <p>Colecciones de diseñador exclusivas. Piezas que marcan la diferencia y elevan tu catálogo de ventas al siguiente nivel.</p>
+                    </div>
+                </div>
+                <div class="feature-box">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600" alt="Deportes">
+                    <div class="feature-content">
+                        <h3>Ediciones Especiales</h3>
+                        <p>Calzado y artículos deportivos de edición limitada. Importados semanalmente para asegurar la máxima variedad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trust Section -->
+        <div class="trust-section">
+            <div class="trust-stats">
+                <div class="stat">
+                    <h4>+25k</h4>
+                    <p>Pedidos Entregados</p>
+                </div>
+                <div class="stat">
+                    <h4>24/7</h4>
+                    <p>Soporte Mayorista</p>
+                </div>
+                <div class="stat">
+                    <h4>100%</h4>
+                    <p>Clientes Satisfechos</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        </div> <!-- /.main-content -->
+    </div>
+
+    <!-- Footer con Información de Empresa -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Ubicación</h3>
+                <p>📍 Sede Principal Blyxu</p>
+                <p>Calle Principal #123, Ciudad</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>📞 +57 300 000 0000</p>
+                <p>✉️ contacto@blyxu.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Horario de Atención</h3>
+                <p>Lunes a Sábados</p>
+                <p>10:00 AM - 6:00 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Blyxu. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
