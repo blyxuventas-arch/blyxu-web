@@ -122,12 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.opacity = '.7';
             btn.style.cursor = 'wait';
             setTimeout(() => {
-                window.location.href = url;
-                setTimeout(() => {
-                    btn.querySelector('span').textContent = original;
-                    btn.style.opacity = '1';
-                    btn.style.cursor = 'pointer';
-                }, 500);
+                // Usar replace para que no se pueda volver atrás con el botón de retroceso
+                window.location.replace(url);
             }, 1000);
         });
     }
