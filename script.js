@@ -1,5 +1,5 @@
 // URLs de destino
-const urlAppSheetMayorista = "https://www.appsheet.com/start/f65365e0-8f0b-4ad9-bb0e-956ee8798d6b";
+const urlAppSheetMayorista = "https://www.appsheet.com/start/89d7e4bb-f484-4a49-bb80-d24ff40f6b4b";
 const urlAppSheetDetal = "https://www.appsheet.com/start/f65365e0-8f0b-4ad9-bb0e-956ee8798d6b";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -116,13 +116,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const err = document.getElementById(errorId);
             if (pass !== password) { err.style.display = 'block'; return; }
             err.style.display = 'none';
+
+            // Para Safari: abrir la ventana sincrónicamente durante el evento del usuario
+            const newWindow = window.open('about:blank', '_blank');
+
             const btn = form.querySelector('.btn-catalog');
             const original = btn.querySelector('span').textContent;
             btn.querySelector('span').textContent = 'Conectando...';
             btn.style.opacity = '.7';
             btn.style.cursor = 'wait';
+            
             setTimeout(() => {
-                window.open(url, '_blank');
+                if (newWindow) {
+                    newWindow.location.href = url;
+                } else {
+                    // Fallback por si el navegador bloquea la ventana
+                    window.location.href = url; 
+                }
+                
                 // Restaurar el botón
                 btn.querySelector('span').textContent = original;
                 btn.style.opacity = '1';
