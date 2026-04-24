@@ -131,28 +131,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     const iframe = document.createElement('iframe');
                     iframe.src = url;
                     iframe.style.width = '100%';
-                    iframe.style.height = '100vh';
-                    iframe.style.border = 'none';
-                    iframe.style.position = 'fixed';
-                    iframe.style.top = '0';
-                    iframe.style.left = '0';
-                    iframe.style.zIndex = '9999';
+                    iframe.style.height = '85vh';
+                    iframe.style.border = '2px solid rgba(255, 255, 255, 0.1)';
+                    iframe.style.borderRadius = '16px';
+                    iframe.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4)';
                     iframe.style.backgroundColor = '#fff';
+                    
+                    // Ajustar el contenedor para que sea parte del flujo de la página
+                    contenedor.style.position = 'relative';
+                    contenedor.style.width = '100%';
+                    contenedor.style.maxWidth = '1200px';
+                    contenedor.style.margin = '100px auto 40px'; // Espacio para el nav
+                    contenedor.style.padding = '0 20px';
+                    contenedor.style.display = 'block';
+                    contenedor.style.zIndex = '100';
                     
                     const closeBtn = document.createElement('button');
                     closeBtn.innerHTML = '✖ Cerrar Catálogo';
-                    closeBtn.style.position = 'fixed';
-                    closeBtn.style.top = '20px';
+                    closeBtn.style.position = 'absolute';
+                    closeBtn.style.top = '-45px';
                     closeBtn.style.right = '20px';
-                    closeBtn.style.zIndex = '10000';
-                    closeBtn.style.padding = '10px 20px';
+                    closeBtn.style.padding = '8px 20px';
                     closeBtn.style.backgroundColor = '#ff6b6b';
                     closeBtn.style.color = 'white';
                     closeBtn.style.border = 'none';
                     closeBtn.style.borderRadius = '8px';
                     closeBtn.style.cursor = 'pointer';
                     closeBtn.style.fontWeight = 'bold';
-                    closeBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
                     closeBtn.style.fontFamily = '"Outfit", sans-serif';
                     closeBtn.style.transition = 'all 0.3s ease';
                     
@@ -161,10 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     closeBtn.onclick = function() {
                         contenedor.innerHTML = '';
+                        contenedor.style.display = 'none'; // Ocultar cuando se cierra
                     };
 
-                    contenedor.appendChild(iframe);
                     contenedor.appendChild(closeBtn);
+                    contenedor.appendChild(iframe);
+
+                    // Desplazar la vista hacia el contenedor
+                    contenedor.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
                 
                 // Restaurar el botón
