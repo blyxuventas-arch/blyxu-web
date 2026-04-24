@@ -1,8 +1,35 @@
 // URLs de destino
 const urlAppSheetMayorista = "https://www.appsheet.com/start/89d7e4bb-f484-4a49-bb80-d24ff40f6b4b";
-const urlAppSheetDetal = "https://www.appsheet.com/start/f65365e0-8f0b-4ad9-bb0e-956ee8798d6b";
+const urlAppSheetDetal = "https://www.appsheet.com/start/db5ac1a7-90c2-4971-991c-6d2853b114f3";
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // ===== SPLASH SCREEN =====
+    const splashScreen = document.getElementById('splash-screen');
+    if (splashScreen) {
+        document.body.classList.add('splash-active');
+        
+        // Esperamos a que todo cargue, pero damos un mínimo de 2 segundos para apreciar la animación
+        const minTime = 2000;
+        const startTime = Date.now();
+        
+        window.addEventListener('load', () => {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(0, minTime - elapsedTime);
+            
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                splashScreen.style.visibility = 'hidden';
+                document.body.classList.remove('splash-active');
+                
+                setTimeout(() => {
+                    if (splashScreen.parentNode) {
+                        splashScreen.parentNode.removeChild(splashScreen);
+                    }
+                }, 800); // Wait for transition
+            }, remainingTime);
+        });
+    }
 
     // ===== PARTICLES =====
     const canvas = document.getElementById('particles-canvas');

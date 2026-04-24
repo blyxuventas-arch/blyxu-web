@@ -101,11 +101,38 @@ body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text);
 .btn-hero-primary:hover { transform:translateY(-4px) scale(1.03); box-shadow:0 12px 40px rgba(123,44,191,.5); }
 .btn-hero-secondary { display:inline-flex; align-items:center; padding:1.1rem 2.5rem; background:transparent; color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:50px; font-size:1.05rem; font-weight:500; text-decoration:none; transition:all .35s; }
 .btn-hero-secondary:hover { background:rgba(255,255,255,.08); border-color:var(--purple-light); transform:translateY(-3px); }
-.hero-scroll-indicator { position:absolute; bottom:2rem; display:flex; flex-direction:column; align-items:center; gap:.7rem; opacity:.5; animation:fadeInUp 1.5s 1.5s backwards; }
+.hero-scroll-indicator { margin-top: 5rem; display:flex; flex-direction:column; align-items:center; gap:.7rem; opacity:.5; animation:fadeInUp 1.5s 1.5s backwards; }
 .hero-scroll-indicator span { font-size:.75rem; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; }
 .scroll-mouse { width:26px; height:40px; border:2px solid rgba(255,255,255,.3); border-radius:14px; position:relative; }
 .scroll-wheel { width:4px; height:8px; background:var(--purple-light); border-radius:4px; position:absolute; top:6px; left:50%; transform:translateX(-50%); animation:scrollWheel 2s infinite; }
 @keyframes scrollWheel { 0%{opacity:1;transform:translateX(-50%) translateY(0)} 100%{opacity:0;transform:translateX(-50%) translateY(16px)} }
+
+/* ===== HERO LOGO ===== */
+.hero-logo-container {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+.hero-main-logo {
+    width: 260px;
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(123, 44, 191, 0.35));
+    animation: heroLogoPulse 4s ease-in-out infinite;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.hero-main-logo:hover {
+    transform: scale(1.1) rotate(2deg);
+    filter: drop-shadow(0 0 45px rgba(123, 44, 191, 0.6));
+}
+
+@keyframes heroLogoPulse {
+    0%, 100% { transform: scale(1) translateY(0); opacity: 0.95; }
+    50% { transform: scale(1.05) translateY(-10px); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .hero-main-logo { width: 200px; }
+}
 
 /* ===== STATS TICKER ===== */
 .stats-ticker { padding:2.5rem 2rem; border-top:1px solid var(--glass-border); border-bottom:1px solid var(--glass-border); background:rgba(22,17,34,.3); }
@@ -398,3 +425,80 @@ body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text);
 }
 /* Footer fix after removing Horario column */
 @media (min-width: 769px) { .footer-top { grid-template-columns: 1.5fr 1fr 1fr; } }
+ 
+ /* ========== SPLASH SCREEN ========== */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #050505;
+    z-index: 9999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+}
+
+.splash-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.splash-logo {
+    width: 250px;
+    height: auto;
+    animation: splashLogoAnim 2.5s infinite cubic-bezier(0.25, 1, 0.5, 1);
+    filter: drop-shadow(0 0 20px rgba(123, 44, 191, 0.5));
+    margin-bottom: 30px;
+}
+
+.splash-loader {
+    width: 180px;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.splash-loader::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    animation: splashLoading 1.5s infinite ease-in-out;
+    border-radius: 4px;
+}
+
+@keyframes splashLogoAnim {
+    0% {
+        transform: scale(0.9) translateY(10px);
+        opacity: 0.5;
+        filter: drop-shadow(0 0 10px rgba(123, 44, 191, 0.2));
+    }
+    50% {
+        transform: scale(1.1) translateY(0);
+        opacity: 1;
+        filter: drop-shadow(0 0 30px rgba(123, 44, 191, 0.8));
+    }
+    100% {
+        transform: scale(0.9) translateY(10px);
+        opacity: 0.5;
+        filter: drop-shadow(0 0 10px rgba(123, 44, 191, 0.2));
+    }
+}
+
+@keyframes splashLoading {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+
+body.splash-active {
+    overflow: hidden !important;
+}
