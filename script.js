@@ -4,33 +4,6 @@ const urlAppSheetDetal = "https://www.appsheet.com/start/db5ac1a7-90c2-4971-991c
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ===== SPLASH SCREEN =====
-    const splashScreen = document.getElementById('splash-screen');
-    if (splashScreen) {
-        document.body.classList.add('splash-active');
-        
-        // Esperamos a que todo cargue, pero damos un mínimo de 2 segundos para apreciar la animación
-        const minTime = 2000;
-        const startTime = Date.now();
-        
-        window.addEventListener('load', () => {
-            const elapsedTime = Date.now() - startTime;
-            const remainingTime = Math.max(0, minTime - elapsedTime);
-            
-            setTimeout(() => {
-                splashScreen.style.opacity = '0';
-                splashScreen.style.visibility = 'hidden';
-                document.body.classList.remove('splash-active');
-                
-                setTimeout(() => {
-                    if (splashScreen.parentNode) {
-                        splashScreen.parentNode.removeChild(splashScreen);
-                    }
-                }, 800); // Wait for transition
-            }, remainingTime);
-        });
-    }
-
     // ===== PARTICLES =====
     const canvas = document.getElementById('particles-canvas');
     if (canvas) {
@@ -212,23 +185,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     const closeBtn = document.createElement('button');
                     closeBtn.id = 'btn-cerrar-catalogo';
                     closeBtn.innerHTML = '← Volver al Inicio';
-                    closeBtn.style.padding = '8px 16px';
-                    closeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                    closeBtn.style.padding = '10px 22px';
+                    closeBtn.style.background = 'linear-gradient(135deg, #9d4edd, #7b2cbf)';
                     closeBtn.style.color = 'white';
-                    closeBtn.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-                    closeBtn.style.borderRadius = '8px';
+                    closeBtn.style.border = 'none';
+                    closeBtn.style.borderRadius = '50px';
                     closeBtn.style.cursor = 'pointer';
-                    closeBtn.style.fontWeight = 'bold';
+                    closeBtn.style.fontWeight = '700';
+                    closeBtn.style.fontSize = '14px';
                     closeBtn.style.fontFamily = '"Outfit", sans-serif';
-                    closeBtn.style.transition = 'all 0.3s ease';
+                    closeBtn.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    closeBtn.style.boxShadow = '0 4px 15px rgba(123, 44, 191, 0.4)';
+                    closeBtn.style.animation = 'btnPulse 2s infinite ease-in-out';
+                    
+                    // Add the keyframes if they don't exist in style.css
+                    if (!document.getElementById('btn-close-styles')) {
+                        const style = document.createElement('style');
+                        style.id = 'btn-close-styles';
+                        style.innerHTML = `
+                            @keyframes btnPulse {
+                                0% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0.7); transform: scale(1); }
+                                70% { box-shadow: 0 0 0 10px rgba(157, 78, 221, 0); transform: scale(1.05); }
+                                100% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0); transform: scale(1); }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
                     
                     closeBtn.onmouseover = () => { 
-                        closeBtn.style.backgroundColor = '#ff6b6b'; 
-                        closeBtn.style.borderColor = '#ff6b6b';
+                        closeBtn.style.transform = 'translateY(-2px) scale(1.1)'; 
+                        closeBtn.style.filter = 'brightness(1.2)';
+                        closeBtn.style.boxShadow = '0 6px 20px rgba(123, 44, 191, 0.6)';
                     };
                     closeBtn.onmouseout = () => { 
-                        closeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; 
-                        closeBtn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                        closeBtn.style.transform = 'translateY(0) scale(1)'; 
+                        closeBtn.style.filter = 'brightness(1)';
+                        closeBtn.style.boxShadow = '0 4px 15px rgba(123, 44, 191, 0.4)';
                     };
 
                     closeBtn.onclick = function() {

@@ -113,21 +113,22 @@ body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text);
     display: flex;
     justify-content: center;
 }
+@keyframes heroLogoPulse {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.02) translateY(-6px); }
+}
+
+@keyframes heroLogoReveal {
+    from { opacity: 0; transform: scale(0.8) translateY(20px); filter: brightness(2); }
+    to { opacity: 1; transform: scale(1) translateY(0); filter: brightness(1); }
+}
+
 .hero-main-logo {
     width: 260px;
     height: auto;
     filter: drop-shadow(0 0 30px rgba(123, 44, 191, 0.35));
-    animation: heroLogoPulse 4s ease-in-out infinite;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.hero-main-logo:hover {
-    transform: scale(1.1) rotate(2deg);
-    filter: drop-shadow(0 0 45px rgba(123, 44, 191, 0.6));
-}
-
-@keyframes heroLogoPulse {
-    0%, 100% { transform: scale(1) translateY(0); opacity: 0.95; }
-    50% { transform: scale(1.05) translateY(-10px); opacity: 1; }
+    animation: heroLogoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards, heroLogoPulse 4s ease-in-out infinite 1.2s;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.5s;
 }
 
 @media (max-width: 768px) {
