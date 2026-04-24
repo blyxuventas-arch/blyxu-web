@@ -128,52 +128,73 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (contenedor) {
                     contenedor.innerHTML = ''; // Limpiar contenedor
                     
+                    // Ocultar la sección general de la landing page
+                    const secciones = document.querySelectorAll('section, footer, .hero-scroll-indicator');
+                    secciones.forEach(sec => sec.style.display = 'none');
+                    
+                    // Evitar el scroll en la ventana principal
+                    document.body.style.overflow = 'hidden';
+                    
                     const iframe = document.createElement('iframe');
                     iframe.src = url;
                     iframe.style.width = '100%';
-                    iframe.style.height = '85vh';
-                    iframe.style.border = '2px solid rgba(255, 255, 255, 0.1)';
-                    iframe.style.borderRadius = '16px';
-                    iframe.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4)';
+                    iframe.style.height = '100%'; 
+                    iframe.style.border = 'none';
                     iframe.style.backgroundColor = '#fff';
+                    iframe.style.display = 'block';
                     
-                    // Ajustar el contenedor para que sea parte del flujo de la página
+                    // Ajustar el contenedor para ocupar exactamente el espacio sobrante
                     contenedor.style.position = 'relative';
                     contenedor.style.width = '100%';
-                    contenedor.style.maxWidth = '1200px';
-                    contenedor.style.margin = '100px auto 40px'; // Espacio para el nav
-                    contenedor.style.padding = '0 20px';
+                    contenedor.style.height = 'calc(100vh - 70px)'; // Ajuste preciso para evitar scroll
+                    contenedor.style.margin = '70px 0 0 0'; 
+                    contenedor.style.padding = '0';
                     contenedor.style.display = 'block';
                     contenedor.style.zIndex = '100';
                     
                     const closeBtn = document.createElement('button');
-                    closeBtn.innerHTML = '✖ Cerrar Catálogo';
+                    closeBtn.innerHTML = '← Volver al Inicio';
                     closeBtn.style.position = 'absolute';
-                    closeBtn.style.top = '-45px';
+                    closeBtn.style.top = '15px';
                     closeBtn.style.right = '20px';
-                    closeBtn.style.padding = '8px 20px';
-                    closeBtn.style.backgroundColor = '#ff6b6b';
+                    closeBtn.style.zIndex = '1000';
+                    closeBtn.style.padding = '10px 20px';
+                    closeBtn.style.backgroundColor = '#1a1a2e';
                     closeBtn.style.color = 'white';
-                    closeBtn.style.border = 'none';
+                    closeBtn.style.border = '1px solid rgba(255, 255, 255, 0.2)';
                     closeBtn.style.borderRadius = '8px';
                     closeBtn.style.cursor = 'pointer';
                     closeBtn.style.fontWeight = 'bold';
                     closeBtn.style.fontFamily = '"Outfit", sans-serif';
                     closeBtn.style.transition = 'all 0.3s ease';
+                    closeBtn.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
                     
-                    closeBtn.onmouseover = () => { closeBtn.style.transform = 'scale(1.05)'; };
-                    closeBtn.onmouseout = () => { closeBtn.style.transform = 'scale(1)'; };
-
-                    closeBtn.onclick = function() {
-                        contenedor.innerHTML = '';
-                        contenedor.style.display = 'none'; // Ocultar cuando se cierra
+                    closeBtn.onmouseover = () => { 
+                        closeBtn.style.backgroundColor = '#ff6b6b'; 
+                        closeBtn.style.borderColor = '#ff6b6b';
+                        closeBtn.style.transform = 'scale(1.05)';
+                    };
+                    closeBtn.onmouseout = () => { 
+                        closeBtn.style.backgroundColor = '#1a1a2e'; 
+                        closeBtn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                        closeBtn.style.transform = 'scale(1)';
                     };
 
-                    contenedor.appendChild(closeBtn);
-                    contenedor.appendChild(iframe);
+                    closeBtn.onclick = function() {
+                        // Restaurar la vista general
+                        contenedor.innerHTML = '';
+                        contenedor.style.display = 'none';
+                        document.body.style.overflow = ''; // Restaurar el scroll original
+                        secciones.forEach(sec => sec.style.display = '');
+                        // Volver a la sección de catálogos
+                        window.location.hash = '#catalogos';
+                    };
 
-                    // Desplazar la vista hacia el contenedor
-                    contenedor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    contenedor.appendChild(iframe);
+                    contenedor.appendChild(closeBtn);
+                    
+                    // Asegurarnos de estar en la parte superior
+                    window.scrollTo(0, 0);
                 }
                 
                 // Restaurar el botón
