@@ -117,21 +117,54 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pass !== password) { err.style.display = 'block'; return; }
             err.style.display = 'none';
 
-            // Para Safari: abrir la ventana sincrónicamente durante el evento del usuario
-            const newWindow = window.open('about:blank', '_blank');
-
             const btn = form.querySelector('.btn-catalog');
             const original = btn.querySelector('span').textContent;
-            btn.querySelector('span').textContent = 'Conectando...';
+            btn.querySelector('span').textContent = 'Cargando...';
             btn.style.opacity = '.7';
             btn.style.cursor = 'wait';
             
             setTimeout(() => {
-                if (newWindow) {
-                    newWindow.location.href = url;
-                } else {
-                    // Fallback por si el navegador bloquea la ventana
-                    window.location.href = url; 
+                const contenedor = document.getElementById('contenedor-catalogo');
+                if (contenedor) {
+                    contenedor.innerHTML = ''; // Limpiar contenedor
+                    
+                    const iframe = document.createElement('iframe');
+                    iframe.src = url;
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100vh';
+                    iframe.style.border = 'none';
+                    iframe.style.position = 'fixed';
+                    iframe.style.top = '0';
+                    iframe.style.left = '0';
+                    iframe.style.zIndex = '9999';
+                    iframe.style.backgroundColor = '#fff';
+                    
+                    const closeBtn = document.createElement('button');
+                    closeBtn.innerHTML = '✖ Cerrar Catálogo';
+                    closeBtn.style.position = 'fixed';
+                    closeBtn.style.top = '20px';
+                    closeBtn.style.right = '20px';
+                    closeBtn.style.zIndex = '10000';
+                    closeBtn.style.padding = '10px 20px';
+                    closeBtn.style.backgroundColor = '#ff6b6b';
+                    closeBtn.style.color = 'white';
+                    closeBtn.style.border = 'none';
+                    closeBtn.style.borderRadius = '8px';
+                    closeBtn.style.cursor = 'pointer';
+                    closeBtn.style.fontWeight = 'bold';
+                    closeBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+                    closeBtn.style.fontFamily = '"Outfit", sans-serif';
+                    closeBtn.style.transition = 'all 0.3s ease';
+                    
+                    closeBtn.onmouseover = () => { closeBtn.style.transform = 'scale(1.05)'; };
+                    closeBtn.onmouseout = () => { closeBtn.style.transform = 'scale(1)'; };
+
+                    closeBtn.onclick = function() {
+                        contenedor.innerHTML = '';
+                    };
+
+                    contenedor.appendChild(iframe);
+                    contenedor.appendChild(closeBtn);
                 }
                 
                 // Restaurar el botón
@@ -139,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.style.opacity = '1';
                 btn.style.cursor = 'pointer';
                 form.reset();
-            }, 1000);
+            }, 800);
         });
     }
 
