@@ -132,13 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     const secciones = document.querySelectorAll('section, footer, .hero-scroll-indicator');
                     secciones.forEach(sec => sec.style.display = 'none');
                     
-                    // Evitar el scroll en la ventana principal
+                    // Evitar el scroll y el rebote en iOS (Swipe Back)
                     document.body.style.overflow = 'hidden';
+                    document.documentElement.style.overscrollBehavior = 'none';
+                    document.body.style.overscrollBehavior = 'none';
+                    
+                    // Bloquear el gesto de deslizar desde el borde izquierdo (iOS)
+                    window.blockEdgeSwipe = function(e) {
+                        if (e.touches[0].pageX < 30) {
+                            e.preventDefault();
+                        }
+                    };
+                    document.addEventListener('touchstart', window.blockEdgeSwipe, { passive: false });
                     
                     // Ajustar el contenedor para que actúe como un fondo de marco
                     contenedor.style.position = 'relative';
                     contenedor.style.width = '100%';
-                    contenedor.style.height = 'calc(100vh - 60px)'; // Altura bajo el navbar
                     contenedor.style.marginTop = '60px'; 
                     contenedor.style.padding = window.innerWidth < 768 ? '10px' : '20px';
                     contenedor.style.display = 'flex';
@@ -146,6 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     contenedor.style.alignItems = 'center';
                     contenedor.style.boxSizing = 'border-box';
                     contenedor.style.zIndex = '100';
+                    
+                    // Función para ajustar la altura perfecta sin que se corte en Android
+                    const ajustarAltura = () => {
+                        if(contenedor.style.display !== 'none') {
+                            contenedor.style.height = (window.innerHeight - 60) + 'px';
+                        }
+                    };
+                    ajustarAltura();
+                    window.addEventListener('resize', ajustarAltura);
                     
                     // Contenedor para el botón de cerrar (Header del marco)
                     const headerMarco = document.createElement('div');
@@ -184,7 +202,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Restaurar la vista general
                         contenedor.innerHTML = '';
                         contenedor.style.display = 'none';
-                        document.body.style.overflow = ''; // Restaurar el scroll original
+                        
+                        // Restaurar los comportamientos del scroll
+                        document.body.style.overflow = ''; 
+                        document.documentElement.style.overscrollBehavior = '';
+                        document.body.style.overscrollBehavior = '';
+                        document.removeEventListener('touchstart', window.blockEdgeSwipe);
+                        window.removeEventListener('resize', ajustarAltura);
+                        
                         secciones.forEach(sec => sec.style.display = '');
                         // Volver a la sección de catálogos
                         window.location.hash = '#catalogos';
