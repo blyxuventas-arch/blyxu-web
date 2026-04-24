@@ -123,16 +123,140 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.opacity = '.7';
             btn.style.cursor = 'wait';
             
-            // Abrir en una pestaña totalmente nueva e independiente, simulando
-            // el comportamiento nativo de WhatsApp. Debe ser sincrónico para no ser bloqueado.
-            window.open(url, '_blank');
-            
             setTimeout(() => {
+                const contenedor = document.getElementById('contenedor-catalogo');
+                if (contenedor) {
+                    contenedor.innerHTML = ''; // Limpiar contenedor
+                    
+                    // Ocultar TODA la página, incluyendo el navbar para maximizar espacio
+                    const navbar = document.getElementById('navbar');
+                    if(navbar) navbar.style.display = 'none';
+                    const secciones = document.querySelectorAll('section, footer, .hero-scroll-indicator, .background-container');
+                    secciones.forEach(sec => sec.style.display = 'none');
+                    
+                    // Evitar el scroll y el rebote en iOS (Swipe Back)
+                    document.body.style.overflow = 'hidden';
+                    document.documentElement.style.overscrollBehavior = 'none';
+                    document.body.style.overscrollBehavior = 'none';
+                    
+                    // Bloquear el gesto de deslizar agresivo de Chrome/iOS
+                    window.touchStartX = 0;
+                    window.handleTouchStart = function(e) {
+                        window.touchStartX = e.touches[0].clientX;
+                    };
+                    window.blockEdgeSwipe = function(e) {
+                        if (window.touchStartX < 40 || window.touchStartX > window.innerWidth - 40) {
+                            e.preventDefault();
+                        }
+                    };
+                    document.addEventListener('touchstart', window.handleTouchStart, { passive: true });
+                    document.addEventListener('touchmove', window.blockEdgeSwipe, { passive: false });
+                    
+                    // Ajustar el contenedor a pantalla ABSOLUTA sin márgenes
+                    contenedor.style.position = 'fixed';
+                    contenedor.style.top = '0';
+                    contenedor.style.left = '0';
+                    contenedor.style.width = '100vw';
+                    contenedor.style.padding = window.innerWidth < 768 ? '8px' : '20px';
+                    contenedor.style.display = 'flex';
+                    contenedor.style.flexDirection = 'column';
+                    contenedor.style.alignItems = 'center';
+                    contenedor.style.boxSizing = 'border-box';
+                    contenedor.style.zIndex = '999999';
+                    contenedor.style.backgroundColor = '#0a0a0a';
+                    
+                    // Función para ajustar la altura perfecta dinámica (Android fix)
+                    const ajustarAltura = () => {
+                        if(contenedor.style.display !== 'none') {
+                            contenedor.style.height = window.innerHeight + 'px';
+                        }
+                    };
+                    ajustarAltura();
+                    window.addEventListener('resize', ajustarAltura);
+                    
+                    // Contenedor para el botón de cerrar (Header del marco)
+                    const headerMarco = document.createElement('div');
+                    headerMarco.style.width = '100%';
+                    headerMarco.style.maxWidth = '1200px';
+                    headerMarco.style.display = 'flex';
+                    headerMarco.style.justifyContent = 'flex-end';
+                    headerMarco.style.marginBottom = '10px';
+                    
+                    const closeBtn = document.createElement('button');
+                    closeBtn.id = 'btn-cerrar-catalogo';
+                    closeBtn.innerHTML = '← Volver al Inicio';
+                    closeBtn.style.padding = '8px 16px';
+                    closeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                    closeBtn.style.color = 'white';
+                    closeBtn.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                    closeBtn.style.borderRadius = '8px';
+                    closeBtn.style.cursor = 'pointer';
+                    closeBtn.style.fontWeight = 'bold';
+                    closeBtn.style.fontFamily = '"Outfit", sans-serif';
+                    closeBtn.style.transition = 'all 0.3s ease';
+                    
+                    closeBtn.onmouseover = () => { 
+                        closeBtn.style.backgroundColor = '#ff6b6b'; 
+                        closeBtn.style.borderColor = '#ff6b6b';
+                    };
+                    closeBtn.onmouseout = () => { 
+                        closeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; 
+                        closeBtn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    };
+
+                    closeBtn.onclick = function() {
+                        window.catalogForceOpen = false;
+                        window.history.back(); // Limpiar el historial para no dejar estados basura
+                        
+                        // Restaurar la vista general
+                        contenedor.innerHTML = '';
+                        contenedor.style.display = 'none';
+                        
+                        // Restaurar los comportamientos del scroll y el navbar
+                        const navbar = document.getElementById('navbar');
+                        if(navbar) navbar.style.display = '';
+                        
+                        document.body.style.overflow = ''; 
+                        document.documentElement.style.overscrollBehavior = '';
+                        document.body.style.overscrollBehavior = '';
+                        document.removeEventListener('touchstart', window.handleTouchStart);
+                        document.removeEventListener('touchmove', window.blockEdgeSwipe);
+                        window.removeEventListener('resize', ajustarAltura);
+                        
+                        secciones.forEach(sec => sec.style.display = '');
+                        // Volver a la sección de catálogos
+                        window.location.hash = '#catalogos';
+                    };
+
+                    headerMarco.appendChild(closeBtn);
+
+                    const iframe = document.createElement('iframe');
+                    iframe.src = url;
+                    iframe.style.width = '100%';
+                    iframe.style.maxWidth = '1200px';
+                    iframe.style.flexGrow = '1'; 
+                    iframe.style.border = '2px solid rgba(255, 255, 255, 0.1)';
+                    iframe.style.borderRadius = '12px';
+                    iframe.style.backgroundColor = '#fff';
+                    iframe.style.boxShadow = '0 10px 40px rgba(0,0,0,0.4)';
+                    
+                    contenedor.appendChild(headerMarco);
+                    contenedor.appendChild(iframe);
+                    
+                    // Bloquear el botón de retroceso (swipe back) del navegador
+                    window.catalogForceOpen = true;
+                    window.history.pushState({ catalog: true }, "");
+                    
+                    // Asegurarnos de estar en la parte superior
+                    window.scrollTo(0, 0);
+                }
+                
+                // Restaurar el botón
                 btn.querySelector('span').textContent = original;
                 btn.style.opacity = '1';
                 btn.style.cursor = 'pointer';
                 form.reset();
-            }, 1000);
+            }, 800);
         });
     }
 
@@ -190,4 +314,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.2 });
 
     document.querySelectorAll('.schedule-bar-item').forEach(el => barObserver.observe(el));
+
+    // ===== PREVENT BACK GESTURE WHEN CATALOG IS OPEN =====
+    window.addEventListener('popstate', (e) => {
+        if (window.catalogForceOpen) {
+            // Empujar el estado de nuevo para que el usuario no salga de la página
+            window.history.pushState({ catalog: true }, "");
+            
+            const btn = document.getElementById('btn-cerrar-catalogo');
+            if(btn) {
+                // Hacer vibrar el botón para indicarle al usuario que debe presionarlo
+                btn.style.transition = 'all 0.1s ease';
+                btn.style.transform = 'scale(1.1) rotate(2deg)';
+                btn.style.backgroundColor = '#ff6b6b';
+                btn.style.borderColor = '#ff6b6b';
+                
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1) rotate(-2deg)';
+                    setTimeout(() => {
+                        btn.style.transform = 'scale(1) rotate(0deg)';
+                        btn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        btn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }, 100);
+                }, 100);
+            }
+        }
+    });
 });
+
