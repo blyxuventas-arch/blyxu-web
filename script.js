@@ -135,31 +135,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Evitar el scroll en la ventana principal
                     document.body.style.overflow = 'hidden';
                     
-                    const iframe = document.createElement('iframe');
-                    iframe.src = url;
-                    iframe.style.width = '100%';
-                    iframe.style.height = '100%'; 
-                    iframe.style.border = 'none';
-                    iframe.style.backgroundColor = '#fff';
-                    iframe.style.display = 'block';
-                    
-                    // Ajustar el contenedor para ocupar exactamente el espacio sobrante
+                    // Ajustar el contenedor para que actúe como un fondo de marco
                     contenedor.style.position = 'relative';
                     contenedor.style.width = '100%';
-                    contenedor.style.height = 'calc(100vh - 70px)'; // Ajuste preciso para evitar scroll
-                    contenedor.style.margin = '70px 0 0 0'; 
-                    contenedor.style.padding = '0';
-                    contenedor.style.display = 'block';
+                    contenedor.style.height = 'calc(100vh - 60px)'; // Altura bajo el navbar
+                    contenedor.style.marginTop = '60px'; 
+                    contenedor.style.padding = window.innerWidth < 768 ? '10px' : '20px';
+                    contenedor.style.display = 'flex';
+                    contenedor.style.flexDirection = 'column';
+                    contenedor.style.alignItems = 'center';
+                    contenedor.style.boxSizing = 'border-box';
                     contenedor.style.zIndex = '100';
                     
+                    // Contenedor para el botón de cerrar (Header del marco)
+                    const headerMarco = document.createElement('div');
+                    headerMarco.style.width = '100%';
+                    headerMarco.style.maxWidth = '1200px';
+                    headerMarco.style.display = 'flex';
+                    headerMarco.style.justifyContent = 'flex-end';
+                    headerMarco.style.marginBottom = '10px';
+                    
                     const closeBtn = document.createElement('button');
+                    closeBtn.id = 'btn-cerrar-catalogo';
                     closeBtn.innerHTML = '← Volver al Inicio';
-                    closeBtn.style.position = 'absolute';
-                    closeBtn.style.top = '15px';
-                    closeBtn.style.right = '20px';
-                    closeBtn.style.zIndex = '1000';
-                    closeBtn.style.padding = '10px 20px';
-                    closeBtn.style.backgroundColor = '#1a1a2e';
+                    closeBtn.style.padding = '8px 16px';
+                    closeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
                     closeBtn.style.color = 'white';
                     closeBtn.style.border = '1px solid rgba(255, 255, 255, 0.2)';
                     closeBtn.style.borderRadius = '8px';
@@ -167,20 +167,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     closeBtn.style.fontWeight = 'bold';
                     closeBtn.style.fontFamily = '"Outfit", sans-serif';
                     closeBtn.style.transition = 'all 0.3s ease';
-                    closeBtn.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
                     
                     closeBtn.onmouseover = () => { 
                         closeBtn.style.backgroundColor = '#ff6b6b'; 
                         closeBtn.style.borderColor = '#ff6b6b';
-                        closeBtn.style.transform = 'scale(1.05)';
                     };
                     closeBtn.onmouseout = () => { 
-                        closeBtn.style.backgroundColor = '#1a1a2e'; 
+                        closeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; 
                         closeBtn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                        closeBtn.style.transform = 'scale(1)';
                     };
 
                     closeBtn.onclick = function() {
+                        window.catalogForceOpen = false;
+                        window.history.back(); // Limpiar el historial para no dejar estados basura
+                        
                         // Restaurar la vista general
                         contenedor.innerHTML = '';
                         contenedor.style.display = 'none';
@@ -190,8 +190,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.hash = '#catalogos';
                     };
 
+                    headerMarco.appendChild(closeBtn);
+
+                    const iframe = document.createElement('iframe');
+                    iframe.src = url;
+                    iframe.style.width = '100%';
+                    iframe.style.maxWidth = '1200px';
+                    iframe.style.flexGrow = '1'; 
+                    iframe.style.border = '2px solid rgba(255, 255, 255, 0.1)';
+                    iframe.style.borderRadius = '12px';
+                    iframe.style.backgroundColor = '#fff';
+                    iframe.style.boxShadow = '0 10px 40px rgba(0,0,0,0.4)';
+                    
+                    contenedor.appendChild(headerMarco);
                     contenedor.appendChild(iframe);
-                    contenedor.appendChild(closeBtn);
+                    
+                    // Bloquear el botón de retroceso (swipe back) del navegador
+                    window.catalogForceOpen = true;
+                    window.history.pushState({ catalog: true }, "");
                     
                     // Asegurarnos de estar en la parte superior
                     window.scrollTo(0, 0);
@@ -260,4 +276,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.2 });
 
     document.querySelectorAll('.schedule-bar-item').forEach(el => barObserver.observe(el));
+
+    // ===== PREVENT BACK GESTURE WHEN CATALOG IS OPEN =====
+    window.addEventListener('popstate', (e) => {
+        if (window.catalogForceOpen) {
+            // Empujar el estado de nuevo para que el usuario no salga de la página
+            window.history.pushState({ catalog: true }, "");
+            
+            const btn = document.getElementById('btn-cerrar-catalogo');
+            if(btn) {
+                // Hacer vibrar el botón para indicarle al usuario que debe presionarlo
+                btn.style.transition = 'all 0.1s ease';
+                btn.style.transform = 'scale(1.1) rotate(2deg)';
+                btn.style.backgroundColor = '#ff6b6b';
+                btn.style.borderColor = '#ff6b6b';
+                
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1) rotate(-2deg)';
+                    setTimeout(() => {
+                        btn.style.transform = 'scale(1) rotate(0deg)';
+                        btn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        btn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }, 100);
+                }, 100);
+            }
+        }
+    });
 });
