@@ -123,17 +123,16 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.opacity = '.7';
             btn.style.cursor = 'wait';
             
-            // Para que el dispositivo lo tome como un enlace nativo (como WhatsApp),
-            // redirigimos directamente la ventana actual hacia la URL de AppSheet.
-            window.location.href = url;
+            // Abrir en una pestaña totalmente nueva e independiente, simulando
+            // el comportamiento nativo de WhatsApp. Debe ser sincrónico para no ser bloqueado.
+            window.open(url, '_blank');
             
-            // Restaurar el botón en caso de que el usuario regrese a la página
             setTimeout(() => {
                 btn.querySelector('span').textContent = original;
                 btn.style.opacity = '1';
                 btn.style.cursor = 'pointer';
                 form.reset();
-            }, 1500);
+            }, 1000);
         });
     }
 
