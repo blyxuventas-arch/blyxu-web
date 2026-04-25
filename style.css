@@ -270,19 +270,52 @@ body {
 .bar-track {
     position: relative;
     width: 100%;
-    height: 6px;
+    height: 8px;
     background: rgba(255, 255, 255, .05);
-    border-radius: 6px;
-    overflow: hidden;
+    border-radius: 10px;
+    /* overflow: hidden; Removed to allow the "comet head" to glow outside */
 }
 
 .bar-fill {
     height: 100%;
     width: 0;
-    background: linear-gradient(90deg, var(--bar-color), rgba(255, 255, 255, .3));
-    border-radius: 6px;
+    background: linear-gradient(90deg, transparent, var(--bar-color));
+    border-radius: 10px;
     transition: width 1.5s cubic-bezier(.16, 1, .3, 1);
     position: relative;
+    box-shadow: 0 0 15px var(--bar-color);
+}
+
+/* Comet Head / Spark Effect */
+.bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow:
+        0 0 10px #fff,
+        0 0 20px var(--bar-color),
+        0 0 30px var(--bar-color);
+    animation: barCometPulse 1.5s infinite;
+}
+
+@keyframes barCometPulse {
+
+    0%,
+    100% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-50%) scale(1.5);
+        opacity: 0.8;
+    }
 }
 
 .bar-fill.animated {
@@ -872,21 +905,6 @@ body {
     font-weight: 400;
 }
 
-/* ===== FEATURES ===== */
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    perspective: 1200px;
-}
-
-.feature-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: all .45s cubic-bezier(.4, 0, .2, 1);
-}
 
 /* Card Deployment Animation (Premium Fan Spread) */
 /* Card Deployment Animation (Super Premium Reveal) */
@@ -2169,5 +2187,28 @@ body {
     .b-letter {
         font-size: 18vw;
         -webkit-text-stroke-width: 1px;
+    }
+
+    /* Features Mobile Fix */
+    .features-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+        padding: 2rem 1.5rem !important;
+        perspective: none !important;
+    }
+
+    .feature-card:nth-child(n).reveal-on-scroll {
+        transform: translateY(30px) scale(0.98) !important;
+        opacity: 0 !important;
+        transition: all 0.8s ease !important;
+    }
+
+    .feature-card.reveal-on-scroll.visible {
+        transform: translateY(0) scale(1) !important;
+        opacity: 1 !important;
+    }
+
+    .feature-img-wrap {
+        height: 200px !important;
     }
 }
