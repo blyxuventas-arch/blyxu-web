@@ -127,6 +127,12 @@
         @keyframes zoomIn { from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1} }
         #lightbox-close { position:fixed; top:1.5rem; right:2rem; color:#fff; font-size:2.5rem; cursor:pointer; background:rgba(255,255,255,0.1); border:none; border-radius:50%; width:48px; height:48px; display:flex; align-items:center; justify-content:center; transition:background .2s; line-height:1; }
         #lightbox-close:hover { background:rgba(255,107,107,0.3); }
+
+        /* Floating Back to Top Button */
+        .btn-top { position: fixed; bottom: 2rem; left: 2rem; width: 56px; height: 56px; background: linear-gradient(135deg, #9d4edd, #7b2cbf); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 0 20px rgba(157, 78, 221, 0.6); z-index: 999; opacity: 0; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
+        .btn-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .btn-top:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 0 30px rgba(157, 78, 221, 0.8); background: linear-gradient(135deg, #c77dff, #9d4edd); }
+        .btn-top i { pointer-events: none; }
     </style>
 </head>
 <body style="background-image: linear-gradient(rgba(14, 10, 20, 0.92), rgba(14, 10, 20, 0.98)), url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=2000&q=80'); background-attachment: fixed;">
@@ -163,6 +169,13 @@
         </div>
         <button class="btn-load-more" id="btn-load-more" style="display:none;">Ver más productos ↓</button>
     </div>
+
+    <!-- Botón Volver Arriba -->
+    <button id="btn-top" class="btn-top" title="Volver arriba">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m18 15-6-6-6 6"/>
+        </svg>
+    </button>
 
     <!-- Botón Carrito Flotante -->
     <div class="cart-float" id="btn-cart" data-empty="true" title="Añade productos para ver tu pedido">
@@ -353,13 +366,17 @@
                         showCategory(active ? active.dataset.cat : 'Todos');
                         return;
                     }
-                    // Buscar en TODOS los productos con precio
-                    const results = categorias['Todos'].filter(p =>
-                        norm(p.Nombre_del_Producto).includes(q) ||
-                        norm(p._cat).includes(q) ||
-                        norm(p.ID_Producto).includes(q) ||
-                        norm(p.Color_o_Estilo).includes(q)
-                    );
+                    // Buscar en TODOS los productos (grupos de variantes)
+                    const results = categorias['Todos'].filter(grupo => {
+                        // Buscar en cualquier variante del grupo
+                        return grupo.some(v => 
+                            norm(v.Nombre_del_Producto).includes(q) ||
+                            norm(v._cat).includes(q) ||
+                            norm(v.ID_Producto).includes(q) ||
+                            norm(v.Color_o_Estilo).includes(q) ||
+                            norm(v.ID_Generado).includes(q)
+                        );
+                    });
                     // Quitar selección de categoría
                     document.querySelectorAll('.btn-cat').forEach(b => b.classList.remove('active'));
                     showList(results, `"${this.value}"`);
@@ -704,6 +721,7 @@
 
                     return fetch(APP_URL, {
                         method: 'POST',
+                        mode: 'no-cors', // Modo silencioso para asegurar que llegue a Google Sheets sin problemas de CORS
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({
                             action: 'add_order',
@@ -711,13 +729,14 @@
                             idPedido: 'WEB-' + Math.floor(Math.random() * 9000 + 1000),
                             nombreCliente: nombre,
                             celular,
-                            idProducto: c.item.ID_Producto || '',
+                            idProducto: c.item.ID_Producto || c.item.ID_Generado || '',
                             color: c.item.Color_o_Estilo || '',
-                            nombreProducto: c.item.Nombre_del_Producto,
+                            nombreProducto: c.item.Nombre_del_Producto || c.item.Nombre || '',
                             cantidad: c.qty,
                             precioUnitario: c.price,
-                            subtotal,
-                            pcm: tipoCliente === 'mayorista' ? 'SI' : 'NO'
+                            subtotal: subtotal,
+                            pcm: tipoCliente === 'mayorista' ? 'SI' : 'NO',
+                            nota: nota || ''
                         })
                     });
                 });
@@ -749,6 +768,19 @@
 
             btn.textContent = '📨 Enviar Pedido por WhatsApp';
             btn.disabled = false;
+        });
+
+        // Botón Volver Arriba Logic
+        const btnTop = document.getElementById('btn-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                btnTop.classList.add('visible');
+            } else {
+                btnTop.classList.remove('visible');
+            }
+        });
+        btnTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         loadProducts();
