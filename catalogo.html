@@ -28,7 +28,7 @@
         .btn-add:hover { box-shadow: 0 8px 20px rgba(157, 78, 221, 0.4); transform: scale(1.03); }
         
         /* Floating Cart */
-        .cart-float { position: fixed; bottom: 32px; right: 32px; background: linear-gradient(135deg, #c77dff, #5a189a); color: white; padding: 1rem 2rem; border-radius: 50px; cursor: pointer; box-shadow: 0 15px 40px rgba(123, 44, 191, 0.6); font-weight: 800; font-size: 1.1rem; z-index: 100; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 0.5rem; border: 2px solid rgba(255,255,255,0.2); animation: floatPulse 3s ease-in-out infinite; }
+        .cart-float { position: fixed; top: 2rem; right: 2rem; background: linear-gradient(135deg, #c77dff, #5a189a); color: white; padding: 1rem 2rem; border-radius: 50px; cursor: pointer; box-shadow: 0 15px 40px rgba(123, 44, 191, 0.6); font-weight: 800; font-size: 1.1rem; z-index: 1000; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 0.5rem; border: 2px solid rgba(255,255,255,0.2); animation: floatPulse 3s ease-in-out infinite; }
         .cart-float:hover { transform: scale(1.08) translateY(-5px); }
         .cart-float[data-empty="true"] { opacity: 0.5; }
         .cart-badge { background: #fff; color: #7b2cbf; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 900; }
@@ -95,14 +95,18 @@
         .search-input { width: 100%; padding: 1.1rem 1.5rem 1.1rem 3.5rem; border-radius: 50px; background: rgba(0,0,0,0.5); border: 1px solid rgba(199,125,255,0.3); color: white; font-family: 'Outfit'; font-size: 1.05rem; outline: none; transition: border-color 0.3s, box-shadow 0.3s; backdrop-filter: blur(10px); }
         .search-input:focus { border-color: #c77dff; box-shadow: 0 0 0 3px rgba(199,125,255,0.15); }
         .search-input::placeholder { color: #64748b; }
-        .search-icon { position: absolute; left: 1.3rem; top: 50%; transform: translateY(-50%); color: #c77dff; font-size: 1.2rem; pointer-events: none; }
+        .search-icon { position: absolute; left: 1.4rem; top: 50%; transform: translateY(-50%); color: #c77dff; font-size: 1.4rem; pointer-events: none; z-index: 2; text-shadow: 0 0 10px rgba(199,125,255,0.5); }
         .search-count { font-size: 0.85rem; color: #a7a2b9; padding-left: 1rem; margin-bottom: 1rem; min-height: 1.2rem; }
 
-        /* Category Filters */
-        .category-filters { display: flex; gap: 0.8rem; overflow-x: auto; padding: 0.8rem 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(199,125,255,0.2); scrollbar-width: thin; }
-        .category-filters::-webkit-scrollbar { height: 5px; }
-        .category-filters::-webkit-scrollbar-thumb { background: rgba(157, 78, 221, 0.5); border-radius: 10px; }
-        .btn-cat { background: rgba(0,0,0,0.5); color: #a7a2b9; border: 1px solid rgba(199,125,255,0.3); padding: 0.6rem 1.4rem; border-radius: 50px; cursor: pointer; font-family: 'Outfit'; font-weight: 600; font-size: 0.95rem; transition: all 0.25s ease; white-space: nowrap; backdrop-filter: blur(5px); }
+        /* Category Filters Collapsible */
+        .category-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; cursor: pointer; background: rgba(199, 125, 255, 0.1); padding: 0.8rem 1.5rem; border-radius: 12px; border: 1px solid rgba(199, 125, 255, 0.2); transition: all 0.3s; }
+        .category-header:hover { background: rgba(199, 125, 255, 0.2); }
+        .category-header h4 { margin: 0; font-size: 1rem; color: #e0aaff; display: flex; align-items: center; gap: 10px; }
+        
+        .category-filters { display: none; gap: 0.8rem; flex-wrap: wrap; padding: 1rem; margin-bottom: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 16px; border: 1px solid rgba(199,125,255,0.1); backdrop-filter: blur(10px); }
+        .category-filters.open { display: flex; animation: fadeIn 0.3s ease; }
+        
+        .btn-cat { background: rgba(255,255,255,0.05); color: #a7a2b9; border: 1px solid rgba(199,125,255,0.2); padding: 0.6rem 1.2rem; border-radius: 50px; cursor: pointer; font-family: 'Outfit'; font-weight: 600; font-size: 0.9rem; transition: all 0.25s ease; white-space: nowrap; }
         .btn-cat:hover { background: rgba(199,125,255,0.15); color: #fff; transform: translateY(-2px); }
         .btn-cat.active { background: linear-gradient(135deg, #9d4edd, #7b2cbf); color: #fff; border-color: transparent; box-shadow: 0 4px 15px rgba(123, 44, 191, 0.5); }
 
@@ -129,10 +133,18 @@
         #lightbox-close:hover { background:rgba(255,107,107,0.3); }
 
         /* Floating Back to Top Button */
-        .btn-top { position: fixed; bottom: 2rem; left: 2rem; width: 56px; height: 56px; background: linear-gradient(135deg, #9d4edd, #7b2cbf); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 0 20px rgba(157, 78, 221, 0.6); z-index: 999; opacity: 0; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
+        .btn-top { position: fixed; bottom: 2rem; right: 2rem; width: 56px; height: 56px; background: linear-gradient(135deg, #9d4edd, #7b2cbf); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 0 20px rgba(157, 78, 221, 0.6); z-index: 999; opacity: 0; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
         .btn-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
         .btn-top:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 0 30px rgba(157, 78, 221, 0.8); background: linear-gradient(135deg, #c77dff, #9d4edd); }
         .btn-top i { pointer-events: none; }
+        /* Title Entrance Animation */
+        .marquee-container { flex: 1; overflow: hidden; white-space: nowrap; margin: 0 1rem; position: relative; display: flex; justify-content: center; }
+        .marquee-text { display: inline-block; animation: enterTitle 6s cubic-bezier(0.23, 1, 0.32, 1) forwards; font-weight: 900; font-size: 1.4rem; color: #c77dff; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px rgba(199,125,255,0.4); font-family: 'Outfit', sans-serif; opacity: 0; }
+        @keyframes enterTitle { 0% { transform: translateX(50px); opacity: 0; filter: blur(10px); } 100% { transform: translateX(0); opacity: 1; filter: blur(0); } }
+
+        .btn-subtle-back { background: linear-gradient(135deg, rgba(123, 44, 191, 0.2), rgba(60, 9, 108, 0.4)); border: 1px solid rgba(199, 125, 255, 0.4); color: #fff; padding: 0.7rem 1.4rem; border-radius: 12px; cursor: pointer; font-family: 'Outfit'; font-weight: 800; font-size: 0.85rem; transition: all 0.3s; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3); animation: pulseBorder 2s infinite; }
+        @keyframes pulseBorder { 0% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(199, 125, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0); } }
+        .btn-subtle-back:hover { transform: translateY(-3px); background: linear-gradient(135deg, rgba(123, 44, 191, 0.4), rgba(60, 9, 108, 0.6)); border-color: #c77dff; box-shadow: 0 8px 25px rgba(123, 44, 191, 0.5); }
     </style>
 </head>
 <body style="background-image: linear-gradient(rgba(14, 10, 20, 0.92), rgba(14, 10, 20, 0.98)), url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=2000&q=80'); background-attachment: fixed;">
@@ -144,11 +156,11 @@
 
     <div class="catalog-container">
         <div class="header-cat">
-            <img src="logo.png" alt="Blyxu Logo" style="height: 50px;">
-            <div style="display: flex; align-items: center;">
-                <span id="tipo-cliente-badge" style="background: linear-gradient(90deg, #3c096c, #7b2cbf); padding: 0.6rem 1.2rem; border-radius: 50px; font-weight: 700; color: #fff; box-shadow: 0 4px 15px rgba(123,44,191,0.4); letter-spacing: 1px;">Cargando...</span>
-                <a href="index.html" style="color: #a7a2b9; margin-left: 1.5rem; text-decoration: none; font-weight:600; transition: color 0.3s;">← Salir</a>
+            <img src="logo.png" alt="Blyxu Logo" style="height: 42px;">
+            <div class="marquee-container">
+                <div id="tipo-cliente-marquee" class="marquee-text">Cargando catálogo...</div>
             </div>
+            <a href="index.html" class="btn-subtle-back"><span>🏠</span> Volver al Inicio</a>
         </div>
 
         <div id="loader" class="loader"></div>
@@ -160,7 +172,11 @@
         </div>
         <div class="search-count" id="search-count"></div>
 
-        <div class="category-filters" id="category-filters" style="display:none;">
+        <div class="category-header" id="btn-toggle-cats">
+            <h4>Filtrar por Categoría (Desplegar)</h4>
+            <span id="cat-arrow" style="transition: transform 0.3s;">▼</span>
+        </div>
+        <div class="category-filters" id="category-filters">
             <!-- Filtros inyectados por JS -->
         </div>
 
@@ -245,7 +261,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const tipoCliente = urlParams.get('tipo') || 'detal'; 
         
-        document.getElementById('tipo-cliente-badge').innerHTML = tipoCliente === 'mayorista' ? '🌟 CATÁLOGO MAYORISTA' : '🛍️ CATÁLOGO AL DETAL';
+        const titleText = tipoCliente === 'mayorista' ? 'CATÁLOGO MAYORISTA' : 'CATÁLOGO MINORISTA';
+        document.getElementById('tipo-cliente-marquee').textContent = titleText;
         
         let allProducts = [];
         let categorias = {};
@@ -324,11 +341,19 @@
 
             renderCategoryFilters();
             setupSearch();
+            
+            // Toggle Categorías
+            document.getElementById('btn-toggle-cats').onclick = function() {
+                const f = document.getElementById('category-filters');
+                const a = document.getElementById('cat-arrow');
+                f.classList.toggle('open');
+                a.style.transform = f.classList.contains('open') ? 'rotate(180deg)' : '';
+            };
+
             // Usar requestAnimationFrame para evitar freezes al mostrar
             requestAnimationFrame(() => {
                 showCategory('Todos');
                 document.getElementById('search-wrapper').style.display = 'block';
-                document.getElementById('category-filters').style.display = 'flex';
             });
         }
 
