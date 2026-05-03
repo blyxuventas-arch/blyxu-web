@@ -728,24 +728,39 @@ facBuscProd.oninput = function() {
   const q = this.value.toLowerCase().trim();
   if (!q) { facResBusc.style.display = 'none'; return; }
   
+  if (productos.length === 0) {
+    facResBusc.innerHTML = `<div style="padding:1.5rem; color:#c77dff; text-align:center;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">⏳</div>
+      Cargando inventario desde Google Sheets...<br>
+      <small style="opacity:0.6;">Espera un momento por favor.</small>
+    </div>`;
+    facResBusc.style.display = 'block';
+    return;
+  }
+  
   const matches = productos.filter(p => 
-    (p.Nombre_del_Producto && p.Nombre_del_Producto.toLowerCase().includes(q)) || 
-    (p.ID_Generado && p.ID_Generado.toLowerCase().includes(q))
+    Object.values(p).some(v => v && v.toString().toLowerCase().includes(q))
   ).slice(0, 10);
   
   if (matches.length === 0) {
-    facResBusc.innerHTML = '<div style="padding:1rem; color:#9ca3af;">❌ No se encontraron productos</div>';
+    facResBusc.innerHTML = `<div style="padding:1.5rem; color:#9ca3af; text-align:center;">
+      <div style="font-size:2rem; margin-bottom:0.5rem;">🔍</div>
+      No se encontraron productos con "${this.value}"<br>
+      <small style="opacity:0.6;">(Prueba con otra palabra o referencia)</small>
+    </div>`;
   } else {
     facResBusc.innerHTML = matches.map(p => {
       const fb='https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
       let img = fb;
-      if (p.Imagen) {
-        const str = p.Imagen.toString().trim();
+      // Buscar imagen en cualquier propiedad que parezca imagen
+      const imgKey = Object.keys(p).find(k => k.toLowerCase().includes('imagen') || k.toLowerCase().includes('foto'));
+      if (imgKey && p[imgKey]) {
+        const str = p[imgKey].toString().trim();
         if (str.startsWith('http')) {
           img = str;
           if (str.includes('drive.google.com')) {
             const driveMatch = str.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || str.match(/id=([a-zA-Z0-9_-]+)/);
-            if (driveMatch) img = `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w800`;
+            if (driveMatch) img = `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=800`;
           }
         } else {
           const APP_ID = '89d7e4bb-f484-4a49-bb80-d24ff40f6b4b';
@@ -753,22 +768,25 @@ facBuscProd.oninput = function() {
         }
       }
       
+      const nombre = p.Nombre_del_Producto || p.Nombre || p.Producto || p.ID_Generado || 'Producto sin nombre';
+      const precio = p.Precio || p.Precio_Detal || p.Precio_Sugerido || 0;
+      const ref = p.ID_Generado || p.ID_Producto || p.Referencia || '—';
+      
       return `
-        <div class="res-item" onclick="addItemFromInventory('${p.ID_Generado}')" style="padding:0.8rem 1rem; border-bottom:1px solid rgba(199,125,255,0.1); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:15px;">
-          <img src="${img}" style="width:50px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(199,125,255,0.2);" onerror="this.src='${fb}'">
+        <div class="res-item" onclick="addItemFromInventory('${ref}')" style="padding:1rem; border-bottom:1px solid rgba(199,125,255,0.2); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:15px; background:rgba(22,17,34,0.95);">
+          <img src="${img}" style="width:55px; height:55px; object-fit:cover; border-radius:10px; border:1px solid rgba(199,125,255,0.3);" onerror="this.src='${fb}'">
           <div style="flex:1;">
-            <div style="font-weight:bold; color:#fff; font-size:0.95rem;">${p.Nombre_del_Producto}</div>
-            <div style="font-size:0.75rem; color:#9ca3af;">Ref: ${p.ID_Generado} | Stock: ${p.Stock_Inicial || 0}</div>
+            <div style="font-weight:bold; color:#fff; font-size:1rem; margin-bottom:3px;">${nombre}</div>
+            <div style="font-size:0.8rem; color:#9ca3af;">Ref: ${ref} | Stock: ${p.Stock_Inicial || p.Cantidad || 0}</div>
           </div>
-          <div style="color:#c77dff; font-weight:700; font-size:1rem;">${fmt(p.Precio)}</div>
+          <div style="color:#c77dff; font-weight:800; font-size:1.1rem; background:rgba(199,125,255,0.1); padding:0.4rem 0.8rem; border-radius:8px;">${fmt(precio)}</div>
         </div>
       `;
     }).join('');
     
-    // Añadir hover effect dinámico
     facResBusc.querySelectorAll('.res-item').forEach(el => {
-      el.onmouseover = () => el.style.background = 'rgba(199,125,255,0.1)';
-      el.onmouseout = () => el.style.background = 'transparent';
+      el.onmouseover = () => el.style.background = 'rgba(199,125,255,0.15)';
+      el.onmouseout = () => el.style.background = 'rgba(22,17,34,0.95)';
     });
   }
   facResBusc.style.display = 'block';
