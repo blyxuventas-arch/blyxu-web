@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formDetal = document.getElementById('form-detal');
     const formMayorista = document.getElementById('form-mayorista');
 
-    function handleLogin(form, passId, errorId, password, url) {
+    function handleLogin(form, passId, errorId, password, tipoCliente) {
         if (!form) return;
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -117,170 +117,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pass !== password) { err.style.display = 'block'; return; }
             err.style.display = 'none';
 
-            const btn = form.querySelector('.btn-catalog');
-            const original = btn.querySelector('span').textContent;
-            btn.querySelector('span').textContent = 'Abriendo Catálogo...';
-            btn.style.opacity = '.7';
-            btn.style.cursor = 'wait';
+            const btn = form.querySelector('.btn');
+            if(btn) {
+                btn.textContent = 'Abriendo Catálogo...';
+                btn.style.opacity = '.7';
+                btn.style.cursor = 'wait';
+            }
             
+            // Redirigir al nuevo catálogo virtual interactivo
             setTimeout(() => {
-                const contenedor = document.getElementById('contenedor-catalogo');
-                if (contenedor) {
-                    contenedor.innerHTML = ''; // Limpiar contenedor
-                    
-                    // Ocultar TODA la página, incluyendo el navbar para maximizar espacio
-                    const navbar = document.getElementById('navbar');
-                    if(navbar) navbar.style.display = 'none';
-                    const secciones = document.querySelectorAll('section, footer, .hero-scroll-indicator, .background-container');
-                    secciones.forEach(sec => sec.style.display = 'none');
-                    
-                    // Evitar el scroll y el rebote en iOS (Swipe Back)
-                    document.body.style.overflow = 'hidden';
-                    document.documentElement.style.overscrollBehavior = 'none';
-                    document.body.style.overscrollBehavior = 'none';
-                    
-                    // Bloquear el gesto de deslizar agresivo de Chrome/iOS
-                    window.touchStartX = 0;
-                    window.handleTouchStart = function(e) {
-                        window.touchStartX = e.touches[0].clientX;
-                    };
-                    window.blockEdgeSwipe = function(e) {
-                        if (window.touchStartX < 40 || window.touchStartX > window.innerWidth - 40) {
-                            e.preventDefault();
-                        }
-                    };
-                    document.addEventListener('touchstart', window.handleTouchStart, { passive: true });
-                    document.addEventListener('touchmove', window.blockEdgeSwipe, { passive: false });
-                    
-                    // Ajustar el contenedor a pantalla ABSOLUTA sin márgenes
-                    contenedor.style.position = 'fixed';
-                    contenedor.style.top = '0';
-                    contenedor.style.left = '0';
-                    contenedor.style.width = '100vw';
-                    contenedor.style.padding = window.innerWidth < 768 ? '8px' : '20px';
-                    contenedor.style.display = 'flex';
-                    contenedor.style.flexDirection = 'column';
-                    contenedor.style.alignItems = 'center';
-                    contenedor.style.boxSizing = 'border-box';
-                    contenedor.style.zIndex = '999999';
-                    contenedor.style.backgroundColor = '#0a0a0a';
-                    
-                    // Función para ajustar la altura perfecta dinámica (Android fix)
-                    const ajustarAltura = () => {
-                        if(contenedor.style.display !== 'none') {
-                            contenedor.style.height = window.innerHeight + 'px';
-                        }
-                    };
-                    ajustarAltura();
-                    window.addEventListener('resize', ajustarAltura);
-                    
-                    // Contenedor para el botón de cerrar (Header del marco)
-                    const headerMarco = document.createElement('div');
-                    headerMarco.style.width = '100%';
-                    headerMarco.style.maxWidth = '1200px';
-                    headerMarco.style.display = 'flex';
-                    headerMarco.style.justifyContent = 'flex-end';
-                    headerMarco.style.marginBottom = '10px';
-                    
-                    const closeBtn = document.createElement('button');
-                    closeBtn.id = 'btn-cerrar-catalogo';
-                    closeBtn.innerHTML = '← Volver al Inicio';
-                    closeBtn.style.padding = '10px 22px';
-                    closeBtn.style.background = 'linear-gradient(135deg, #9d4edd, #7b2cbf)';
-                    closeBtn.style.color = 'white';
-                    closeBtn.style.border = 'none';
-                    closeBtn.style.borderRadius = '50px';
-                    closeBtn.style.cursor = 'pointer';
-                    closeBtn.style.fontWeight = '700';
-                    closeBtn.style.fontSize = '14px';
-                    closeBtn.style.fontFamily = '"Outfit", sans-serif';
-                    closeBtn.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                    closeBtn.style.boxShadow = '0 4px 15px rgba(123, 44, 191, 0.4)';
-                    closeBtn.style.animation = 'btnPulse 2s infinite ease-in-out';
-                    
-                    // Add the keyframes if they don't exist in style.css
-                    if (!document.getElementById('btn-close-styles')) {
-                        const style = document.createElement('style');
-                        style.id = 'btn-close-styles';
-                        style.innerHTML = `
-                            @keyframes btnPulse {
-                                0% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0.7); transform: scale(1); }
-                                70% { box-shadow: 0 0 0 10px rgba(157, 78, 221, 0); transform: scale(1.05); }
-                                100% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0); transform: scale(1); }
-                            }
-                        `;
-                        document.head.appendChild(style);
-                    }
-                    
-                    closeBtn.onmouseover = () => { 
-                        closeBtn.style.transform = 'translateY(-2px) scale(1.1)'; 
-                        closeBtn.style.filter = 'brightness(1.2)';
-                        closeBtn.style.boxShadow = '0 6px 20px rgba(123, 44, 191, 0.6)';
-                    };
-                    closeBtn.onmouseout = () => { 
-                        closeBtn.style.transform = 'translateY(0) scale(1)'; 
-                        closeBtn.style.filter = 'brightness(1)';
-                        closeBtn.style.boxShadow = '0 4px 15px rgba(123, 44, 191, 0.4)';
-                    };
-
-                    closeBtn.onclick = function() {
-                        window.catalogForceOpen = false;
-                        window.history.back(); // Limpiar el historial para no dejar estados basura
-                        
-                        // Restaurar la vista general
-                        contenedor.innerHTML = '';
-                        contenedor.style.display = 'none';
-                        
-                        // Restaurar los comportamientos del scroll y el navbar
-                        const navbar = document.getElementById('navbar');
-                        if(navbar) navbar.style.display = '';
-                        
-                        document.body.style.overflow = ''; 
-                        document.documentElement.style.overscrollBehavior = '';
-                        document.body.style.overscrollBehavior = '';
-                        document.removeEventListener('touchstart', window.handleTouchStart);
-                        document.removeEventListener('touchmove', window.blockEdgeSwipe);
-                        window.removeEventListener('resize', ajustarAltura);
-                        
-                        secciones.forEach(sec => sec.style.display = '');
-                        // Volver a la sección de catálogos
-                        window.location.hash = '#catalogos';
-                    };
-
-                    headerMarco.appendChild(closeBtn);
-
-                    const iframe = document.createElement('iframe');
-                    iframe.src = url;
-                    iframe.style.width = '100%';
-                    iframe.style.maxWidth = '1200px';
-                    iframe.style.flexGrow = '1'; 
-                    iframe.style.border = '2px solid rgba(255, 255, 255, 0.1)';
-                    iframe.style.borderRadius = '12px';
-                    iframe.style.backgroundColor = '#fff';
-                    iframe.style.boxShadow = '0 10px 40px rgba(0,0,0,0.4)';
-                    
-                    contenedor.appendChild(headerMarco);
-                    contenedor.appendChild(iframe);
-                    
-                    // Bloquear el botón de retroceso (swipe back) del navegador
-                    window.catalogForceOpen = true;
-                    window.history.pushState({ catalog: true }, "");
-                    
-                    // Asegurarnos de estar en la parte superior
-                    window.scrollTo(0, 0);
-                }
-                
-                // Restaurar el botón
-                btn.querySelector('span').textContent = original;
-                btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-                form.reset();
-            }, 800);
+                window.location.href = `catalogo.html?tipo=${tipoCliente}`;
+            }, 600);
         });
     }
 
-    handleLogin(formDetal, 'pass-detal', 'error-detal', '26', urlAppSheetDetal);
-    handleLogin(formMayorista, 'pass-mayorista', 'error-mayorista', '53', urlAppSheetMayorista);
+    handleLogin(formDetal, 'pass-detal', 'error-detal', '26', 'detal');
+    handleLogin(formMayorista, 'pass-mayorista', 'error-mayorista', '53', 'mayorista');
 
     // ===== LIVE CLOCK & STATUS =====
     function updateClock() {

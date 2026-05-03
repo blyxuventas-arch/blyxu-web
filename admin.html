@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blyxu | Panel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container { max-width: 600px; margin: 4rem auto; padding: 2.5rem; background: rgba(22, 17, 34, 0.9); border: 1px solid rgba(199, 125, 255, 0.4); border-radius: 20px; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; color: #e0aaff; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 1.1rem; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none; font-family: 'Outfit'; font-size: 1rem; transition: border-color 0.3s; }
+        .form-group input:focus { border-color: #c77dff; box-shadow: 0 0 10px rgba(199,125,255,0.2); }
+        .status-msg { margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; text-align: center; font-weight: 600; }
+        .success { background: rgba(37, 211, 102, 0.2); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.3); }
+        .error { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <img src="logo.png" alt="Blyxu" style="width: 150px; margin-bottom: 1rem;">
+            <h2>Subir Nuevo Producto</h2>
+        </div>
+        
+        <form id="admin-form">
+            <div class="form-group">
+                <label>ID Producto (Código)</label>
+                <input type="text" id="idProducto" placeholder="Ej: ZAP-001" required>
+            </div>
+            <div class="form-group">
+                <label>Nombre del Producto</label>
+                <input type="text" id="nombre" required>
+            </div>
+            <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1;">
+                    <label>Categoría</label>
+                    <input type="text" id="categoria" placeholder="Ej: Zapatillas" required>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Color o Estilo</label>
+                    <input type="text" id="color" placeholder="Ej: Blanco/Negro">
+                </div>
+            </div>
+            <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1;">
+                    <label>Precio Público (Detal)</label>
+                    <input type="number" id="precio" placeholder="Ej: 150000" required>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Precio Mayorista (PCM)</label>
+                    <input type="number" id="pcm" placeholder="Ej: 90000" required>
+                </div>
+            </div>
+            <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1;">
+                    <label>Stock Inicial</label>
+                    <input type="number" id="stock" value="10">
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Cantidad (Ej: 1 Par)</label>
+                    <input type="text" id="cantidad" value="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Enlace de la Imagen (URL Pública)</label>
+                <input type="url" id="imagen" placeholder="https://..." required>
+            </div>
+            
+            <button type="submit" class="btn btn-hero-glow" style="width: 100%; padding: 1.2rem; border-radius: 12px; font-size: 1.1rem; border:none;" id="btn-submit">
+                <span>Guardar Producto</span>
+            </button>
+            <div id="status" class="status-msg"></div>
+            <div style="text-align:center; margin-top:2.5rem;">
+                <a href="index.html" style="color:#a7a2b9; text-decoration:none;">← Volver al inicio</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const APP_URL = "https://script.google.com/macros/s/AKfycbx7ofcNdOvxv07cvLZkSemb2mTyBlzs3a7VHbTk7QNIRitLjWQPFjnYl2PnEfEDGHYo3w/exec";
+        
+        document.getElementById('admin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit');
+            const status = document.getElementById('status');
+            btn.querySelector('span').textContent = "Guardando...";
+            btn.style.opacity = "0.7";
+            
+            const payload = {
+                action: "add_product",
+                idProducto: document.getElementById('idProducto').value,
+                nombre: document.getElementById('nombre').value,
+                categoria: document.getElementById('categoria').value,
+                color: document.getElementById('color').value,
+                precio: document.getElementById('precio').value,
+                pcm: document.getElementById('pcm').value,
+                stock: document.getElementById('stock').value,
+                cantidad: document.getElementById('cantidad').value,
+                imagen: document.getElementById('imagen').value
+            };
+
+            try {
+                const res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                
+                if (data.status === "success") {
+                    status.className = "status-msg success";
+                    status.textContent = "✅ ¡Producto guardado en tu base de datos!";
+                    document.getElementById('admin-form').reset();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (err) {
+                status.className = "status-msg error";
+                status.textContent = "❌ Error: " + err.message;
+            }
+            
+            status.style.display = "block";
+            btn.querySelector('span').textContent = "Guardar Producto";
+            btn.style.opacity = "1";
+            setTimeout(() => status.style.display = "none", 6000);
+        });
+    </script>
+</body>
+</html>

@@ -1,194 +1,918 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blyxu | Facturación — Acceso Privado</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        .login-page {
-            width: 100%;
-            max-width: 460px;
-            text-align: center;
-            animation: fadeInUp .8s cubic-bezier(.16,1,.3,1);
-        }
-        .login-back {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: .9rem;
-            font-weight: 500;
-            margin-bottom: 2.5rem;
-            transition: color .3s;
-        }
-        .login-back:hover { color: #fff; }
-        .login-logo {
-            height: 50px;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 0 15px rgba(199,125,255,.3));
-        }
-        .login-card {
-            background: var(--glass);
-            border: 1px solid rgba(199,125,255,.2);
-            border-radius: 28px;
-            padding: 3rem 2.5rem;
-            backdrop-filter: blur(25px);
-            box-shadow: 0 30px 80px rgba(0,0,0,.4);
-            position: relative;
-            overflow: hidden;
-        }
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ff6b6b, #c0392b, transparent);
-        }
-        .login-shield {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            display: block;
-            animation: shieldPulse 3s infinite;
-        }
-        @keyframes shieldPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-        .login-card h1 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: .4rem;
-            background: linear-gradient(135deg, #fff, #ff6b6b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .login-card > p {
-            color: var(--text-muted);
-            font-size: .9rem;
-            margin-bottom: 2.5rem;
-        }
-        .login-warning {
-            display: flex;
-            align-items: center;
-            gap: .6rem;
-            background: rgba(255,107,107,.08);
-            border: 1px solid rgba(255,107,107,.15);
-            border-radius: 12px;
-            padding: .8rem 1rem;
-            margin-bottom: 2rem;
-            font-size: .82rem;
-            color: rgba(255,107,107,.85);
-            text-align: left;
-        }
-        .login-warning svg { min-width: 18px; }
-        .btn-facturacion {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: #fff;
-            box-shadow: 0 8px 25px rgba(231,76,60,.3);
-        }
-        .btn-facturacion:hover {
-            box-shadow: 0 12px 35px rgba(231,76,60,.45);
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blyxu | Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:#070510;color:#fff;min-height:100vh;overflow-x:hidden}
+
+/* ── BG ANIMADO ── */
+.bg{position:fixed;inset:0;z-index:0}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:float 8s ease-in-out infinite}
+.o1{width:500px;height:500px;background:radial-gradient(circle,rgba(123,44,191,.4),transparent);top:-100px;left:-100px;animation-delay:0s}
+.o2{width:400px;height:400px;background:radial-gradient(circle,rgba(199,125,255,.25),transparent);bottom:-80px;right:-80px;animation-delay:-3s}
+.o3{width:300px;height:300px;background:radial-gradient(circle,rgba(37,211,102,.15),transparent);top:50%;left:50%;animation-delay:-5s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-30px) scale(1.08)}}
+
+/* ── LOGIN ── */
+#login-wrap{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+.lcard{width:100%;max-width:440px;background:linear-gradient(145deg, rgba(22,17,34,0.9), rgba(11,8,20,0.95));border:1px solid rgba(199,125,255,.3);border-radius:32px;padding:3.5rem 2.5rem;backdrop-filter:blur(30px);box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 0 1px rgba(199,125,255,.1) inset, 0 0 40px rgba(123,44,191,0.2);text-align:center;animation:slideUp .8s cubic-bezier(.16,1,.3,1), cardGlow 4s ease-in-out infinite alternate; position:relative; overflow:hidden;}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cardGlow{0%{box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 0 1px rgba(199,125,255,.1) inset, 0 0 20px rgba(123,44,191,0.1);}100%{box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 0 1px rgba(199,125,255,.3) inset, 0 0 60px rgba(199,125,255,0.3);}}
+.lcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#c77dff,#7b2cbf,#c77dff,transparent);background-size:200% 100%;animation:gradientMove 3s linear infinite;}
+@keyframes gradientMove{0%{background-position:100% 0;}100%{background-position:-100% 0;}}
+.shield-wrap{font-size:4.5rem;display:block;margin-bottom:1.5rem;animation:shieldPulse 3s ease infinite, floatIcon 4s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(199,125,255,0.6));}
+@keyframes shieldPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(199,125,255,.4)) brightness(1)}50%{filter:drop-shadow(0 0 35px rgba(199,125,255,.9)) brightness(1.2)}}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.lcard h1{font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,#fff,#c77dff,#e0aaff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem; letter-spacing:1px;}
+.lcard>p{color:#9ca3af;font-size:.95rem;margin-bottom:2.5rem; letter-spacing:0.5px;}
+.l-field{width:100%;padding:1.2rem 1.5rem;border-radius:16px;background:rgba(0,0,0,.6);border:1px solid rgba(199,125,255,.3);color:#fff;font-family:'Outfit';font-size:1.1rem;outline:none;transition:all .3s;letter-spacing:.3rem;margin-bottom:1.5rem; text-align:center;}
+.l-field:focus{border-color:#c77dff;box-shadow:0 0 20px rgba(199,125,255,.2); transform:scale(1.02); background:rgba(22,17,34,.8);}
+.l-btn{width:100%;padding:1.2rem;border-radius:16px;border:none;background:linear-gradient(135deg,#7b2cbf,#c77dff);color:#fff;font-family:'Outfit';font-weight:800;font-size:1.2rem;cursor:pointer;transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);box-shadow:0 8px 30px rgba(123,44,191,.5);letter-spacing:.5px;position:relative;overflow:hidden;}
+.l-btn::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:rgba(255,255,255,0.2);transform:rotate(45deg) translateY(-100%);transition:transform 0.6s;}
+.l-btn:hover::after{transform:rotate(45deg) translateY(100%);}
+.l-btn:hover{transform:translateY(-5px) scale(1.03);box-shadow:0 15px 40px rgba(199,125,255,.6);filter:brightness(1.1);}
+.l-err{color:#ff6b6b;font-size:.9rem;margin-bottom:1rem;display:none;font-weight:700;background:rgba(255,107,107,0.1);padding:0.5rem;border-radius:8px;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+
+/* ── DASHBOARD ── */
+#dash{display:none;position:relative;z-index:10;min-height:100vh}
+.dash-nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(199,125,255,.15);backdrop-filter:blur(20px);position:sticky;top:0;z-index:50}
+.dash-nav img{height:40px}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.btn-exit{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.3);color:#ff6b6b;padding:.5rem 1.2rem;border-radius:50px;cursor:pointer;font-family:'Outfit';font-weight:700;font-size:.85rem;transition:all .3s}
+.btn-exit:hover{background:rgba(255,107,107,.25)}
+
+.dash-body{padding:1.5rem 2rem;max-width:1400px;margin:0 auto}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{background:rgba(255,255,255,.04);border:1px solid rgba(199,125,255,.15);border-radius:20px;padding:1.5rem;position:relative;overflow:hidden;transition:transform .3s}
+.stat-card:hover{transform:translateY(-4px)}
+.stat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(123,44,191,.08),transparent);pointer-events:none}
+.stat-icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.stat-val{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#fff,#c77dff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat-lbl{color:#6b7280;font-size:.82rem;margin-top:.2rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+/* Tabs */
+.tabs{display:flex;gap:.6rem;margin-bottom:1.5rem;overflow-x:auto;padding-bottom:.5rem}
+.tab{background:rgba(255,255,255,.05);border:1px solid rgba(199,125,255,.15);color:#9ca3af;padding:.65rem 1.4rem;border-radius:50px;cursor:pointer;font-family:'Outfit';font-weight:700;font-size:.9rem;transition:all .25s;white-space:nowrap}
+.tab.on{background:linear-gradient(135deg,#7b2cbf,#9d4edd);color:#fff;border-color:transparent;box-shadow:0 4px 15px rgba(123,44,191,.4)}
+.panel{display:none}.panel.on{display:block;animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Table */
+.s-input{width:100%;padding:.9rem 1.4rem;border-radius:50px;background:rgba(0,0,0,.4);border:1px solid rgba(199,125,255,.2);color:#fff;font-family:'Outfit';font-size:.95rem;outline:none;margin-bottom:1.2rem;transition:border-color .3s}
+.s-input:focus{border-color:#c77dff}
+.tbl-wrap{overflow-x:auto;border-radius:16px;border:1px solid rgba(199,125,255,.15);background:rgba(0,0,0,.25)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+thead th{padding:.9rem 1.1rem;background:rgba(123,44,191,.2);color:#e0aaff;font-weight:700;text-align:left;white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(199,125,255,.08);transition:background .2s}
+tbody tr:hover{background:rgba(199,125,255,.05)}
+td{padding:.8rem 1.1rem;color:#d1d5db;vertical-align:middle}
+td:first-child{color:#fff;font-weight:600}
+.thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid rgba(199,125,255,.2)}
+.badge{border-radius:50px;padding:.2rem .8rem;font-size:.75rem;font-weight:700}
+.b-may{background:rgba(199,125,255,.2);color:#c77dff}
+.b-det{background:rgba(37,211,102,.12);color:#25D366}
+.tbl-msg{text-align:center;padding:3rem;color:#6b7280}
+
+/* Form */
+.fcard{background:rgba(255,255,255,.04);border:1px solid rgba(199,125,255,.2);border-radius:20px;padding:2rem}
+.fcard h3{color:#e0aaff;font-size:1.2rem;font-weight:700;margin-bottom:1.5rem}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:600px){.fgrid{grid-template-columns:1fr}}
+.fl{color:#e0aaff;font-weight:700;font-size:.82rem;display:block;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.5px}
+.fi{width:100%;padding:1rem 1.2rem;border-radius:12px;background:rgba(0,0,0,.4);border:1px solid rgba(199,125,255,.25);color:#fff;font-family:'Outfit';font-size:.95rem;outline:none;transition:all .3s}
+.fi:focus{border-color:#c77dff;box-shadow:0 0 0 3px rgba(199,125,255,.1)}
+.fi::placeholder{color:#374151}
+.btn-save{padding:1.1rem 2.5rem;border-radius:14px;border:none;background:linear-gradient(135deg,#7b2cbf,#9d4edd);color:#fff;font-family:'Outfit';font-weight:800;font-size:1rem;cursor:pointer;transition:all .3s;box-shadow:0 6px 20px rgba(123,44,191,.4);margin-top:1rem}
+.btn-save:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.save-ok{background:rgba(37,211,102,.12);color:#25D366;border:1px solid rgba(37,211,102,.25);border-radius:12px;padding:.8rem 1.2rem;font-size:.9rem;font-weight:600;margin-top:1rem;display:none;text-align:center}
+.save-err{background:rgba(255,107,107,.1);color:#ff6b6b;border:1px solid rgba(255,107,107,.2);border-radius:12px;padding:.8rem 1.2rem;font-size:.9rem;font-weight:600;margin-top:1rem;display:none;text-align:center}
+.hint{font-size:.75rem;color:#6b7280;margin-top:.3rem}
+/* Upload imagen */
+.upload-zone{border:2px dashed rgba(199,125,255,.35);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .3s;background:rgba(0,0,0,.25);position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:#c77dff;background:rgba(199,125,255,.08)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:2.5rem;display:block;margin-bottom:.5rem}
+.upload-txt{color:#9ca3af;font-size:.9rem}
+.img-preview{width:100%;max-height:180px;object-fit:contain;border-radius:12px;margin-top:1rem;display:none;border:1px solid rgba(199,125,255,.2)}
+.upload-prog{width:100%;height:4px;background:rgba(199,125,255,.15);border-radius:2px;margin-top:.8rem;display:none}
+.upload-prog-bar{height:100%;background:linear-gradient(90deg,#7b2cbf,#c77dff);border-radius:2px;width:0%;transition:width .3s}
+/* Load more */
+.btn-more{display:block;margin:1.5rem auto 0;background:rgba(22,17,34,.8);border:1px solid rgba(199,125,255,.3);color:#c77dff;padding:.8rem 2.5rem;border-radius:50px;font-family:'Outfit';font-weight:700;font-size:.9rem;cursor:pointer;transition:all .3s}
+.btn-more:hover{background:rgba(199,125,255,.12);transform:translateY(-2px)}
+</style>
 </head>
 <body>
-    <div class="background-container">
-        <div class="glow glow-1"></div>
-        <div class="glow glow-2"></div>
-        <div class="glow glow-3"></div>
+<div class="bg">
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+  <canvas id="particles-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.6;pointer-events:none;"></canvas>
+</div>
+
+<!-- LOGIN -->
+<div id="login-wrap">
+  <div class="lcard">
+    <span class="shield-wrap">🛡️</span>
+    <h1>Panel Admin</h1>
+    <p>Área privada — Solo personal Blyxu</p>
+    <div id="lerr" class="l-err">⛔ Clave incorrecta — Acceso denegado</div>
+    <input type="password" id="lpass" class="l-field" placeholder="••••••••••••" autocomplete="off">
+    <button class="l-btn" id="lbtn">Acceder al Panel →</button>
+    <p style="color:#374151;font-size:.78rem;margin-top:1.5rem">Los accesos no autorizados son registrados automáticamente.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash">
+  <nav class="dash-nav">
+    <img src="logo.png" alt="Blyxu">
+    <div class="nav-right">
+      <span style="color:#6b7280;font-size:.85rem">🟢 Administrador</span>
+      <button class="btn-exit" id="btn-exit">Salir</button>
+    </div>
+  </nav>
+
+  <div class="dash-body">
+    <!-- Stats -->
+    <div class="stats" id="stats-bar">
+      <div class="stat-card"><span class="stat-icon">📋</span><div class="stat-val" id="s-pedidos">—</div><div class="stat-lbl">Pedidos Totales</div></div>
+      <div class="stat-card"><span class="stat-icon">📦</span><div class="stat-val" id="s-productos">—</div><div class="stat-lbl">Productos</div></div>
+      <div class="stat-card"><span class="stat-icon">🌟</span><div class="stat-val" id="s-mayor">—</div><div class="stat-lbl">Pedidos Mayorista</div></div>
+      <div class="stat-card"><span class="stat-icon">🛍️</span><div class="stat-val" id="s-detal">—</div><div class="stat-lbl">Pedidos Detal</div></div>
     </div>
 
-    <div class="login-page">
-        <a href="index.html" class="login-back">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Volver al inicio
-        </a>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab on" data-t="pedidos">📋 Pedidos</button>
+      <button class="tab" data-t="productos">📦 Productos</button>
+      <button class="tab" data-t="nuevo">➕ Nuevo Producto</button>
+      <button class="tab" data-t="facturas">📄 Generar Factura</button>
+    </div>
 
-        <img src="logo.png" alt="Blyxu" class="login-logo">
+    <!-- Pedidos -->
+    <div class="panel on" id="panel-pedidos">
+      <input class="s-input" id="sp" placeholder="🔍 Buscar pedido...">
+      <div class="tbl-wrap">
+        <table><thead><tr><th>ID Reg.</th><th>Cliente</th><th>Celular</th><th>Producto</th><th>Color</th><th>Cant.</th><th>Precio</th><th>Subtotal</th><th>Tipo</th><th>Fecha</th><th>Acciones</th></tr></thead>
+        <tbody id="tb-ped"><tr><td colspan="11" class="tbl-msg">⏳ Cargando...</td></tr></tbody></table>
+      </div>
+    </div>
 
-        <div class="login-card">
-            <span class="login-shield">🛡️</span>
-            <h1>Facturación</h1>
-            <p>Área privada — Solo personal autorizado</p>
+    <!-- Productos -->
+    <div class="panel" id="panel-productos">
+      <input class="s-input" id="spr" placeholder="🔍 Buscar producto...">
+      <div class="tbl-wrap">
+        <table><thead><tr><th>Img</th><th>Ref (ID)</th><th>Nombre</th><th>Categoría</th><th>Color</th><th>$ Detal</th><th>$ Mayor (PCM)</th><th>Stock</th><th>Acciones</th></tr></thead>
+        <tbody id="tb-prod"><tr><td colspan="9" class="tbl-msg">⏳ Cargando...</td></tr></tbody></table>
+      </div>
+      <button class="btn-more" id="btn-more-prod" style="display:none">Ver más productos ↓</button>
+    </div>
 
-            <div class="login-warning">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-                <span>Este acceso es exclusivo para administradores. Los intentos no autorizados serán registrados.</span>
-            </div>
-
-            <form id="form-facturacion" class="catalog-form">
-                <div class="input-wrap">
-                    <input type="password" id="pass-facturacion" required placeholder="Clave de administrador" autocomplete="off">
-                    <div class="input-focus-line"></div>
-                </div>
-                <div id="error-facturacion" class="form-error">Clave incorrecta — Acceso denegado</div>
-                <button type="submit" class="btn-catalog btn-facturacion">
-                    <span>Acceder a Facturación</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-            </form>
+    <!-- Nuevo Producto -->
+    <div class="panel" id="panel-nuevo">
+      <div class="fcard">
+        <h3>➕ Registrar Producto</h3>
+        <div class="fgrid">
+          <div><label class="fl">Referencia (ID Generado)</label><input class="fi" id="n-id" placeholder="ZAP-001"></div>
+          <div><label class="fl">Nombre</label><input class="fi" id="n-nombre" placeholder="Zapatilla Air"></div>
+          <div><label class="fl">Categoría</label><input class="fi" id="n-cat" placeholder="Zapatillas"></div>
+          <div>
+            <label class="fl">Color / Estilo</label>
+            <input class="fi" id="n-color" placeholder="Blanco">
+            <p class="hint">💡 Mismo ID + distinto color = variante del mismo producto.</p>
+          </div>
+          <div><label class="fl">Precio Detal ($ público)</label><input class="fi" type="number" id="n-precio" placeholder="150000"></div>
+          <div><label class="fl">PCM / Precio Mayorista</label><input class="fi" type="number" id="n-pcm" placeholder="90000"></div>
+          <div><label class="fl">Stock Inicial</label><input class="fi" type="number" id="n-stock" value="10"></div>
+          <div><label class="fl">Cantidad</label><input class="fi" id="n-cantidad" value="1"></div>
         </div>
+        <!-- SUBIDA DE IMAGEN -->
+        <div style="margin-top:1.2rem">
+          <label class="fl">🖼️ Imagen del Producto</label>
+          <div class="upload-zone" id="upload-zone">
+            <input type="file" id="n-img-file" accept="image/*">
+            <span class="upload-icon">📷</span>
+            <p class="upload-txt">Haz clic o arrastra una imagen aquí<br><small style="color:#4b5563">JPG, PNG, WEBP hasta 5MB</small></p>
+            <img id="img-preview" class="img-preview" src="" alt="Vista previa">
+          </div>
+          <div class="upload-prog" id="upload-prog"><div class="upload-prog-bar" id="upload-bar"></div></div>
+          <p class="hint" style="margin-top:.5rem">ℹ️ La imagen se subirá automáticamente a Google Drive al guardar el producto.</p>
+          <!-- URL manual como alternativa -->
+          <div style="margin-top:.8rem">
+            <label class="fl" style="font-size:.75rem;color:#4b5563">O pega un URL directamente (opcional)</label>
+            <input class="fi" type="url" id="n-img" placeholder="https://..." style="font-size:.85rem;padding:.8rem 1rem">
+          </div>
+        </div>
+        <button class="btn-save" id="btn-guardar">💾 Guardar en Google Sheets</button>
+        <div id="smsg-ok" class="save-ok"></div>
+        <div id="smsg-err" class="save-err"></div>
+      </div>
     </div>
+    
+    <!-- Generador de Facturas -->
+    <div class="panel" id="panel-facturas">
+      <div class="fcard" style="max-width: 800px; margin: 0 auto;">
+        <h3>📄 Generador de Facturas PDF</h3>
+        <p style="color:#9ca3af;font-size:0.9rem;margin-bottom:1.5rem">Llene los datos del cliente y los productos para generar una factura profesional en PDF.</p>
+        
+        <div style="margin-bottom:2rem; background:rgba(199,125,255,0.05); padding:1rem; border-radius:12px; border:1px solid rgba(199,125,255,0.2);">
+          <label class="fl">🔍 Cargar desde Pedido Reciente</label>
+          <select id="fac-sel-pedido" class="fi" style="margin-bottom:0; cursor:pointer;">
+            <option value="">-- Seleccionar un pedido para auto-completar --</option>
+          </select>
+        </div>
+        
+        <div class="fgrid">
+          <div><label class="fl">Nombre del Cliente / Empresa</label><input class="fi" id="fac-cliente" placeholder="Ej. Distribuciones Martínez"></div>
+          <div><label class="fl">NIT / C.C.</label><input class="fi" id="fac-nit" placeholder="Ej. 900.123.456-7"></div>
+          <div><label class="fl">Dirección</label><input class="fi" id="fac-dir" placeholder="Ej. Calle 10 # 20-30, Bogotá"></div>
+          <div><label class="fl">Teléfono</label><input class="fi" id="fac-tel" placeholder="Ej. 311 236 8622"></div>
+        </div>
+        
+        <div style="margin-top:2rem; border-top:1px solid rgba(199,125,255,0.2); padding-top:1.5rem;">
+          <label class="fl">🛒 Detalles de los Productos</label>
+          <div id="fac-items-container">
+            <!-- Items se agregan aquí dinámicamente -->
+          </div>
+          
+          <div style="margin-top:1rem; position:relative;">
+            <input type="text" id="fac-busc-prod" class="fi" placeholder="🔍 Buscar producto en inventario para añadir...">
+            <div id="fac-res-busc" style="position:absolute; top:100%; left:0; width:100%; background:#161122; border:1px solid #c77dff; border-radius:12px; z-index:1000; max-height:250px; overflow-y:auto; display:none; box-shadow:0 15px 50px rgba(0,0,0,0.8); border-top:none;"></div>
+          </div>
+          
+          <button id="btn-add-fac-item" style="background:rgba(199,125,255,0.1); border:1px dashed #c77dff; color:#e0aaff; padding:0.8rem; border-radius:12px; width:100%; cursor:pointer; font-family:'Outfit'; font-weight:700; margin-top:1.5rem; transition:all 0.2s;">➕ Añadir Item Manual</button>
+        </div>
+        
+        <div style="margin-top:2rem; display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:1.5rem; border-radius:16px;">
+          <div>
+            <label class="fl">Subtotal:</label>
+            <div id="fac-subtotal" style="font-size:1.2rem; font-weight:700;">$0</div>
+          </div>
+          <div>
+            <label class="fl">Total Factura:</label>
+            <div id="fac-total" style="font-size:1.8rem; font-weight:900; color:#c77dff;">$0</div>
+          </div>
+        </div>
+        
+        <button class="btn-save" id="btn-generar-pdf" style="width:100%; margin-top:2rem;">📄 Descargar Factura PDF</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
 
-    <script>
-        document.getElementById('form-facturacion').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const pass = document.getElementById('pass-facturacion').value;
-            const err = document.getElementById('error-facturacion');
+<!-- Plantilla oculta para el PDF -->
+<div id="invoice-template" style="display:none; background:white; color:black; padding:40px; font-family:Arial, sans-serif; width:800px;">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #333; padding-bottom:20px; margin-bottom:30px;">
+    <div>
+      <h1 style="font-size:28px; margin:0; color:#2c1b4d;">BLYXU</h1>
+      <p style="margin:5px 0 0 0; color:#555;">Ecosistema Premium</p>
+      <p style="margin:5px 0 0 0; color:#555;">San Andresito San José, Bogotá</p>
+      <p style="margin:5px 0 0 0; color:#555;">Tel: +57 311 236 8622</p>
+    </div>
+    <div style="text-align:right;">
+      <h2 style="font-size:36px; margin:0; color:#7b2cbf; text-transform:uppercase;">Factura</h2>
+      <p style="margin:5px 0 0 0; font-weight:bold; font-size:16px;">Nº <span id="tpl-fac-num">0001</span></p>
+      <p style="margin:5px 0 0 0; color:#555;">Fecha: <span id="tpl-fac-fecha"></span></p>
+    </div>
+  </div>
+  
+  <div style="display:flex; justify-content:space-between; margin-bottom:40px;">
+    <div style="width:48%; background:#f8f9fa; padding:15px; border-radius:8px;">
+      <h3 style="margin:0 0 10px 0; color:#333; font-size:14px; text-transform:uppercase; border-bottom:1px solid #ddd; padding-bottom:5px;">Facturar a:</h3>
+      <p style="margin:5px 0; font-weight:bold; font-size:16px;" id="tpl-cliente"></p>
+      <p style="margin:5px 0; color:#555;">NIT/CC: <span id="tpl-nit"></span></p>
+      <p style="margin:5px 0; color:#555;">Dirección: <span id="tpl-dir"></span></p>
+      <p style="margin:5px 0; color:#555;">Teléfono: <span id="tpl-tel"></span></p>
+    </div>
+  </div>
+  
+  <table style="width:100%; border-collapse:collapse; margin-bottom:30px;">
+    <thead>
+      <tr style="background:#7b2cbf; color:white;">
+        <th style="padding:12px; text-align:left;">Descripción</th>
+        <th style="padding:12px; text-align:center; width:100px;">Cant.</th>
+        <th style="padding:12px; text-align:right; width:150px;">Precio Unit.</th>
+        <th style="padding:12px; text-align:right; width:150px;">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody id="tpl-items-body">
+    </tbody>
+  </table>
+  
+  <div style="display:flex; justify-content:flex-end;">
+    <div style="width:300px;">
+      <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #ddd;">
+        <span style="color:#555;">Subtotal:</span>
+        <span style="font-weight:bold;" id="tpl-subtotal"></span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #ddd;">
+        <span style="color:#555;">Impuestos (0%):</span>
+        <span style="font-weight:bold;">$0</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:15px 0; background:#f8f9fa; margin-top:10px; border-radius:8px;">
+        <span style="font-weight:bold; font-size:18px; padding-left:10px;">TOTAL:</span>
+        <span style="font-weight:bold; font-size:20px; color:#7b2cbf; padding-right:10px;" id="tpl-total"></span>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top:60px; text-align:center; color:#777; font-size:12px; border-top:1px solid #ddd; padding-top:20px;">
+    <p>Gracias por su compra. Los productos Blyxu cuentan con garantía por defectos de fábrica.</p>
+    <p>Esta factura sirve como comprobante de su compra.</p>
+  </div>
+</div>
 
-            if (pass !== '3112368622') {
-                err.style.display = 'block';
-                // Shake animation
-                const card = document.querySelector('.login-card');
-                card.style.animation = 'none';
-                card.offsetHeight; // trigger reflow
-                card.style.animation = 'shake .4s ease';
-                return;
-            }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const API = "https://script.google.com/macros/s/AKfycbx7ofcNdOvxv07cvLZkSemb2mTyBlzs3a7VHbTk7QNIRitLjWQPFjnYl2PnEfEDGHYo3w/exec";
+const PASS = "2015690";
+let pedidos=[], productos=[];
 
-            err.style.display = 'none';
-            const btn = this.querySelector('.btn-facturacion span');
-            btn.textContent = 'Verificando...';
-            this.querySelector('.btn-facturacion').style.opacity = '.7';
+// LOGIN
+document.getElementById('lbtn').onclick = () => {
+  if (document.getElementById('lpass').value !== PASS) {
+    document.getElementById('lerr').style.display = 'block';
+    const c = document.querySelector('.lcard');
+    c.style.animation='shake .4s ease';
+    setTimeout(()=>c.style.animation='',500);
+    return;
+  }
+  document.getElementById('login-wrap').style.display = 'none';
+  document.getElementById('dash').style.display = 'block';
+  loadAll();
+};
+document.getElementById('lpass').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('lbtn').click(); });
+document.getElementById('btn-exit').onclick = ()=>location.reload();
 
-            setTimeout(() => {
-                // Aquí puedes redirigir a tu sistema de facturación
-                // Por ahora muestra un mensaje de bienvenida
-                document.querySelector('.login-card').innerHTML = `
-                    <span style="font-size:3.5rem;display:block;margin-bottom:1rem;">✅</span>
-                    <h1 style="background:linear-gradient(135deg,#fff,#25D366);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Acceso Concedido</h1>
-                    <p style="color:var(--text-muted);margin-top:.5rem;">Bienvenido al área de facturación</p>
-                    <div style="margin-top:2rem;padding:2rem;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);border-radius:16px;">
-                        <p style="color:#25D366;font-weight:600;font-size:.95rem;">🔓 Panel de Facturación Activo</p>
-                        <p style="color:var(--text-muted);font-size:.85rem;margin-top:.5rem;">Aquí irá el enlace a tu sistema de facturación.</p>
-                    </div>
-                    <a href="index.html" style="display:inline-block;margin-top:2rem;color:var(--purple-light);text-decoration:none;font-weight:600;font-size:.9rem;">← Volver al inicio</a>
-                `;
-            }, 1000);
+// TABS
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById('panel-'+t.dataset.t).classList.add('on');
+  };
+});
+
+function fmt(n){ return '$'+Number(n||0).toLocaleString('es-CO'); }
+
+async function loadAll(){
+  // Productos
+  try {
+    const r = await fetch(API);
+    const d = await r.json();
+    if(d.status==='success'){ productos = d.data||[]; renderProd(productos); document.getElementById('s-productos').textContent=productos.length; }
+  } catch(e){ document.getElementById('tb-prod').innerHTML='<tr><td colspan="8" class="tbl-msg">⚠️ Error cargando productos</td></tr>'; }
+
+  // Pedidos
+  try {
+    const r = await fetch(API+'?sheet=Pedidos');
+    const d = await r.json();
+    if(d.status==='success'){ pedidos = d.data||[]; renderPed(pedidos); actualizarStats(); populateOrderSelect(); }
+    else { document.getElementById('tb-ped').innerHTML='<tr><td colspan="11" class="tbl-msg">📭 Sin pedidos aún.</td></tr>'; }
+  } catch(e){ document.getElementById('tb-ped').innerHTML='<tr><td colspan="11" class="tbl-msg">⚠️ Error cargando pedidos. Verifica el script.</td></tr>'; }
+}
+
+function actualizarStats(){
+  document.getElementById('s-pedidos').textContent = pedidos.length;
+  document.getElementById('s-mayor').textContent = pedidos.filter(p=>p.PCM==='SI').length;
+  document.getElementById('s-detal').textContent = pedidos.filter(p=>p.PCM!=='SI').length;
+}
+
+function renderPed(data){
+  const tb = document.getElementById('tb-ped');
+  if(!data.length){ tb.innerHTML='<tr><td colspan="11" class="tbl-msg">📭 Sin pedidos.</td></tr>'; return; }
+  tb.innerHTML = data.map(p=>`<tr>
+    <td>${p.ID_Generado||p.ID_Registro||'—'}</td>
+    <td>${p.Nombre_Cliente||'—'}</td>
+    <td>${p.Celular||'—'}</td>
+    <td>${p.Nombre_del_Producto||'—'}</td>
+    <td>${p.Color_o_Estilo||'—'}</td>
+    <td>${p.Cantidad||'—'}</td>
+    <td>${fmt(p.Precio_Unitario)}</td>
+    <td>${fmt(p.Subtotal)}</td>
+    <td>${p.PCM==='SI'?'<span class="badge b-may">MAYOR</span>':'<span class="badge b-det">DETAL</span>'}</td>
+    <td>${p.Fecha||'—'}</td>
+    <td>
+      <button onclick="cargarEnFactura('${(p.Nombre_Cliente||'').replace(/'/g,"")}', '${(p.Celular||'').replace(/'/g,"")}', '${(p.Nombre_del_Producto||'').replace(/'/g,"")}', ${p.Cantidad||1}, ${p.Precio_Unitario||0})" style="background:rgba(199,125,255,0.1); color:#c77dff; border:1px solid rgba(199,125,255,0.3); border-radius:8px; padding:0.4rem 0.8rem; cursor:pointer; font-weight:700; white-space:nowrap;">📄 Facturar</button>
+    </td>
+  </tr>`).join('');
+}
+
+window.cargarEnFactura = (cliente, tel, prod, cant, precio) => {
+  document.getElementById('fac-cliente').value = cliente;
+  document.getElementById('fac-tel').value = tel;
+  
+  facItems = [{desc: prod, qty: cant, price: precio}];
+  renderFacItems();
+  
+  document.querySelector('.tab[data-t="facturas"]').click();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+
+// Buscadores
+document.getElementById('sp').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  renderPed(pedidos.filter(p=>Object.values(p).some(v=>v&&v.toString().toLowerCase().includes(q))));
+});
+document.getElementById('spr').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  document.getElementById('tb-prod').innerHTML='';
+  renderProd(productos.filter(p=>Object.values(p).some(v=>v&&v.toString().toLowerCase().includes(q))));
+});
+
+// Imagen preview al seleccionar archivo
+const fileInput = document.getElementById('n-img-file');
+const zone = document.getElementById('upload-zone');
+const preview = document.getElementById('img-preview');
+fileInput.addEventListener('change', () => {
+  const f = fileInput.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = e => { preview.src = e.target.result; preview.style.display='block'; zone.querySelector('.upload-txt').style.display='none'; zone.querySelector('.upload-icon').style.display='none'; };
+  reader.readAsDataURL(f);
+});
+// Drag & drop
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag'); const f=e.dataTransfer.files[0]; if(f){ fileInput.files=e.dataTransfer.files; fileInput.dispatchEvent(new Event('change')); } });
+
+async function uploadImageToDrive(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const base64 = e.target.result.split(',')[1];
+      const bar = document.getElementById('upload-bar');
+      const prog = document.getElementById('upload-prog');
+      prog.style.display='block'; bar.style.width='30%';
+      try {
+        const res = await fetch(API, {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain;charset=utf-8'},
+          body: JSON.stringify({ action:'upload_image', fileName: file.name, mimeType: file.type, base64Data: base64 })
         });
-    </script>
+        bar.style.width='80%';
+        const d = await res.json();
+        bar.style.width='100%';
+        setTimeout(()=>{ prog.style.display='none'; bar.style.width='0%'; },800);
+        if (d.status==='success') resolve(d.url);
+        else reject(new Error(d.message||'Error subiendo imagen'));
+      } catch(e) { prog.style.display='none'; reject(e); }
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
-    <style>
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-5px); }
-            80% { transform: translateX(5px); }
+// Guardar producto
+document.getElementById('btn-guardar').onclick = async ()=>{
+  const btn=document.getElementById('btn-guardar');
+  const ok=document.getElementById('smsg-ok');
+  const err=document.getElementById('smsg-err');
+  const nombre=document.getElementById('n-nombre').value.trim();
+  const id=document.getElementById('n-id').value.trim();
+  if(!nombre||!id){ err.textContent='⚠️ Nombre y Referencia son obligatorios.'; err.style.display='block'; return; }
+
+  btn.textContent='⏳ Guardando...'; btn.disabled=true;
+  err.style.display='none'; ok.style.display='none';
+
+  let imgUrl = document.getElementById('n-img').value.trim();
+
+  // Subir imagen si se seleccionó un archivo
+  const f = fileInput.files[0];
+  if (f && !imgUrl) {
+    try {
+      btn.textContent='⏳ Subiendo imagen...';
+      imgUrl = await uploadImageToDrive(f);
+    } catch(e) {
+      err.textContent='❌ Error subiendo imagen: '+e.message+'. Pega un URL manual en su lugar.';
+      err.style.display='block';
+      btn.textContent='💾 Guardar en Google Sheets'; btn.disabled=false;
+      return;
+    }
+  }
+
+  btn.textContent='⏳ Registrando en Sheets...';
+  
+  const editId = btn.getAttribute('data-edit-id');
+  const actionType = editId ? 'edit_product' : 'add_product';
+  
+  try {
+    const res=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({action:actionType, editId: editId, idProducto:id,nombre,categoria:document.getElementById('n-cat').value,color:document.getElementById('n-color').value,precio:document.getElementById('n-precio').value,pcm:document.getElementById('n-pcm').value,stock:document.getElementById('n-stock').value,cantidad:document.getElementById('n-cantidad').value,imagen:imgUrl})
+    });
+    const d=await res.json();
+    if(d.status==='success'){
+      ok.textContent= editId ? '✅ Producto actualizado exitosamente!' : '✅ Producto guardado exitosamente!';
+      ok.style.display='block';
+      ['n-id','n-nombre','n-cat','n-color','n-precio','n-pcm','n-img','n-stock','n-cantidad'].forEach(x=>document.getElementById(x).value='');
+      fileInput.value=''; preview.style.display='none';
+      zone.querySelector('.upload-txt').style.display='';
+      zone.querySelector('.upload-icon').style.display='';
+      
+      // Limpiar estado de edición
+      btn.removeAttribute('data-edit-id');
+      btn.textContent='💾 Guardar en Google Sheets';
+      
+      loadAll(); // Recargar productos para ver los cambios
+    } else throw new Error(d.message||'Error desconocido');
+  } catch(e){ err.textContent='❌ '+e.message; err.style.display='block'; }
+
+  if(!btn.getAttribute('data-edit-id')) {
+    btn.textContent='💾 Guardar en Google Sheets'; 
+  }
+  btn.disabled=false;
+  setTimeout(()=>{ok.style.display='none';err.style.display='none';},7000);
+};
+
+// Paginación productos
+const PROD_PAGE = 20;
+let prodList = [], prodIdx = 0;
+
+function renderProd(data){
+  const fb='https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
+  prodList = data; prodIdx = 0;
+  document.getElementById('tb-prod').innerHTML = '';
+  renderProdChunk();
+}
+
+function renderProdChunk(){
+  const fb='https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
+  const tb=document.getElementById('tb-prod');
+  if(!prodList.length){ tb.innerHTML='<tr><td colspan="8" class="tbl-msg">📫 Sin productos.</td></tr>'; document.getElementById('btn-more-prod').style.display='none'; return; }
+  const slice=prodList.slice(prodIdx, prodIdx+PROD_PAGE);
+  tb.insertAdjacentHTML('beforeend', slice.map(p=>{
+    const catK=Object.keys(p).find(k=>k.toLowerCase().includes('categor'));
+    
+    // Detector inteligente de imagen
+    let img = fb;
+    if (p.Imagen) {
+      const str = p.Imagen.toString().trim();
+      if (str.startsWith('http')) {
+        img = str;
+        if (str.includes('drive.google.com')) {
+          const driveMatch = str.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || str.match(/id=([a-zA-Z0-9_-]+)/);
+          if (driveMatch) img = `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w800`;
         }
-    </style>
+      }
+      else {
+        const APP_ID = '89d7e4bb-f484-4a49-bb80-d24ff40f6b4b'; // Tu App ID
+        img = `https://www.appsheet.com/template/gettablefileurl?appName=${APP_ID}&tableName=Productos&fileName=${encodeURIComponent(str)}`;
+      }
+    }
+
+    const ref = p.ID_Generado||p.ID_Producto||'—';
+    return `<tr>
+      <td><img src="${img}" class="thumb" onerror="this.src='${fb}'"></td>
+      <td>${ref}</td>
+      <td>${p.Nombre_del_Producto||'—'}</td>
+      <td>${catK?p[catK]:'—'}</td>
+      <td>${p.Color_o_Estilo||'—'}</td>
+      <td>${fmt(p.Precio)}</td>
+      <td>${fmt(p.PCM||p.PCM_)}</td>
+      <td>${p.Stock_Inicial||'—'}</td>
+      <td>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn-editar" data-prod='${JSON.stringify(p).replace(/'/g, "&apos;")}' style="background:rgba(199,125,255,0.1); color:#c77dff; border:1px solid rgba(199,125,255,0.3); border-radius:8px; padding:0.4rem 0.8rem; cursor:pointer; font-weight:700; transition:all 0.2s;">✏️ Editar</button>
+          <button class="btn-eliminar" data-id="${p.ID_Generado}" style="background:rgba(255,107,107,0.1); color:#ff6b6b; border:1px solid rgba(255,107,107,0.3); border-radius:8px; padding:0.4rem 0.8rem; cursor:pointer; font-weight:700; transition:all 0.2s;">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join(''));
+  prodIdx += PROD_PAGE;
+  
+  // Asignar eventos de eliminar
+  document.querySelectorAll('.btn-eliminar').forEach(btn => {
+    btn.onclick = async function() {
+      if(!confirm('¿Estás seguro de que deseas eliminar este producto permanentemente?')) return;
+      const id = this.getAttribute('data-id');
+      const originalText = this.innerHTML;
+      this.innerHTML = '⏳...';
+      this.disabled = true;
+      
+      try {
+        const res = await fetch(API, {
+          method: 'POST',
+          headers: {'Content-Type': 'text/plain;charset=utf-8'},
+          body: JSON.stringify({ action: 'delete_product', id: id })
+        });
+        const d = await res.json();
+        if(d.status === 'success') {
+          alert('✅ Producto eliminado correctamente. Actualizando lista...');
+          loadAll(); // Recargar productos
+        } else {
+          alert('❌ Error: ' + d.message);
+          this.innerHTML = originalText;
+          this.disabled = false;
+        }
+      } catch(e) {
+        alert('❌ Error de conexión al eliminar.');
+        this.innerHTML = originalText;
+        this.disabled = false;
+      }
+    };
+  });
+  
+  // Asignar eventos de editar
+  document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.onclick = function() {
+      const p = JSON.parse(this.getAttribute('data-prod'));
+      
+      // Llenar formulario
+      document.getElementById('n-id').value = p.ID_Generado || p.ID_Producto || '';
+      document.getElementById('n-nombre').value = p.Nombre_del_Producto || '';
+      
+      // Buscar la key de categoría
+      const catK = Object.keys(p).find(k=>k.toLowerCase().includes('categor'));
+      document.getElementById('n-cat').value = catK ? p[catK] : '';
+      
+      document.getElementById('n-color').value = p.Color_o_Estilo || '';
+      document.getElementById('n-precio').value = p.Precio || '';
+      document.getElementById('n-pcm').value = p.PCM || p.PCM_ || '';
+      document.getElementById('n-stock').value = p.Stock_Inicial || '';
+      document.getElementById('n-cantidad').value = p.Cantidad || '';
+      document.getElementById('n-img').value = p.Imagen || '';
+      
+      // Mostrar imagen previa si existe
+      if (p.Imagen) {
+        let previewSrc = p.Imagen;
+        if (previewSrc.includes('drive.google.com')) {
+          const driveMatch = previewSrc.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || previewSrc.match(/id=([a-zA-Z0-9_-]+)/);
+          if (driveMatch) previewSrc = `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w800`;
+        } else if (!previewSrc.startsWith('http')) {
+          const APP_ID = '89d7e4bb-f484-4a49-bb80-d24ff40f6b4b';
+          previewSrc = `https://www.appsheet.com/template/gettablefileurl?appName=${APP_ID}&tableName=Productos&fileName=${encodeURIComponent(previewSrc)}`;
+        }
+        document.getElementById('img-preview').src = previewSrc;
+        document.getElementById('img-preview').style.display = 'block';
+      } else {
+        document.getElementById('img-preview').style.display = 'none';
+      }
+      
+      // Cambiar estado a modo edición
+      const btnGuardar = document.getElementById('btn-guardar');
+      btnGuardar.textContent = '🔄 Actualizar Producto';
+      btnGuardar.setAttribute('data-edit-id', p.ID_Generado);
+      
+      // Cambiar a la pestaña de Nuevo Producto
+      document.querySelector('.tab[data-t="nuevo"]').click();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  });
+  const more = document.getElementById('btn-more-prod');
+  more.style.display = prodIdx < prodList.length ? 'block' : 'none';
+  if(prodIdx<prodList.length) more.textContent=`Ver más (${prodList.length-prodIdx} restantes) ↓`;
+}
+
+document.getElementById('btn-more-prod').addEventListener('click', renderProdChunk);
+
+// --- LÓGICA DE FACTURAS ---
+let facItems = [];
+function renderFacItems() {
+  const container = document.getElementById('fac-items-container');
+  container.innerHTML = '';
+  let sub = 0;
+  
+  facItems.forEach((item, index) => {
+    const row = document.createElement('div');
+    row.style.display = 'grid';
+    row.style.gridTemplateColumns = '3fr 1fr 2fr 1fr auto';
+    row.style.gap = '10px';
+    row.style.marginBottom = '10px';
+    row.style.alignItems = 'center';
+    
+    row.innerHTML = `
+      <input type="text" class="fi" placeholder="Producto" value="${item.desc}" onchange="updateFacItem(${index}, 'desc', this.value)" style="margin:0; padding:0.6rem;">
+      <input type="number" class="fi" placeholder="Cant." value="${item.qty}" onchange="updateFacItem(${index}, 'qty', this.value)" style="margin:0; padding:0.6rem;">
+      <input type="number" class="fi" placeholder="Precio U." value="${item.price}" onchange="updateFacItem(${index}, 'price', this.value)" style="margin:0; padding:0.6rem;">
+      <div style="color:#c77dff; font-weight:bold; text-align:right;">${fmt(item.qty * item.price)}</div>
+      <button onclick="removeFacItem(${index})" style="background:none; border:none; color:#ff6b6b; cursor:pointer; font-size:1.2rem;">🗑️</button>
+    `;
+    container.appendChild(row);
+    sub += (item.qty * item.price);
+  });
+  
+  document.getElementById('fac-subtotal').textContent = fmt(sub);
+  document.getElementById('fac-total').textContent = fmt(sub);
+}
+
+// Poblar selector de pedidos recientes
+function populateOrderSelect() {
+  const sel = document.getElementById('fac-sel-pedido');
+  sel.innerHTML = '<option value="">-- Seleccionar un pedido para auto-completar --</option>';
+  // Mostrar últimos 15 pedidos
+  pedidos.slice(0, 15).forEach((p, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${p.Nombre_Cliente || 'Anónimo'} - ${p.Nombre_del_Producto} (${p.Fecha || ''})`;
+    sel.appendChild(opt);
+  });
+}
+
+document.getElementById('fac-sel-pedido').onchange = function() {
+  if (this.value === '') return;
+  const p = pedidos[this.value];
+  window.cargarEnFactura(p.Nombre_Cliente, p.Celular, p.Nombre_del_Producto, p.Cantidad, p.Precio_Unitario);
+};
+
+// Buscador de productos para factura
+const facBuscProd = document.getElementById('fac-busc-prod');
+const facResBusc = document.getElementById('fac-res-busc');
+
+facBuscProd.oninput = function() {
+  const q = this.value.toLowerCase().trim();
+  if (!q) { facResBusc.style.display = 'none'; return; }
+  
+  const matches = productos.filter(p => 
+    (p.Nombre_del_Producto && p.Nombre_del_Producto.toLowerCase().includes(q)) || 
+    (p.ID_Generado && p.ID_Generado.toLowerCase().includes(q))
+  ).slice(0, 10);
+  
+  if (matches.length === 0) {
+    facResBusc.innerHTML = '<div style="padding:1rem; color:#9ca3af;">❌ No se encontraron productos</div>';
+  } else {
+    facResBusc.innerHTML = matches.map(p => {
+      const fb='https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
+      let img = fb;
+      if (p.Imagen) {
+        const str = p.Imagen.toString().trim();
+        if (str.startsWith('http')) {
+          img = str;
+          if (str.includes('drive.google.com')) {
+            const driveMatch = str.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || str.match(/id=([a-zA-Z0-9_-]+)/);
+            if (driveMatch) img = `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w800`;
+          }
+        } else {
+          const APP_ID = '89d7e4bb-f484-4a49-bb80-d24ff40f6b4b';
+          img = `https://www.appsheet.com/template/gettablefileurl?appName=${APP_ID}&tableName=Productos&fileName=${encodeURIComponent(str)}`;
+        }
+      }
+      
+      return `
+        <div class="res-item" onclick="addItemFromInventory('${p.ID_Generado}')" style="padding:0.8rem 1rem; border-bottom:1px solid rgba(199,125,255,0.1); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:15px;">
+          <img src="${img}" style="width:50px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(199,125,255,0.2);" onerror="this.src='${fb}'">
+          <div style="flex:1;">
+            <div style="font-weight:bold; color:#fff; font-size:0.95rem;">${p.Nombre_del_Producto}</div>
+            <div style="font-size:0.75rem; color:#9ca3af;">Ref: ${p.ID_Generado} | Stock: ${p.Stock_Inicial || 0}</div>
+          </div>
+          <div style="color:#c77dff; font-weight:700; font-size:1rem;">${fmt(p.Precio)}</div>
+        </div>
+      `;
+    }).join('');
+    
+    // Añadir hover effect dinámico
+    facResBusc.querySelectorAll('.res-item').forEach(el => {
+      el.onmouseover = () => el.style.background = 'rgba(199,125,255,0.1)';
+      el.onmouseout = () => el.style.background = 'transparent';
+    });
+  }
+  facResBusc.style.display = 'block';
+};
+
+window.addItemFromInventory = (id) => {
+  const p = productos.find(x => x.ID_Generado === id);
+  if (!p) return;
+  
+  // Si el primer item está vacío, lo reemplazamos
+  if (facItems.length === 1 && facItems[0].desc === '') {
+    facItems[0] = {desc: p.Nombre_del_Producto, qty: 1, price: p.Precio};
+  } else {
+    facItems.push({desc: p.Nombre_del_Producto, qty: 1, price: p.Precio});
+  }
+  
+  renderFacItems();
+  facResBusc.style.display = 'none';
+  facBuscProd.value = '';
+};
+
+// Cerrar resultados al hacer clic fuera
+document.addEventListener('click', (e) => {
+  if (!facBuscProd.contains(e.target) && !facResBusc.contains(e.target)) {
+    facResBusc.style.display = 'none';
+  }
+});
+
+window.updateFacItem = (index, field, value) => {
+  facItems[index][field] = field === 'desc' ? value : Number(value);
+  renderFacItems();
+};
+
+window.removeFacItem = (index) => {
+  facItems.splice(index, 1);
+  renderFacItems();
+};
+
+document.getElementById('btn-add-fac-item').addEventListener('click', () => {
+  facItems.push({desc: '', qty: 1, price: 0});
+  renderFacItems();
+});
+
+// Inicializar con un item
+facItems.push({desc: '', qty: 1, price: 0});
+renderFacItems();
+
+document.getElementById('btn-generar-pdf').addEventListener('click', () => {
+  // Llenar plantilla
+  document.getElementById('tpl-cliente').textContent = document.getElementById('fac-cliente').value || 'Cliente General';
+  document.getElementById('tpl-nit').textContent = document.getElementById('fac-nit').value || 'N/A';
+  document.getElementById('tpl-dir').textContent = document.getElementById('fac-dir').value || 'N/A';
+  document.getElementById('tpl-tel').textContent = document.getElementById('fac-tel').value || 'N/A';
+  
+  const now = new Date();
+  document.getElementById('tpl-fac-fecha').textContent = now.toLocaleDateString('es-CO');
+  document.getElementById('tpl-fac-num').textContent = Math.floor(1000 + Math.random() * 9000);
+  
+  const tbody = document.getElementById('tpl-items-body');
+  tbody.innerHTML = '';
+  let subtotal = 0;
+  
+  facItems.forEach(item => {
+    if(!item.desc) return; // Ignorar items vacíos
+    const rowSub = item.qty * item.price;
+    subtotal += rowSub;
+    tbody.innerHTML += `
+      <tr style="border-bottom:1px solid #eee;">
+        <td style="padding:12px;">${item.desc}</td>
+        <td style="padding:12px; text-align:center;">${item.qty}</td>
+        <td style="padding:12px; text-align:right;">${fmt(item.price)}</td>
+        <td style="padding:12px; text-align:right; font-weight:bold;">${fmt(rowSub)}</td>
+      </tr>
+    `;
+  });
+  
+  document.getElementById('tpl-subtotal').textContent = fmt(subtotal);
+  document.getElementById('tpl-total').textContent = fmt(subtotal);
+  
+  const element = document.getElementById('invoice-template');
+  element.style.display = 'block';
+  
+  const opt = {
+    margin:       0,
+    filename:     'Factura_Blyxu_' + document.getElementById('tpl-fac-num').textContent + '.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+  
+  const btn = document.getElementById('btn-generar-pdf');
+  const originalText = btn.textContent;
+  btn.textContent = '⏳ Generando PDF...';
+  
+  html2pdf().set(opt).from(element).save().then(() => {
+    element.style.display = 'none';
+    btn.textContent = originalText;
+  });
+});
+
+// --- PARTICULAS DE FONDO ---
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const particles = [];
+const particleCount = 80;
+
+for (let i = 0; i < particleCount; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 2 + 0.5,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    alpha: Math.random() * 0.5 + 0.1
+  });
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(199, 125, 255, ${p.alpha})`;
+    ctx.fill();
+  });
+  
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+<style>@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}</style>
 </body>
 </html>
