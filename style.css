@@ -1428,9 +1428,40 @@ body {
     box-shadow: 0 6px 18px rgba(37, 211, 102, .12);
 }
 
+@media(max-width:768px) {
+    .catalog-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .catalog-card {
+        padding: 2.5rem 1.8rem;
+        border-radius: 20px;
+    }
+    .catalog-card h3 {
+        font-size: 1.4rem;
+    }
+    .catalog-icon {
+        width: 55px;
+        height: 55px;
+        margin-bottom: 1.2rem;
+    }
+    .btn-catalog {
+        padding: 1.1rem;
+        font-size: 1rem;
+    }
+}
 @media(max-width:500px) {
     .catalog-cards {
-        grid-template-columns: 1fr
+        gap: 1.2rem;
+    }
+    .catalog-card {
+        padding: 2rem 1.2rem;
+    }
+    .catalog-card h3 {
+        font-size: 1.3rem;
+    }
+    .btn-catalog {
+        font-size: 0.9rem;
     }
 }
 

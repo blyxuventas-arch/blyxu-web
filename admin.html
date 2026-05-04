@@ -15,6 +15,13 @@
         .status-msg { margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; text-align: center; font-weight: 600; }
         .success { background: rgba(37, 211, 102, 0.2); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.3); }
         .error { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
+        
+        @media (max-width: 600px) {
+            .admin-container { margin: 1rem; padding: 1.5rem; }
+            .admin-container h2 { font-size: 1.5rem; }
+            form div[style*="display:flex"] { flex-direction: column; gap: 0 !important; }
+            .btn { padding: 1rem !important; font-size: 1rem !important; }
+        }
     </style>
 </head>
 <body>
