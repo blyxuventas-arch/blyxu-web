@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section[id]');
 
     window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 60);
+        if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 60);
         // Active link
         let current = '';
         sections.forEach(s => {

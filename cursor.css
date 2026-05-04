@@ -1,0 +1,38 @@
+/* Custom Cursor Styles */
+.custom-cursor {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #c77dff;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 100000;
+    transition: transform 0.15s ease-out, background-color 0.3s, border-color 0.3s;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px rgba(199, 125, 255, 0.4);
+}
+.custom-cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 100001;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s linear;
+}
+
+/* Ocultar el cursor original en escritorio */
+@media (min-width: 769px) {
+    html, body, a, button, .btn, .nav-link, .interactive, .prod-img, .catalog-card, .btn-add, .chip, .cart-float, .category-header {
+        cursor: none !important;
+    }
+}
+
+/* En dispositivos táctiles, no mostrar el cursor personalizado */
+@media (max-width: 768px) {
+    .custom-cursor, .custom-cursor-dot {
+        display: none !important;
+    }
+}
