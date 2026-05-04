@@ -121,7 +121,8 @@
         .chip.selected { background: linear-gradient(135deg,#9d4edd,#7b2cbf); color: #fff; border-color: transparent; box-shadow: 0 3px 10px rgba(123,44,191,0.4); }
 
         /* Cart item thumbnail */
-        .cart-item-img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(199,125,255,0.2); flex-shrink: 0; }
+        .cart-item-img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(199,125,255,0.2); flex-shrink: 0; cursor: zoom-in; transition: transform 0.2s; }
+        .cart-item-img:hover { transform: scale(1.1); border-color: #c77dff; }
         .cart-item-row { display: grid; grid-template-columns: 52px 1fr auto auto; align-items: center; gap: 0.8rem; padding: 1rem 0; border-bottom: 1px solid rgba(199,125,255,0.12); }
 
         /* Zoom / Lightbox */
@@ -136,6 +137,32 @@
         /* Floating Back to Top Button */
         .btn-top { position: fixed; bottom: 2rem; right: 2rem; width: 56px; height: 56px; background: linear-gradient(135deg, #9d4edd, #7b2cbf); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 0 20px rgba(157, 78, 221, 0.6); z-index: 999; opacity: 0; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
         .btn-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .btn-add:active { transform: scale(0.95); }
+        
+        .btn-remove-trash { 
+            background: rgba(255, 71, 87, 0.15); 
+            border: 1px solid rgba(255, 71, 87, 0.3); 
+            color: #ff4757; 
+            width: 34px; 
+            height: 34px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+        .btn-remove-trash:hover { 
+            background: #ff4757; 
+            color: #fff; 
+            transform: scale(1.1) rotate(5deg); 
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            border-color: #ff4757;
+        }
+        .btn-remove-trash svg { pointer-events: none; }
+
         .btn-top:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 0 30px rgba(157, 78, 221, 0.8); background: linear-gradient(135deg, #c77dff, #9d4edd); }
         .btn-top i { pointer-events: none; }
         /* Title Entrance Animation */
@@ -146,6 +173,15 @@
         .btn-subtle-back { background: linear-gradient(135deg, rgba(123, 44, 191, 0.2), rgba(60, 9, 108, 0.4)); border: 1px solid rgba(199, 125, 255, 0.4); color: #fff; padding: 0.7rem 1.4rem; border-radius: 12px; cursor: pointer; font-family: 'Outfit'; font-weight: 800; font-size: 0.85rem; transition: all 0.3s; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3); animation: pulseBorder 2s infinite; }
         @keyframes pulseBorder { 0% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(199, 125, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0); } }
         .btn-subtle-back:hover { transform: translateY(-3px); background: linear-gradient(135deg, rgba(123, 44, 191, 0.4), rgba(60, 9, 108, 0.6)); border-color: #c77dff; box-shadow: 0 8px 25px rgba(123, 44, 191, 0.5); }
+        
+        /* Ocultar botones flotantes cuando el modal está abierto */
+        body.modal-open .cart-float, 
+        body.modal-open #btn-top { 
+            opacity: 0 !important; 
+            pointer-events: none !important; 
+            transform: scale(0.8) !important;
+            transition: all 0.3s ease;
+        }
         
         /* Loading Screen Styles */
         .loading-screen { position: fixed; inset: 0; background: radial-gradient(circle at center, #120b24 0%, #070510 100%); z-index: 200000; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s; }
@@ -734,17 +770,25 @@
                     return `
                     <div class="cart-item-row">
                         <img src="${img}" class="cart-item-img" onerror="this.onerror=null;this.src='${fallbackImg}';">
-                        <div>
-                            <div class="cart-item-name">${c.item.Nombre_del_Producto || 'Producto'}</div>
+                        <div style="flex-grow: 1; min-width: 0;">
+                            <div class="cart-item-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${c.item.Nombre_del_Producto || 'Producto'}</div>
                             <div class="cart-item-sub">${c.item._cat} · ${c.item.Color_o_Estilo || ''} · ${formatMoney(c.price)} c/u</div>
-                            <button class="btn-remove" data-remove="${idx}">✕ Quitar</button>
                         </div>
-                        <div class="qty-control">
-                            <button class="qty-btn" data-action="dec" data-idx="${idx}">−</button>
-                            <span class="qty-num">${c.qty}</span>
-                            <button class="qty-btn" data-action="inc" data-idx="${idx}">+</button>
+                        <div class="qty-control" style="display: flex; align-items: center;">
+                            <div style="display: flex; align-items: center; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 2px;">
+                                <button class="qty-btn" data-action="dec" data-idx="${idx}">−</button>
+                                <span class="qty-num">${c.qty}</span>
+                                <button class="qty-btn" data-action="inc" data-idx="${idx}">+</button>
+                            </div>
+                            <button class="btn-remove-trash" data-remove="${idx}" title="Eliminar del pedido">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                </svg>
+                            </button>
                         </div>
-                        <div class="item-subtotal">${formatMoney(sub)}</div>
+                        <div class="item-subtotal" style="min-width: 80px; text-align: right; font-weight: 800; color: #c77dff;">${formatMoney(sub)}</div>
                     </div>`;
                 }).join('');
             }
@@ -775,7 +819,6 @@
         // Abrir modal SOLO si hay productos
         document.getElementById('btn-cart').addEventListener('click', () => {
             if (cart.length === 0) {
-                // Animar el botón para indicar que está vacío
                 const b = document.getElementById('btn-cart');
                 b.style.animation = 'none';
                 b.style.transform = 'scale(0.9)';
@@ -784,18 +827,32 @@
             }
             goToStep(1);
             document.getElementById('cart-modal').classList.add('active');
+            document.body.classList.add('modal-open');
             updateCartUI();
         });
         document.getElementById('close-modal').addEventListener('click', closeModal);
         document.getElementById('cart-modal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('cart-modal')) closeModal();
         });
-        function closeModal() { document.getElementById('cart-modal').classList.remove('active'); }
+        function closeModal() { 
+            document.getElementById('cart-modal').classList.remove('active'); 
+            document.body.classList.remove('modal-open');
+        }
 
         // LIGHTBOX — zoom de imagen
         document.getElementById('grid-productos').addEventListener('click', function(e) {
             const img = e.target.closest('.prod-img');
             if (img && !e.target.closest('.btn-add') && !e.target.closest('.chip')) {
+                document.getElementById('lightbox-img').src = img.src;
+                document.getElementById('lightbox').classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+        
+        // ZOOM para imágenes en el carrito
+        document.getElementById('cart-items').addEventListener('click', function(e) {
+            const img = e.target.closest('.cart-item-img');
+            if (img) {
                 document.getElementById('lightbox-img').src = img.src;
                 document.getElementById('lightbox').classList.add('open');
                 document.body.style.overflow = 'hidden';

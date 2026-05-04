@@ -22,7 +22,7 @@ function initCustomCursor() {
     });
 
     const updateHover = () => {
-        const interactive = document.querySelectorAll('a, button, .btn, .nav-link, .btn-add, .chip, .cart-float, .category-header, .prod-img, .catalog-card, .stat-card, [onclick]');
+        const interactive = document.querySelectorAll('a, button, .btn, .nav-link, .btn-add, .chip, .cart-float, .category-header, .prod-img, .cart-item-img, .catalog-card, .stat-card, [onclick]');
         interactive.forEach(el => {
             if (el.dataset.cursorBound) return;
             el.dataset.cursorBound = "true";
