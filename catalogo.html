@@ -139,8 +139,8 @@
         .btn-top i { pointer-events: none; }
         /* Title Entrance Animation */
         .marquee-container { flex: 1; overflow: hidden; white-space: nowrap; margin: 0 1rem; position: relative; display: flex; justify-content: center; }
-        .marquee-text { display: inline-block; animation: enterTitle 6s cubic-bezier(0.23, 1, 0.32, 1) forwards; font-weight: 900; font-size: 1.4rem; color: #c77dff; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px rgba(199,125,255,0.4); font-family: 'Outfit', sans-serif; opacity: 0; }
-        @keyframes enterTitle { 0% { transform: translateX(50px); opacity: 0; filter: blur(10px); } 100% { transform: translateX(0); opacity: 1; filter: blur(0); } }
+        .marquee-text { display: inline-block; animation: slowTitle 12s ease-in-out infinite; font-weight: 900; font-size: 1.4rem; color: #c77dff; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 25px rgba(199,125,255,0.5); font-family: 'Outfit', sans-serif; opacity: 1; filter: blur(0); }
+        @keyframes slowTitle { 0%, 100% { transform: translateX(-15px); filter: blur(1px); opacity: 0.8; } 50% { transform: translateX(15px); filter: blur(0); opacity: 1; } }
 
         .btn-subtle-back { background: linear-gradient(135deg, rgba(123, 44, 191, 0.2), rgba(60, 9, 108, 0.4)); border: 1px solid rgba(199, 125, 255, 0.4); color: #fff; padding: 0.7rem 1.4rem; border-radius: 12px; cursor: pointer; font-family: 'Outfit'; font-weight: 800; font-size: 0.85rem; transition: all 0.3s; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3); animation: pulseBorder 2s infinite; }
         @keyframes pulseBorder { 0% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(199, 125, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0); } }
@@ -429,6 +429,13 @@
                     btn.classList.add('active');
                     document.getElementById('search-input').value = '';
                     showCategory(cat);
+                    
+                    // Cerrar el desplegable automáticamente al seleccionar
+                    const filters = document.getElementById('category-filters');
+                    if (filters.classList.contains('open')) {
+                        filters.classList.remove('open');
+                        document.getElementById('cat-arrow').style.transform = '';
+                    }
                 };
                 c.appendChild(btn);
             });
