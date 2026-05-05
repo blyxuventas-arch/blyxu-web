@@ -502,7 +502,8 @@
             color: #ccc;
         }
 
-        .tab.on {
+        .tab.on,
+        .tab.active {
             background: linear-gradient(135deg, #7b2cbf, #9d4edd);
             color: #fff;
             border-color: transparent;
@@ -1352,6 +1353,7 @@
             <div class="tab-nav" style="margin-bottom: 2rem;">
                 <button class="tab active" data-tab="pedidos"><i data-lucide="shopping-cart" style="width:18px; height:18px;"></i> Historial Pedidos</button>
                 <button class="tab" data-tab="productos"><i data-lucide="package" style="width:18px; height:18px;"></i> Inventario</button>
+                <button class="tab" data-tab="nuevo"><i data-lucide="plus-circle" style="width:18px; height:18px;"></i> Nuevo Producto</button>
                 <button class="tab" data-tab="facturas"><i data-lucide="file-text" style="width:18px; height:18px;"></i> Factura Digital</button>
                 <button class="tab" data-tab="analisis"><i data-lucide="bar-chart-3" style="width:18px; height:18px;"></i> Análisis</button>
             </div>
@@ -1794,8 +1796,8 @@
         document.querySelectorAll('.tab').forEach(btn => {
             btn.onclick = () => {
                 // UI: Botones
-                document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-                btn.classList.add('active');
+                document.querySelectorAll('.tab').forEach(x => x.classList.remove('active', 'on'));
+                btn.classList.add('active', 'on');
                 
                 // UI: Paneles
                 const target = btn.getAttribute('data-tab');
@@ -2312,7 +2314,7 @@
             renderFacItems();
             
             // Ir a la pestaña de facturas y avisar
-            document.querySelector('.tab[data-t="facturas"]').click();
+            document.querySelector('.tab[data-tab="facturas"]').click();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showAlert('Éxito', 'Información del registro trasladada a la factura.', 'success');
         };
@@ -2346,7 +2348,7 @@
             facItems = [{ desc: prod, qty: cant, price: precio }];
             renderFacItems();
 
-            document.querySelector('.tab[data-t="facturas"]').click();
+            document.querySelector('.tab[data-tab="facturas"]').click();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -2450,6 +2452,7 @@
                 if (d.status === 'success') {
                     ok.textContent = editId ? '✅ Producto actualizado exitosamente!' : '✅ Producto guardado exitosamente!';
                     ok.style.display = 'block';
+                    localStorage.removeItem('blyxu_catalog_cache');
                     ['n-id', 'n-nombre', 'n-cat', 'n-color', 'n-precio', 'n-pcm', 'n-img', 'n-stock', 'n-cantidad'].forEach(x => document.getElementById(x).value = '');
                     fileInput.value = ''; preview.style.display = 'none';
                     zone.querySelector('.upload-txt').style.display = '';
