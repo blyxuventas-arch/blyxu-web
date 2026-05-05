@@ -3,136 +3,744 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blyxu | Panel Administrativo</title>
+    <title>Blyxu | Registro de Productos</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="cursor.css">
     <style>
-        .admin-container { max-width: 600px; margin: 4rem auto; padding: 2.5rem; background: rgba(22, 17, 34, 0.9); border: 1px solid rgba(199, 125, 255, 0.4); border-radius: 20px; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; color: #e0aaff; margin-bottom: 0.5rem; font-weight: 600; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 1.1rem; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none; font-family: 'Outfit'; font-size: 1rem; transition: border-color 0.3s; }
-        .form-group input:focus { border-color: #c77dff; box-shadow: 0 0 10px rgba(199,125,255,0.2); }
-        .status-msg { margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; text-align: center; font-weight: 600; }
-        .success { background: rgba(37, 211, 102, 0.2); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.3); }
-        .error { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
-        
-        @media (max-width: 600px) {
-            .admin-container { margin: 1rem; padding: 1.5rem; }
-            .admin-container h2 { font-size: 1.5rem; }
-            form div[style*="display:flex"] { flex-direction: column; gap: 0 !important; }
-            .btn { padding: 1rem !important; font-size: 1rem !important; }
+        :root {
+            --panel: rgba(22, 17, 34, 0.92);
+            --panel-soft: rgba(11, 8, 18, 0.52);
+            --line: rgba(199, 125, 255, 0.22);
+            --text-soft: #a7a2b9;
+            --accent: #c77dff;
+            --accent-2: #7b2cbf;
+        }
+
+        body { min-height: 100vh; }
+        .admin-shell { max-width: 1240px; margin: 2.2rem auto; padding: 0 1.2rem 3rem; }
+        .admin-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.4rem; }
+        .brand-lockup { display: flex; align-items: center; gap: 1rem; }
+        .brand-lockup img { width: 116px; }
+        .admin-title h1 { color: #fff; margin: 0; font-size: 1.75rem; }
+        .admin-title p { color: var(--text-soft); margin: 0.35rem 0 0; line-height: 1.45; }
+        .btn-back { color: #d8c5ff; text-decoration: none; border: 1px solid var(--line); background: rgba(0,0,0,0.28); padding: 0.78rem 1rem; border-radius: 12px; font-weight: 800; white-space: nowrap; }
+
+        .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 1.2rem; align-items: start; }
+        .form-stack { display: flex; flex-direction: column; gap: 1rem; }
+        .card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 1.35rem; box-shadow: 0 18px 45px rgba(0,0,0,0.35); backdrop-filter: blur(22px); }
+        .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+        .card-kicker { color: var(--accent); font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+        .card h2 { color: #fff; font-size: 1.08rem; margin: 0; }
+        .card p { color: var(--text-soft); margin: 0.35rem 0 0; line-height: 1.45; font-size: 0.92rem; }
+        .required-pill { color: #fff; background: rgba(199,125,255,0.14); border: 1px solid rgba(199,125,255,0.25); border-radius: 999px; padding: 0.35rem 0.65rem; font-size: 0.75rem; font-weight: 800; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.9rem; }
+        .field { margin-bottom: 0.95rem; }
+        .field:last-child { margin-bottom: 0; }
+        .field label { display: block; color: #e0aaff; margin-bottom: 0.42rem; font-weight: 800; font-size: 0.9rem; }
+        .field input, .field select { width: 100%; padding: 0.98rem 1rem; border-radius: 12px; background: rgba(0,0,0,0.48); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none; font-family: 'Outfit'; font-size: 1rem; box-sizing: border-box; transition: border-color 0.25s, box-shadow 0.25s; }
+        .field input:focus, .field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(199,125,255,0.13); }
+        .field input::placeholder { color: #635c77; }
+        .hint { color: var(--text-soft); font-size: 0.82rem; line-height: 1.4; margin-top: 0.38rem; }
+        .drop-zone { margin-top: 0.65rem; border: 1px dashed rgba(199,125,255,0.42); background: rgba(199,125,255,0.08); border-radius: 14px; min-height: 118px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 1rem; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+        .drop-zone:hover, .drop-zone.drag-over { border-color: #e0aaff; background: rgba(199,125,255,0.16); transform: translateY(-1px); }
+        .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .drop-copy { color: #d8c5ff; font-weight: 800; line-height: 1.35; pointer-events: none; }
+        .drop-copy span { display: block; color: var(--text-soft); font-size: 0.82rem; font-weight: 600; margin-top: 0.25rem; }
+        .drop-zone.is-uploading { cursor: wait; opacity: 0.82; }
+        .drop-zone.is-ready { border-style: solid; border-color: rgba(37,211,102,0.55); background: rgba(37,211,102,0.1); }
+        .preview-image.is-local-preview { border-bottom-color: rgba(37,211,102,0.45); }
+
+        .mode-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .mode-btn { border: 1px solid rgba(199,125,255,0.24); background: rgba(0,0,0,0.34); color: var(--text-soft); border-radius: 14px; padding: 1rem; cursor: pointer; font-family: 'Outfit'; text-align: left; transition: all 0.22s; }
+        .mode-btn strong { display: block; color: inherit; font-size: 0.96rem; margin-bottom: 0.28rem; }
+        .mode-btn span { display: block; font-size: 0.82rem; line-height: 1.35; }
+        .mode-btn.active { background: linear-gradient(135deg, var(--accent-2), #9d4edd); color: #fff; border-color: transparent; box-shadow: 0 12px 28px rgba(123,44,191,0.38); }
+
+        .variant-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.07); }
+        .btn-small { border: 1px solid rgba(199,125,255,0.35); background: rgba(199,125,255,0.13); color: #fff; border-radius: 12px; padding: 0.78rem 0.95rem; cursor: pointer; font-family: 'Outfit'; font-weight: 800; white-space: nowrap; }
+        .btn-small:hover { background: rgba(199,125,255,0.22); }
+        .variant-list { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 1rem; }
+        .variant-card { border: 1px solid rgba(255,255,255,0.09); background: rgba(9,7,16,0.68); border-radius: 16px; padding: 1rem; }
+        .variant-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.85rem; }
+        .variant-head strong { color: #fff; }
+        .variant-meta { color: var(--text-soft); font-size: 0.78rem; margin-top: 0.15rem; }
+        .btn-remove { border: 1px solid rgba(255,107,107,0.35); background: rgba(255,107,107,0.12); color: #ff6b6b; border-radius: 10px; padding: 0.48rem 0.7rem; cursor: pointer; font-family: 'Outfit'; font-weight: 800; }
+        .color-tool { display: grid; grid-template-columns: 48px 1fr; gap: 0.55rem; align-items: center; }
+        .color-tool input[type="color"] { width: 48px; height: 48px; padding: 0; border: 1px solid rgba(199,125,255,0.35); border-radius: 12px; background: transparent; cursor: pointer; }
+        .style-image-field { display: none; }
+        body[data-mode="style"] .style-image-field { display: block; }
+
+        .preview-card { position: sticky; top: 1rem; }
+        .preview-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .preview-top h2 { margin: 0; color: #fff; font-size: 1.05rem; }
+        .preview-product { overflow: hidden; border: 1px solid rgba(199,125,255,0.2); border-radius: 18px; background: rgba(0,0,0,0.35); }
+        .preview-image { width: 100%; aspect-ratio: 1 / 0.78; background: #0e0a14; object-fit: cover; display: block; }
+        .preview-body { padding: 1rem; }
+        .preview-cat { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.08em; min-height: 1rem; }
+        .preview-name { color: #fff; font-size: 1.08rem; font-weight: 800; margin-top: 0.45rem; min-height: 1.4rem; }
+        .preview-ref { color: var(--text-soft); font-size: 0.82rem; margin-top: 0.32rem; }
+        .preview-swatches { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0.9rem 0; min-height: 36px; }
+        .swatch { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.52); box-shadow: 0 0 0 3px rgba(0,0,0,0.25); background: var(--swatch, #c77dff); }
+        .style-chip { border: 1px solid rgba(199,125,255,0.3); border-radius: 999px; padding: 0.38rem 0.72rem; color: #d8c5ff; background: rgba(199,125,255,0.1); font-size: 0.78rem; font-weight: 800; }
+        .preview-price { color: #e0aaff; font-size: 1.55rem; font-weight: 800; }
+        .quality-list { display: grid; gap: 0.5rem; margin-top: 1rem; }
+        .quality-item { display: flex; justify-content: space-between; gap: 1rem; color: var(--text-soft); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; font-size: 0.86rem; }
+        .quality-item strong { color: #fff; }
+
+        .submit-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: rgba(9,7,16,0.78); border: 1px solid var(--line); border-radius: 18px; padding: 1rem; position: sticky; bottom: 1rem; backdrop-filter: blur(18px); z-index: 30; }
+        .submit-copy { color: var(--text-soft); font-size: 0.88rem; line-height: 1.35; }
+        .submit-copy strong { color: #fff; display: block; margin-bottom: 0.15rem; }
+        .btn-submit { min-width: 260px; padding: 1.15rem 1.4rem; border-radius: 14px; border: none; font-size: 1.05rem; font-family: 'Outfit'; font-weight: 800; color: #fff; background: linear-gradient(135deg, #9d4edd, var(--accent-2)); cursor: pointer; box-shadow: 0 12px 28px rgba(123,44,191,0.45); }
+        .btn-submit:disabled { opacity: 0.65; cursor: wait; }
+        .status-msg { margin-top: 1rem; padding: 1rem; border-radius: 10px; display: none; text-align: center; font-weight: 800; }
+        .success { background: rgba(37, 211, 102, 0.18); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.3); }
+        .error { background: rgba(255, 107, 107, 0.18); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
+
+        @media (max-width: 980px) {
+            .workspace { grid-template-columns: 1fr; }
+            .preview-card { position: static; }
+        }
+
+        @media (max-width: 700px) {
+            .admin-shell { margin: 1rem auto; padding: 0 0.75rem 2rem; }
+            .admin-header, .submit-bar { flex-direction: column; align-items: stretch; }
+            .brand-lockup { align-items: flex-start; }
+            .brand-lockup img { width: 94px; }
+            .grid-2, .grid-3, .mode-switch { grid-template-columns: 1fr; }
+            .card { padding: 1rem; }
+            .variant-toolbar { flex-direction: column; align-items: stretch; }
+            .variant-head { align-items: flex-start; }
+            .preview-card { display: none; }
+            .drop-zone { min-height: 96px; }
+            .btn-submit { width: 100%; min-width: 0; }
         }
     </style>
 </head>
-<body>
-    <div class="admin-container">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <img src="logo.png" alt="Blyxu" style="width: 150px; margin-bottom: 1rem;">
-            <h2>Subir Nuevo Producto</h2>
-        </div>
-        
-        <form id="admin-form">
-            <div class="form-group">
-                <label>ID Producto (Código)</label>
-                <input type="text" id="idProducto" placeholder="Ej: ZAP-001" required>
-            </div>
-            <div class="form-group">
-                <label>Nombre del Producto</label>
-                <input type="text" id="nombre" required>
-            </div>
-            <div style="display:flex; gap:1rem;">
-                <div class="form-group" style="flex:1;">
-                    <label>Categoría</label>
-                    <input type="text" id="categoria" placeholder="Ej: Zapatillas" required>
-                </div>
-                <div class="form-group" style="flex:1;">
-                    <label>Color o Estilo</label>
-                    <input type="text" id="color" placeholder="Ej: Blanco/Negro">
+<body data-mode="color">
+    <main class="admin-shell">
+        <header class="admin-header">
+            <div class="brand-lockup">
+                <img src="logo.png" alt="Blyxu">
+                <div class="admin-title">
+                    <h1>Registro de productos</h1>
+                    <p>Flujo tipo ecommerce: producto base, precios, inventario y variantes listas para catálogo.</p>
                 </div>
             </div>
-            <div style="display:flex; gap:1rem;">
-                <div class="form-group" style="flex:1;">
-                    <label>Precio Público (Detal)</label>
-                    <input type="number" id="precio" placeholder="Ej: 150000" required>
+            <a class="btn-back" href="index.html">Volver al inicio</a>
+        </header>
+
+        <form id="admin-form" class="workspace">
+            <section class="form-stack">
+                <article class="card">
+                    <div class="card-head">
+                        <div>
+                            <div class="card-kicker">Paso 1</div>
+                            <h2>Información principal</h2>
+                            <p>Jerarquía: el ID de producto es el registro madre que agrupa todos los ID generados en una sola tarjeta del catálogo.</p>
+                        </div>
+                        <span class="required-pill">Obligatorio</span>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="idProducto">ID de producto (registro madre)</label>
+                            <input type="text" id="idProducto" placeholder="Ej: ZAP-001" required>
+                            <div class="hint">Este ID une los colores, modelos o estilos del mismo producto en el catálogo.</div>
+                        </div>
+                        <div class="field">
+                            <label for="nombre">Nombre del producto</label>
+                            <input type="text" id="nombre" placeholder="Ej: Tenis Urban Classic" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="categoria">Categoría</label>
+                            <input type="text" id="categoria" list="category-list" placeholder="Ej: Zapatillas" required>
+                        </div>
+                        <div class="field">
+                            <label for="cantidad">Unidad de venta</label>
+                            <input type="text" id="cantidad" value="1" placeholder="Ej: 1 Par">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="imagen">Imagen principal</label>
+                        <input type="url" id="imagen" placeholder="https://..." required>
+                        <div class="drop-zone" data-target="imagen">
+                            <input type="file" id="imagen-file" accept="image/*">
+                            <div class="drop-copy">Arrastra la foto principal aqui<span>o haz clic para subirla desde tu equipo</span></div>
+                        </div>
+                        <div class="hint" id="image-hint">Para productos por color, esta imagen se usa en todas las variantes.</div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-head">
+                        <div>
+                            <div class="card-kicker">Paso 2</div>
+                            <h2>Precios e inventario base</h2>
+                            <p>Estos valores se aplican a cada variante, salvo que pongas un precio o stock específico en la variante.</p>
+                        </div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="field">
+                            <label for="precio">Precio público</label>
+                            <input type="number" id="precio" placeholder="Ej: 150000" required>
+                        </div>
+                        <div class="field">
+                            <label for="pcm">Precio mayorista</label>
+                            <input type="number" id="pcm" placeholder="Ej: 90000" required>
+                        </div>
+                        <div class="field">
+                            <label for="stock">Stock base</label>
+                            <input type="number" id="stock" value="10" min="0">
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-head">
+                        <div>
+                            <div class="card-kicker">Paso 3</div>
+                            <h2>Variantes</h2>
+                            <p>Como en Shopify o WooCommerce: un producto base puede tener colores o estilos independientes.</p>
+                        </div>
+                    </div>
+
+                    <div class="mode-switch" aria-label="Tipo de variantes">
+                        <button type="button" class="mode-btn active" data-mode="color">
+                            <strong>Mismo diseño, varios colores</strong>
+                            <span>Una foto principal y círculos de color en el catálogo.</span>
+                        </button>
+                        <button type="button" class="mode-btn" data-mode="style">
+                            <strong>Diseños o fotos diferentes</strong>
+                            <span>Cada variante puede tener una imagen propia.</span>
+                        </button>
+                    </div>
+
+                    <div class="variant-toolbar">
+                        <div>
+                            <h2 id="variant-title">Colores disponibles</h2>
+                            <p id="variant-hint">Agrega cada color disponible para este mismo diseño.</p>
+                        </div>
+                        <button type="button" class="btn-small" id="btn-add-variant">Agregar color</button>
+                    </div>
+
+                    <div id="variant-list" class="variant-list"></div>
+                </article>
+
+                <div class="submit-bar">
+                    <div class="submit-copy">
+                        <strong id="submit-summary">1 variante lista para guardar</strong>
+                        Se guardará una fila por ID generado, agrupada bajo el mismo ID de producto.
+                    </div>
+                    <button type="submit" class="btn-submit" id="btn-submit">
+                        <span>Guardar producto</span>
+                    </button>
                 </div>
-                <div class="form-group" style="flex:1;">
-                    <label>Precio Mayorista (PCM)</label>
-                    <input type="number" id="pcm" placeholder="Ej: 90000" required>
+                <div id="status" class="status-msg"></div>
+            </section>
+
+            <aside class="card preview-card">
+                <div class="preview-top">
+                    <h2>Vista previa</h2>
+                    <span class="required-pill" id="preview-mode">Colores</span>
                 </div>
-            </div>
-            <div style="display:flex; gap:1rem;">
-                <div class="form-group" style="flex:1;">
-                    <label>Stock Inicial</label>
-                    <input type="number" id="stock" value="10">
+                <div class="preview-product">
+                    <img id="preview-img" class="preview-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&q=70" data-default-src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&q=70" alt="Vista previa del producto">
+                    <div class="preview-body">
+                        <div class="preview-cat" id="preview-cat">Categoría</div>
+                        <div class="preview-name" id="preview-name">Nombre del producto</div>
+                        <div class="preview-ref" id="preview-ref">Ref: ZAP-001</div>
+                        <div class="preview-swatches" id="preview-variants"></div>
+                        <div class="preview-price" id="preview-price">$0</div>
+                    </div>
                 </div>
-                <div class="form-group" style="flex:1;">
-                    <label>Cantidad (Ej: 1 Par)</label>
-                    <input type="text" id="cantidad" value="1">
+                <div class="quality-list">
+                    <div class="quality-item"><span>Referencia</span><strong id="quality-ref">Pendiente</strong></div>
+                    <div class="quality-item"><span>Variantes</span><strong id="quality-variants">1</strong></div>
+                    <div class="quality-item"><span>Stock total</span><strong id="quality-stock">10</strong></div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Enlace de la Imagen (URL Pública)</label>
-                <input type="url" id="imagen" placeholder="https://..." required>
-            </div>
-            
-            <button type="submit" class="btn btn-hero-glow" style="width: 100%; padding: 1.2rem; border-radius: 12px; font-size: 1.1rem; border:none;" id="btn-submit">
-                <span>Guardar Producto</span>
-            </button>
-            <div id="status" class="status-msg"></div>
-            <div style="text-align:center; margin-top:2.5rem;">
-                <a href="index.html" style="color:#a7a2b9; text-decoration:none;">← Volver al inicio</a>
-            </div>
+            </aside>
         </form>
-    </div>
+    </main>
+
+    <datalist id="color-list">
+        <option value="Negro"><option value="Blanco"><option value="Rojo"><option value="Azul">
+        <option value="Verde"><option value="Amarillo"><option value="Morado"><option value="Rosado">
+        <option value="Naranja"><option value="Café"><option value="Gris"><option value="Beige">
+        <option value="Dorado"><option value="Plateado"><option value="Vinotinto"><option value="Crema">
+    </datalist>
+    <datalist id="category-list">
+        <option value="Zapatillas"><option value="Ropa"><option value="Accesorios">
+        <option value="Bolsos"><option value="Gorras"><option value="Promociones">
+    </datalist>
 
     <script>
         const APP_URL = "https://script.google.com/macros/s/AKfycbx7ofcNdOvxv07cvLZkSemb2mTyBlzs3a7VHbTk7QNIRitLjWQPFjnYl2PnEfEDGHYo3w/exec";
-        
-        document.getElementById('admin-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btn-submit');
-            const status = document.getElementById('status');
-            btn.querySelector('span').textContent = "Guardando...";
-            btn.style.opacity = "0.7";
-            
-            const payload = {
-                action: "add_product",
-                idProducto: document.getElementById('idProducto').value,
-                nombre: document.getElementById('nombre').value,
-                categoria: document.getElementById('categoria').value,
-                color: document.getElementById('color').value,
-                precio: document.getElementById('precio').value,
-                pcm: document.getElementById('pcm').value,
-                stock: document.getElementById('stock').value,
-                cantidad: document.getElementById('cantidad').value,
-                imagen: document.getElementById('imagen').value
+        const form = document.getElementById('admin-form');
+        const variantList = document.getElementById('variant-list');
+        let variantMode = 'color';
+        let variantCounter = 0;
+        let activeUploads = 0;
+        let existingProducts = [];
+
+        const colorMap = {
+            negro: '#111111', blanco: '#ffffff', rojo: '#e53935', azul: '#1e88e5',
+            verde: '#43a047', amarillo: '#fdd835', morado: '#8e24aa', purpura: '#8e24aa',
+            violeta: '#7e57c2', rosado: '#ec407a', rosa: '#ec407a', fucsia: '#d81b60',
+            naranja: '#fb8c00', cafe: '#795548', marron: '#795548', gris: '#757575',
+            beige: '#d8c3a5', crema: '#fff3d6', dorado: '#d4af37', plateado: '#b0bec5',
+            vinotinto: '#7b1e3a'
+        };
+
+        function norm(value) {
+            return (value || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        }
+
+        function normalizeHex(value) {
+            const hex = (value || '').trim();
+            return /^#[0-9A-Fa-f]{6}$/.test(hex) ? hex : '';
+        }
+
+        function colorNameToHex(value) {
+            return colorMap[norm(value)] || '';
+        }
+
+        function formatMoney(amount) {
+            return '$' + (Number(amount) || 0).toLocaleString('es-CO');
+        }
+
+        function getBaseId() {
+            return document.getElementById('idProducto').value.trim().replace(/\s+/g, '-').toUpperCase() || 'PROD';
+        }
+
+        function parseGeneratedId(id) {
+            const match = (id || '').toString().trim().match(/^(\d+)(?:-(\d+))?$/);
+            if (!match) return null;
+            return {
+                root: Number(match[1]),
+                suffix: match[2] ? Number(match[2]) : 0
             };
+        }
+
+        function getGeneratedId(product) {
+            return (product?.ID_Generado || product?.idGenerado || product?.ID_Registro || '').toString().trim();
+        }
+
+        function getNextRootId() {
+            const roots = existingProducts
+                .map(product => parseGeneratedId(getGeneratedId(product))?.root)
+                .filter(Number.isFinite);
+            return String((roots.length ? Math.max(...roots) : 799) + 1);
+        }
+
+        function suggestNextProductId(force = false) {
+            const input = document.getElementById('idProducto');
+            if (!input) return;
+            if (force || !input.value.trim() || input.dataset.autoId === 'true') {
+                input.value = getNextRootId();
+                input.dataset.autoId = 'true';
+                updateVariantIds();
+            }
+        }
+
+        async function loadExistingProductsForIds() {
+            try {
+                const cached = localStorage.getItem('blyxu_catalog_cache');
+                if (cached) existingProducts = JSON.parse(cached) || [];
+            } catch (err) {}
+
+            suggestNextProductId();
 
             try {
+                const res = await fetch(APP_URL + '?t=' + Date.now());
+                const data = await res.json();
+                if (data.status === 'success' && Array.isArray(data.data)) {
+                    existingProducts = data.data;
+                    localStorage.setItem('blyxu_catalog_cache', JSON.stringify(existingProducts));
+                    suggestNextProductId();
+                }
+            } catch (err) {
+                console.warn('No se pudo consultar el siguiente ID, se usa cache/local:', err);
+            }
+        }
+
+        function setStatus(type, message) {
+            const status = document.getElementById('status');
+            status.className = `status-msg ${type}`;
+            status.textContent = message;
+            status.style.display = 'block';
+        }
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = () => reject(new Error('No se pudo leer la imagen.'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function uploadImage(file, input, zone) {
+            if (!file || !file.type.startsWith('image/')) {
+                setStatus('error', 'Arrastra o selecciona un archivo de imagen valido.');
+                return;
+            }
+
+            const label = zone.querySelector('.drop-copy');
+            const originalText = label.innerHTML;
+            const localPreview = URL.createObjectURL(file);
+            activeUploads += 1;
+            zone.classList.add('is-uploading');
+            zone.classList.remove('is-ready');
+            label.innerHTML = 'Subiendo imagen...<span>Espera un momento</span>';
+            input.dataset.previewSrc = localPreview;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+
+            try {
+                const base64Data = await readFileAsBase64(file);
                 const res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        action: 'upload_image',
+                        fileName: file.name,
+                        mimeType: file.type,
+                        base64Data
+                    })
                 });
                 const data = await res.json();
-                
-                if (data.status === "success") {
-                    status.className = "status-msg success";
-                    status.textContent = "✅ ¡Producto guardado en tu base de datos!";
-                    document.getElementById('admin-form').reset();
-                } else {
-                    throw new Error(data.message);
-                }
+                if (data.status !== 'success' || !data.url) throw new Error(data.message || 'No se pudo subir la imagen.');
+                input.value = data.url;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                const uploadedImg = new Image();
+                uploadedImg.onload = () => {
+                    if (input.dataset.previewSrc === localPreview) {
+                        delete input.dataset.previewSrc;
+                        URL.revokeObjectURL(localPreview);
+                        updatePreview();
+                    }
+                };
+                uploadedImg.src = data.url;
+                zone.classList.add('is-ready');
+                label.innerHTML = 'Imagen subida correctamente<span>Puedes arrastrar otra para reemplazarla</span>';
+                setStatus('success', 'Imagen subida. Ya quedo pegada en el campo.');
+                updatePreview();
             } catch (err) {
-                status.className = "status-msg error";
-                status.textContent = "❌ Error: " + err.message;
+                if (input.dataset.previewSrc === localPreview) {
+                    delete input.dataset.previewSrc;
+                    URL.revokeObjectURL(localPreview);
+                }
+                label.innerHTML = originalText;
+                setStatus('error', 'Error subiendo imagen: ' + err.message);
+                updatePreview();
+            } finally {
+                activeUploads -= 1;
+                zone.classList.remove('is-uploading', 'drag-over');
             }
-            
-            status.style.display = "block";
-            btn.querySelector('span').textContent = "Guardar Producto";
-            btn.style.opacity = "1";
-            setTimeout(() => status.style.display = "none", 6000);
+        }
+
+        function bindImageDropZone(zone, input) {
+            if (!zone || !input || zone.dataset.bound === 'true') return;
+            zone.dataset.bound = 'true';
+            const fileInput = zone.querySelector('input[type="file"]');
+            const pickFile = files => uploadImage(files && files[0], input, zone);
+
+            fileInput.addEventListener('change', () => pickFile(fileInput.files));
+            ['dragenter', 'dragover'].forEach(eventName => {
+                zone.addEventListener(eventName, e => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                zone.addEventListener(eventName, e => {
+                    e.preventDefault();
+                    if (eventName === 'drop') pickFile(e.dataTransfer.files);
+                    else zone.classList.remove('drag-over');
+                });
+            });
+        }
+
+        function resetDropZones() {
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.remove('is-ready', 'is-uploading', 'drag-over');
+                const fileInput = zone.querySelector('input[type="file"]');
+                const label = zone.querySelector('.drop-copy');
+                if (fileInput) fileInput.value = '';
+                if (zone.classList.contains('variant-drop-zone')) {
+                    label.innerHTML = 'Arrastra la foto del estilo aqui<span>o haz clic para subirla</span>';
+                } else {
+                    label.innerHTML = 'Arrastra la foto principal aqui<span>o haz clic para subirla desde tu equipo</span>';
+                }
+            });
+        }
+
+        function setMode(mode) {
+            variantMode = mode;
+            document.body.dataset.mode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+            document.getElementById('variant-title').textContent = mode === 'color' ? 'Colores disponibles' : 'Estilos disponibles';
+            document.getElementById('variant-hint').textContent = mode === 'color'
+                ? 'Agrega cada color disponible para este mismo diseño.'
+                : 'Agrega cada diseño o estilo. Si tiene foto distinta, pégala en su variante.';
+            document.getElementById('btn-add-variant').textContent = mode === 'color' ? 'Agregar color' : 'Agregar estilo';
+            document.getElementById('image-hint').textContent = mode === 'color'
+                ? 'Para productos por color, esta imagen se usa en todas las variantes.'
+                : 'Se usará como imagen de respaldo si una variante no tiene foto propia.';
+            document.getElementById('preview-mode').textContent = mode === 'color' ? 'Colores' : 'Estilos';
+            variantList.innerHTML = '';
+            variantCounter = 0;
+            addVariant();
+            updatePreview();
+        }
+
+        function addVariant() {
+            variantCounter += 1;
+            const baseId = getBaseId();
+            const variantId = variantCounter === 1 ? baseId : `${baseId}-${variantCounter - 1}`;
+            const card = document.createElement('div');
+            card.className = 'variant-card';
+            card.innerHTML = `
+                <div class="variant-head">
+                    <div>
+                        <strong>${variantMode === 'color' ? 'Color' : 'Estilo'} ${variantCounter}</strong>
+                        <div class="variant-meta">ID generado sugerido: ${variantId}</div>
+                    </div>
+                    <button type="button" class="btn-remove">Quitar</button>
+                </div>
+                <div class="grid-3">
+                    <div class="field">
+                        <label>ID generado / SKU de variante</label>
+                        <input type="text" class="variant-id" value="${variantId}" required>
+                    </div>
+                    <div class="field">
+                        <label>${variantMode === 'color' ? 'Color' : 'Nombre del estilo'}</label>
+                        <input type="text" class="variant-color" list="color-list" placeholder="${variantMode === 'color' ? 'Ej: Rojo' : 'Ej: Floral'}" required>
+                    </div>
+                    <div class="field">
+                        <label>Stock</label>
+                        <input type="number" class="variant-stock" placeholder="Usar base" min="0">
+                    </div>
+                </div>
+                <div class="grid-3">
+                    <div class="field">
+                        <label>Color visual</label>
+                        <div class="color-tool">
+                            <input type="color" class="variant-picker" value="#c77dff" title="Color visible en catálogo">
+                            <input type="text" class="variant-hex" value="#c77dff" placeholder="#c77dff">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Precio público opcional</label>
+                        <input type="number" class="variant-price" placeholder="Usar base">
+                    </div>
+                    <div class="field">
+                        <label>Mayorista opcional</label>
+                        <input type="number" class="variant-pcm" placeholder="Usar base">
+                    </div>
+                </div>
+                <div class="field style-image-field">
+                    <label>Imagen de esta variante</label>
+                    <input type="url" class="variant-image" placeholder="https://...">
+                    <div class="drop-zone variant-drop-zone">
+                        <input type="file" class="variant-image-file" accept="image/*">
+                        <div class="drop-copy">Arrastra la foto del estilo aqui<span>o haz clic para subirla</span></div>
+                    </div>
+                    <div class="hint">Déjala vacía si este estilo usa la imagen principal.</div>
+                </div>
+            `;
+
+            card.querySelector('.btn-remove').onclick = () => {
+                if (variantList.children.length === 1) return;
+                card.remove();
+                updatePreview();
+            };
+
+            const colorInput = card.querySelector('.variant-color');
+            const picker = card.querySelector('.variant-picker');
+            const hexInput = card.querySelector('.variant-hex');
+            colorInput.addEventListener('input', () => {
+                const hex = colorNameToHex(colorInput.value);
+                if (hex) {
+                    picker.value = hex;
+                    hexInput.value = hex;
+                }
+                updatePreview();
+            });
+            picker.addEventListener('input', () => {
+                hexInput.value = picker.value;
+                updatePreview();
+            });
+            hexInput.addEventListener('input', () => {
+                const hex = normalizeHex(hexInput.value);
+                if (hex) picker.value = hex;
+                updatePreview();
+            });
+            card.querySelectorAll('input').forEach(input => input.addEventListener('input', updatePreview));
+            bindImageDropZone(card.querySelector('.variant-drop-zone'), card.querySelector('.variant-image'));
+            variantList.appendChild(card);
+            updatePreview();
+        }
+
+        function getVariantRows() {
+            const imageInput = document.getElementById('imagen');
+            const mainImage = imageInput.value.trim();
+            const mainPreview = imageInput.dataset.previewSrc || mainImage;
+            const basePrice = document.getElementById('precio').value;
+            const basePcm = document.getElementById('pcm').value;
+            const baseStock = document.getElementById('stock').value;
+
+            return [...variantList.querySelectorAll('.variant-card')].map(card => {
+                const color = card.querySelector('.variant-color').value.trim();
+                const colorHex = normalizeHex(card.querySelector('.variant-hex').value) || colorNameToHex(color);
+                const variantImageInput = card.querySelector('.variant-image');
+                return {
+                    idGenerado: card.querySelector('.variant-id').value.trim(),
+                    color,
+                    colorHex,
+                    precio: card.querySelector('.variant-price').value || basePrice,
+                    pcm: card.querySelector('.variant-pcm').value || basePcm,
+                    stock: card.querySelector('.variant-stock').value || baseStock,
+                    imagen: variantMode === 'style' ? (variantImageInput.value.trim() || mainImage) : mainImage,
+                    previewImagen: variantMode === 'style' ? (variantImageInput.dataset.previewSrc || variantImageInput.value.trim() || mainPreview) : mainPreview
+                };
+            });
+        }
+
+        function updateVariantIds() {
+            [...variantList.querySelectorAll('.variant-card')].forEach((card, index) => {
+                const baseId = getBaseId();
+                const value = index === 0 ? baseId : `${baseId}-${index}`;
+                card.querySelector('.variant-id').value = value;
+                card.querySelector('.variant-meta').textContent = `ID generado sugerido: ${value}`;
+            });
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const name = document.getElementById('nombre').value.trim() || 'Nombre del producto';
+            const cat = document.getElementById('categoria').value.trim() || 'Categoría';
+            const ref = document.getElementById('idProducto').value.trim() || 'ZAP-001';
+            const imageInput = document.getElementById('imagen');
+            const img = imageInput.dataset.previewSrc || imageInput.value.trim();
+            const price = document.getElementById('precio').value;
+            const variants = getVariantRows();
+            const stockTotal = variants.reduce((sum, v) => sum + (Number(v.stock) || 0), 0);
+
+            document.getElementById('preview-name').textContent = name;
+            document.getElementById('preview-cat').textContent = cat;
+            document.getElementById('preview-ref').textContent = `Ref: ${ref}`;
+            document.getElementById('preview-price').textContent = formatMoney(price);
+            document.getElementById('quality-ref').textContent = ref === 'ZAP-001' ? 'Pendiente' : ref;
+            document.getElementById('quality-variants').textContent = variants.length;
+            document.getElementById('quality-stock').textContent = stockTotal;
+            document.getElementById('submit-summary').textContent = `${variants.length} variante${variants.length !== 1 ? 's' : ''} lista${variants.length !== 1 ? 's' : ''} para guardar`;
+            const previewImg = document.getElementById('preview-img');
+            previewImg.src = img || previewImg.dataset.defaultSrc;
+            previewImg.classList.toggle('is-local-preview', Boolean(imageInput.dataset.previewSrc));
+
+            document.getElementById('preview-variants').innerHTML = variants.map(v => {
+                const hex = v.colorHex || '#c77dff';
+                if (variantMode === 'style') return `<span class="style-chip">${v.color || 'Estilo'}</span>`;
+                return `<span class="swatch" style="--swatch:${hex}" title="${v.color || hex}"></span>`;
+            }).join('');
+        }
+
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.addEventListener('click', () => setMode(btn.dataset.mode)));
+        document.getElementById('btn-add-variant').addEventListener('click', addVariant);
+        document.getElementById('idProducto').addEventListener('input', function () {
+            this.dataset.autoId = 'false';
+            updateVariantIds();
+        });
+        bindImageDropZone(document.querySelector('[data-target="imagen"]'), document.getElementById('imagen'));
+        ['nombre', 'categoria', 'imagen', 'precio', 'pcm', 'stock'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePreview);
+        });
+
+        addVariant();
+        loadExistingProductsForIds();
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit');
+            const status = document.getElementById('status');
+            const baseId = document.getElementById('idProducto').value.trim();
+            const variants = getVariantRows();
+            const ids = variants.map(v => v.idGenerado);
+            const repeated = ids.find((id, index) => ids.indexOf(id) !== index);
+
+            if (activeUploads > 0) {
+                setStatus('error', 'Espera a que terminen de subir las imagenes antes de guardar.');
+                return;
+            }
+            if (!variants.length || variants.some(v => !v.idGenerado || !v.color || !v.imagen || !v.precio || !v.pcm)) {
+                setStatus('error', 'Completa ID, color/estilo, imagen y precios antes de guardar.');
+                return;
+            }
+            if (repeated) {
+                setStatus('error', `El ID ${repeated} está repetido. Cada variante necesita un SKU único.`);
+                return;
+            }
+
+            btn.querySelector('span').textContent = 'Guardando...';
+            btn.disabled = true;
+            status.style.display = 'none';
+
+            try {
+                for (let i = 0; i < variants.length; i++) {
+                    const variant = variants[i];
+                    btn.querySelector('span').textContent = `Guardando ${i + 1}/${variants.length}`;
+                    const payload = {
+                        action: 'add_product',
+                        idGenerado: variant.idGenerado,
+                        ID_Generado: variant.idGenerado,
+                        idProducto: baseId,
+                        ID_Producto: baseId,
+                        referencia: baseId,
+                        nombre: document.getElementById('nombre').value.trim(),
+                        categoria: document.getElementById('categoria').value.trim(),
+                        color: variant.color,
+                        colorHex: variant.colorHex,
+                        Color_Hex: variant.colorHex,
+                        Color_Codigo: variant.colorHex,
+                        precio: variant.precio,
+                        pcm: variant.pcm,
+                        stock: variant.stock,
+                        cantidad: variant.stock,
+                        unidad: document.getElementById('cantidad').value,
+                        imagen: variant.imagen,
+                        fechaRegistro: new Date().toISOString(),
+                        Fecha_Registro: new Date().toISOString()
+                    };
+
+                    const res = await fetch(APP_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (data.status !== 'success') throw new Error(data.message || 'No se pudo guardar una variante.');
+                }
+
+                localStorage.removeItem('blyxu_catalog_cache');
+                setStatus('success', `${variants.length} variante${variants.length !== 1 ? 's' : ''} guardada${variants.length !== 1 ? 's' : ''}. El catálogo las mostrará agrupadas.`);
+                form.reset();
+                document.getElementById('idProducto').dataset.autoId = 'true';
+                variantList.innerHTML = '';
+                variantCounter = 0;
+                setMode('color');
+                resetDropZones();
+                await loadExistingProductsForIds();
+            } catch (err) {
+                setStatus('error', 'Error: ' + err.message);
+            }
+
+            btn.querySelector('span').textContent = 'Guardar producto';
+            btn.disabled = false;
+            setTimeout(() => status.style.display = 'none', 8000);
         });
     </script>
     <script src="cursor.js"></script>

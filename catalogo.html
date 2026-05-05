@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -15,16 +15,22 @@
         .prod-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(199, 125, 255, 0.25); border-color: #c77dff; }
         .prod-img { width: 100%; height: 260px; object-fit: cover; border-bottom: 2px solid rgba(199,125,255,0.15); background: #0e0a14; }
         
-        /* Badges de Stock */
-        .stock-badge { position: absolute; top: 15px; right: 15px; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.4); backdrop-filter: blur(5px); }
+        /* Badges de estado */
+        .status-badges { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: column; align-items: flex-end; gap: 0.45rem; z-index: 10; }
+        .stock-badge, .new-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0,0,0,0.4); backdrop-filter: blur(5px); }
         .badge-agotado { background: rgba(255, 71, 87, 0.9); color: white; border: 1px solid rgba(255, 255, 255, 0.3); }
         .badge-ultimas { background: rgba(255, 165, 2, 0.9); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); animation: pulseOrange 2s infinite; }
+        .badge-nuevo { background: rgba(37, 211, 102, 0.92); color: #06130b; border: 1px solid rgba(255, 255, 255, 0.35); }
         @keyframes pulseOrange { 0% { box-shadow: 0 0 0 0 rgba(255, 165, 2, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 165, 2, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 165, 2, 0); } }
 
         .prod-info { padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; }
         .prod-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
         .prod-cat { font-size: 0.85rem; color: #c77dff; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; font-weight:600;}
         .prod-price { font-size: 1.8rem; color: #e0aaff; font-weight: 800; margin-top: auto; margin-bottom: 1.2rem; }
+        .prod-ref { font-size:0.8rem; color:#a7a2b9; margin-bottom:0.55rem; display:flex; align-items:center; justify-content:space-between; gap:0.6rem; }
+        .variant-summary { min-height: 22px; color:#d8c5ff; font-size:0.82rem; font-weight:700; margin: -0.2rem 0 0.65rem; display:flex; align-items:center; gap:0.45rem; }
+        .variant-dot { width:14px; height:14px; border-radius:50%; border:1px solid rgba(255,255,255,0.5); background:var(--variant-dot,#c77dff); box-shadow:0 0 0 2px rgba(0,0,0,0.25); flex-shrink:0; }
+        .variant-stock { color:#a7a2b9; font-size:0.74rem; margin-left:auto; font-weight:600; }
         .btn-add { background: linear-gradient(135deg, #9d4edd, #7b2cbf); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 1.05rem; }
         .btn-add:hover { box-shadow: 0 8px 20px rgba(157, 78, 221, 0.4); transform: scale(1.03); }
         
@@ -56,9 +62,9 @@
 
         /* Cart Items */
         .cart-body { padding: 1.5rem 2rem; }
-        .cart-item-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid rgba(199,125,255,0.12); }
+        .cart-item-row { display: grid; grid-template-columns: 52px 1fr auto auto; align-items: center; gap: 0.9rem; padding: 1rem 0; border-bottom: 1px solid rgba(199,125,255,0.12); }
         .cart-item-name { font-weight: 700; color: #fff; font-size: 1rem; }
-        .cart-item-sub { font-size: 0.82rem; color: #a7a2b9; margin-top: 0.2rem; }
+        .cart-item-sub { font-size: 0.82rem; color: #a7a2b9; margin-top: 0.2rem; line-height: 1.35; }
         .qty-control { display: flex; align-items: center; gap: 0.5rem; }
         .qty-btn { background: rgba(199,125,255,0.12); border: 1px solid rgba(199,125,255,0.25); color: #c77dff; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .qty-btn:hover { background: rgba(199,125,255,0.25); }
@@ -96,7 +102,8 @@
         .search-input { width: 100%; padding: 1.1rem 1.5rem 1.1rem 3.5rem; border-radius: 50px; background: rgba(0,0,0,0.5); border: 1px solid rgba(199,125,255,0.3); color: white; font-family: 'Outfit'; font-size: 1.05rem; outline: none; transition: border-color 0.3s, box-shadow 0.3s; backdrop-filter: blur(10px); }
         .search-input:focus { border-color: #c77dff; box-shadow: 0 0 0 3px rgba(199,125,255,0.15); }
         .search-input::placeholder { color: #64748b; }
-        .search-icon { position: absolute; left: 1.4rem; top: 50%; transform: translateY(-50%); color: #c77dff; font-size: 1.4rem; pointer-events: none; z-index: 2; text-shadow: 0 0 10px rgba(199,125,255,0.5); }
+        .search-icon { position: absolute; left: 1.4rem; top: 50%; transform: translateY(-50%); color: #c77dff; width: 22px; height: 22px; pointer-events: none; z-index: 2; filter: drop-shadow(0 0 8px rgba(199,125,255,0.55)); }
+        .search-icon svg { display: block; width: 100%; height: 100%; }
         .search-count { font-size: 0.85rem; color: #a7a2b9; padding-left: 1rem; margin-bottom: 1rem; min-height: 1.2rem; }
 
         /* Category Filters Collapsible */
@@ -116,14 +123,22 @@
         .btn-load-more:hover { background: rgba(199,125,255,0.15); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(123,44,191,0.3); }
 
         /* Color chips */
-        .color-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
+        .color-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.9rem; align-items: center; }
         .chip { padding: 0.3rem 0.8rem; border-radius: 50px; border: 1px solid rgba(199,125,255,0.3); font-size: 0.75rem; font-weight: 700; cursor: pointer; background: rgba(0,0,0,0.4); color: #a7a2b9; transition: all 0.2s; white-space: nowrap; }
         .chip.selected { background: linear-gradient(135deg,#9d4edd,#7b2cbf); color: #fff; border-color: transparent; box-shadow: 0 3px 10px rgba(123,44,191,0.4); }
+        .chip.color-chip { display:inline-flex; align-items:center; gap:0.45rem; padding-left:0.45rem; }
+        .chip-swatch { width:18px; height:18px; border-radius:50%; border:1px solid rgba(255,255,255,0.55); box-shadow:0 0 0 2px rgba(0,0,0,0.3); flex-shrink:0; background: var(--chip-color, #c77dff); }
+        .chip.color-only { width: 36px; height: 36px; padding: 0; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.06); }
+        .chip.color-only .chip-swatch { width: 25px; height: 25px; }
+        .chip.color-only.selected { background: rgba(199,125,255,0.16); box-shadow: 0 0 0 2px rgba(199,125,255,0.55), 0 8px 18px rgba(123,44,191,0.35); transform: translateY(-1px); }
 
         /* Cart item thumbnail */
         .cart-item-img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(199,125,255,0.2); flex-shrink: 0; cursor: zoom-in; transition: transform 0.2s; }
         .cart-item-img:hover { transform: scale(1.1); border-color: #c77dff; }
         .cart-item-row { display: grid; grid-template-columns: 52px 1fr auto auto; align-items: center; gap: 0.8rem; padding: 1rem 0; border-bottom: 1px solid rgba(199,125,255,0.12); }
+        .cart-variant-line { display:flex; flex-wrap:wrap; gap:0.35rem; align-items:center; margin-top:0.42rem; }
+        .cart-pill { display:inline-flex; align-items:center; gap:0.32rem; padding:0.18rem 0.48rem; border-radius:999px; border:1px solid rgba(199,125,255,0.22); background:rgba(199,125,255,0.08); color:#d8c5ff; font-size:0.72rem; font-weight:700; }
+        .cart-swatch { width:12px; height:12px; border-radius:50%; border:1px solid rgba(255,255,255,0.5); background:var(--cart-swatch,#c77dff); }
 
         /* Zoom / Lightbox */
         .prod-img { cursor: zoom-in; }
@@ -174,7 +189,7 @@
         @keyframes pulseBorder { 0% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(199, 125, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(199, 125, 255, 0); } }
         .btn-subtle-back:hover { transform: translateY(-3px); background: linear-gradient(135deg, rgba(123, 44, 191, 0.4), rgba(60, 9, 108, 0.6)); border-color: #c77dff; box-shadow: 0 8px 25px rgba(123, 44, 191, 0.5); }
         
-        /* Ocultar botones flotantes cuando el modal está abierto */
+        /* Ocultar botones flotantes cuando el modal estÃ¡ abierto */
         body.modal-open .cart-float, 
         body.modal-open #btn-top { 
             opacity: 0 !important; 
@@ -219,10 +234,10 @@
             .modal-header h2 { font-size: 1.4rem; }
             .modal-steps { margin: 0.5rem 1.5rem 0; }
             .cart-body { padding: 1rem 1.5rem; }
-            .cart-item-row { grid-template-columns: 50px 1fr auto; gap: 0.8rem; padding: 0.8rem 0; }
+            .cart-item-row { grid-template-columns: 46px 1fr auto; gap: 0.65rem; padding: 0.8rem 0; align-items: start; }
             .cart-item-name { font-size: 0.9rem; }
             .cart-item-sub { font-size: 0.75rem; }
-            .item-subtotal { grid-column: 2 / 4; text-align: left; font-size: 0.9rem; margin-top: 0.2rem; }
+            .item-subtotal { grid-column: 2 / 4; text-align: left; font-size: 0.95rem; margin-top: 0.1rem; }
             .qty-control { gap: 0.3rem; }
             .qty-btn { width: 26px; height: 26px; font-size: 1rem; }
             
@@ -242,10 +257,11 @@
             .prod-price { font-size: 1.1rem; margin-bottom: 0.8rem; }
             .btn-add { padding: 0.7rem; font-size: 0.75rem; border-radius: 10px; }
             .chip { font-size: 0.6rem; padding: 0.2rem 0.5rem; }
-            .stock-badge { font-size: 0.6rem; padding: 4px 8px; top: 8px; right: 8px; }
+            .status-badges { top: 8px; right: 8px; gap: 0.32rem; }
+            .stock-badge, .new-badge { font-size: 0.6rem; padding: 4px 8px; }
             
             .search-input { font-size: 16px; padding: 0.9rem 1rem 0.9rem 2.8rem; }
-            .search-icon { left: 1.1rem; font-size: 1.1rem; }
+            .search-icon { left: 1.1rem; width: 20px; height: 20px; }
             .category-header { padding: 0.7rem 1.2rem; }
             .category-header h4 { font-size: 0.85rem; }
             .btn-cat { font-size: 0.8rem; padding: 0.5rem 0.9rem; }
@@ -263,7 +279,7 @@
             <div class="loading-bar-container">
                 <div id="loading-bar" class="loading-bar"></div>
             </div>
-            <p class="loading-text">Cargando Colección...</p>
+            <p class="loading-text">Cargando colección...</p>
         </div>
     </div>
 
@@ -290,13 +306,18 @@
 
         <!-- Buscador Inteligente -->
         <div class="search-wrapper" id="search-wrapper" style="display:none;">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m20 20-3.5-3.5"></path>
+                </svg>
+            </span>
             <input type="text" id="search-input" class="search-input" placeholder="Buscar producto por nombre, categoría o referencia...">
         </div>
         <div class="search-count" id="search-count"></div>
 
         <div class="category-header" id="btn-toggle-cats">
-            <h4>Filtrar por Categoría (Desplegar)</h4>
+            <h4>Filtrar por categoría</h4>
             <span id="cat-arrow" style="transition: transform 0.3s;">▼</span>
         </div>
         <div class="category-filters" id="category-filters">
@@ -304,21 +325,21 @@
         </div>
 
         <div id="grid-productos" class="grid-productos">
-            <!-- Productos cargados dinámicamente -->
+            <!-- Productos cargados dinÃ¡micamente -->
         </div>
         <button class="btn-load-more" id="btn-load-more" style="display:none;">Ver más productos ↓</button>
     </div>
 
-    <!-- Botón Volver Arriba -->
+    <!-- BotÃ³n Volver Arriba -->
     <button id="btn-top" class="btn-top" title="Volver arriba">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
             <path d="m18 15-6-6-6 6"/>
         </svg>
     </button>
 
-    <!-- Botón Carrito Flotante -->
+    <!-- BotÃ³n Carrito Flotante -->
     <div class="cart-float" id="btn-cart" data-empty="true" title="Añade productos para ver tu pedido">
-        🛒 Tu Pedido <span class="cart-badge" id="cart-count">0</span>
+        Tu pedido <span class="cart-badge" id="cart-count">0</span>
     </div>
 
     <!-- Modal del Pedido: 2 Pasos -->
@@ -335,8 +356,8 @@
 
             <!-- Indicador de pasos -->
             <div class="modal-steps">
-                <div class="step-pill active" id="step1-pill">🛏 Resumen</div>
-                <div class="step-pill" id="step2-pill">📱 Confirmar</div>
+                <div class="step-pill active" id="step1-pill">Resumen</div>
+                <div class="step-pill" id="step2-pill">Confirmar</div>
             </div>
 
             <!-- PASO 1: Resumen del carrito -->
@@ -345,11 +366,11 @@
                 <div class="total-banner">
                     <div>
                         <div class="total-label">Total estimado</div>
-                        <div style="font-size:0.78rem; color:#a7a2b9; margin-top:0.2rem;">Precio sin incluir envío</div>
+                        <div style="font-size:0.78rem; color:#a7a2b9; margin-top:0.2rem;">Precio sin incluir envio</div>
                     </div>
                     <div class="total-amount" id="cart-total-price">$0</div>
                 </div>
-                <button class="btn-confirm" id="btn-go-step2" disabled>Continuar con el Pedido →</button>
+                <button class="btn-confirm" id="btn-go-step2" disabled>Continuar con el pedido →</button>
                 <p class="info-note" style="margin-top:1rem;">Añade al menos un producto para continuar</p>
             </div>
 
@@ -358,22 +379,22 @@
                 <button class="btn-back-step" id="btn-back">← Volver al resumen</button>
                 <form id="order-form">
                     <div class="field-group">
-                        <label class="field-label" for="order-name">👤 Nombre Completo o Empresa</label>
+                        <label class="field-label" for="order-name">Nombre completo o empresa</label>
                         <input type="text" id="order-name" class="field-input" placeholder="¿Cómo te llamamos?" required autocomplete="name">
                     </div>
                     <div class="field-group">
-                        <label class="field-label" for="order-phone">📱 WhatsApp / Celular</label>
+                        <label class="field-label" for="order-phone">WhatsApp / Celular</label>
                         <input type="tel" id="order-phone" class="field-input" placeholder="Tu número de contacto" required autocomplete="tel">
                     </div>
                     <div class="field-group">
-                        <label class="field-label" for="order-note">📝 Nota adicional (opcional)</label>
+                        <label class="field-label" for="order-note">Nota adicional (opcional)</label>
                         <input type="text" id="order-note" class="field-input" placeholder="Dirección, color preferido, etc.">
                     </div>
                     <button type="submit" class="btn-confirm" id="btn-send-order">
-                        📨 Enviar Pedido por WhatsApp
+                        Enviar pedido por WhatsApp
                     </button>
                 </form>
-                <p class="info-note">🔒 Tus datos son solo para coordinar la entrega. No realizamos cobros en esta plataforma.</p>
+                <p class="info-note">Tus datos son solo para coordinar la entrega. No realizamos cobros en esta plataforma.</p>
             </div>
         </div>
     </div>
@@ -390,16 +411,16 @@
         let allProducts = [];
         let categorias = {};
         let cart = [];
-        let currentList = [];   // Lista activa (filtrada o por categoría)
+        let currentList = [];   // Lista activa (filtrada o por categorÃ­a)
         let currentPage = 0;
-        const PAGE_SIZE = 24;   // Productos por lote — sin freezes
+        const PAGE_SIZE = 24;   // Productos por lote â€” sin freezes
 
-        // ── Normaliza texto para búsqueda (quita tildes, minúsculas)
+        // â”€â”€ Normaliza texto para bÃºsqueda (quita tildes, minÃºsculas)
         function norm(str) {
             return (str || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
         }
 
-        // ── Extrae la categoría de un producto de forma segura (soporta tildes)
+        // â”€â”€ Extrae la categorÃ­a de un producto de forma segura (soporta tildes)
         function getCat(p) {
             const key = Object.keys(p).find(k => norm(k).includes('categor'));
             return key && p[key] ? p[key].toString().trim() : 'General';
@@ -436,7 +457,7 @@
                         processCategories();
                     }
                     
-                    // Si no había cache, aseguramos que se vea la barra llegando al final
+                    // Si no habÃ­a cache, aseguramos que se vea la barra llegando al final
                     if (!cached) {
                         updateBar(80);
                         setTimeout(() => {
@@ -451,13 +472,126 @@
             } catch(e) {
                 console.error("Error cargando productos:", e);
                 if (!cached) {
-                    document.getElementById('grid-productos').innerHTML = "<p style='text-align:center;color:#ff6b6b;font-size:1.2rem;'>Sin conexión. Intenta recargar.</p>";
+                    document.getElementById('grid-productos').innerHTML = "<p style='text-align:center;color:#ff6b6b;font-size:1.2rem;'>Sin conexiÃ³n. Intenta recargar.</p>";
                     document.getElementById('loading-screen').classList.add('hidden');
                 }
             }
         }
 
         function formatMoney(amount) { return '$' + Number(amount).toLocaleString('es-CO'); }
+
+        function colorToCss(value) {
+            const raw = (value || '').toString().trim();
+            const key = norm(raw).replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+            const colors = {
+                negro: '#111111',
+                blanco: '#ffffff',
+                rojo: '#e53935',
+                azul: '#1e88e5',
+                verde: '#43a047',
+                amarillo: '#fdd835',
+                morado: '#8e24aa',
+                purpura: '#8e24aa',
+                violeta: '#7e57c2',
+                rosado: '#ec407a',
+                rosa: '#ec407a',
+                fucsia: '#d81b60',
+                naranja: '#fb8c00',
+                cafe: '#795548',
+                marron: '#795548',
+                gris: '#757575',
+                plateado: '#b0bec5',
+                dorado: '#d4af37',
+                beige: '#d8c3a5',
+                crema: '#fff3d6',
+                vinotinto: '#7b1e3a',
+                transparente: 'rgba(255,255,255,0.25)'
+            };
+            return colors[key] || (CSS.supports && CSS.supports('color', raw) ? raw : '');
+        }
+
+        function getVariantSwatchColor(v, label) {
+            const saved = (v.Color_Hex || v.Color_Codigo || v.colorHex || '').toString().trim();
+            if (/^#[0-9A-Fa-f]{6}$/.test(saved)) return saved;
+            return colorToCss(label);
+        }
+
+        function getVariantStock(v) {
+            return Number(v.Cantidad || v.Stock_Inicial || v.Stock || v.stock || 0);
+        }
+
+        function getProductDate(p) {
+            const key = Object.keys(p).find(k => {
+                const nk = norm(k);
+                return nk.includes('fecha') || nk.includes('created') || nk.includes('timestamp');
+            });
+            if (!key || !p[key]) return null;
+            const raw = p[key].toString().trim();
+            const direct = new Date(raw);
+            if (!Number.isNaN(direct.getTime())) return direct;
+            const parts = raw.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})/);
+            if (!parts) return null;
+            const year = parts[3].length === 2 ? Number('20' + parts[3]) : Number(parts[3]);
+            const parsed = new Date(year, Number(parts[2]) - 1, Number(parts[1]));
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function isNewProduct(p) {
+            const stateKey = Object.keys(p).find(k => {
+                const nk = norm(k);
+                return nk.includes('estado') || nk.includes('status');
+            });
+            if (stateKey && norm(p[stateKey]).includes('nuevo')) return true;
+            const created = getProductDate(p);
+            if (!created) return false;
+            const ageDays = (Date.now() - created.getTime()) / 86400000;
+            return ageDays >= 0 && ageDays <= 14;
+        }
+
+        function variantRef(v) {
+            return (v.ID_Generado || v.ID_Producto || '').toString().trim();
+        }
+
+        function productRef(v) {
+            const productId = (v.ID_Producto || '').toString().trim();
+            if (productId) return productId;
+            const generated = (v.ID_Generado || '').toString().trim();
+            const parsed = generated.match(/^(\d+)(?:-\d+)?$/);
+            return parsed ? parsed[1] : generated;
+        }
+
+        function normalizeImageValue(value, parseImg) {
+            return parseImg(value || '').toString().trim().toLowerCase();
+        }
+
+        function hasDistinctVariantImage(v, rep, parseImg) {
+            if (!v || !v.Imagen || !v.Imagen.toString().trim()) return false;
+            if (!rep || !rep.Imagen || !rep.Imagen.toString().trim()) return true;
+            return normalizeImageValue(v.Imagen, parseImg) !== normalizeImageValue(rep.Imagen, parseImg);
+        }
+
+        function buildVariantChip(v, i, rep, parseImg) {
+            const colorLabel = v.Color_o_Estilo || ('Color ' + (i + 1));
+            const isImageVariant = i > 0 && hasDistinctVariantImage(v, rep, parseImg);
+            const label = isImageVariant ? colorLabel : colorLabel;
+            const cssColor = getVariantSwatchColor(v, label);
+            const vImg = parseImg(v.Imagen || rep.Imagen);
+            const inner = cssColor && !isImageVariant
+                ? `<span class="chip-swatch" style="--chip-color:${cssColor}" title="${colorLabel}"></span>`
+                : cssColor
+                ? `<span class="chip-swatch" style="--chip-color:${cssColor}"></span><span>${label}</span>`
+                : label;
+            return `<span class="chip${i === 0 ? ' selected' : ''}${cssColor ? ' color-chip' : ''}${cssColor && !isImageVariant ? ' color-only' : ''}" 
+                data-variant-id="${v.ID_Generado}" 
+                data-variant-img="${vImg}"
+                data-variant-price="${v.precioFinal}"
+                data-variant-color="${colorLabel}"
+                data-variant-hex="${cssColor || ''}"
+                data-variant-stock="${getVariantStock(v)}"
+                data-variant-ref="${variantRef(v)}"
+                title="${colorLabel}"
+                data-card-id="card-${rep.ID_Generado}">${inner}</span>`;
+        }
 
         function processCategories() {
             // Agrupar por ID_Producto para unificar variantes de color
@@ -469,7 +603,7 @@
                 if (pFinal === 0) return;
                 p.precioFinal = pFinal;
                 p._cat = getCat(p);
-                const pid = (p.ID_Producto || p.ID_Generado || '').toString().trim();
+                const pid = productRef(p);
                 if (!byProductId[pid]) byProductId[pid] = [];
                 byProductId[pid].push(p);
             });
@@ -486,7 +620,7 @@
             renderCategoryFilters();
             setupSearch();
             
-            // Toggle Categorías
+            // Toggle CategorÃ­as
             document.getElementById('btn-toggle-cats').onclick = function() {
                 const f = document.getElementById('category-filters');
                 const a = document.getElementById('cat-arrow');
@@ -504,7 +638,7 @@
         function renderCategoryFilters() {
             const c = document.getElementById('category-filters');
             c.innerHTML = '';
-            // Ordena: Todos primero, luego el resto alfabéticamente
+            // Ordena: Todos primero, luego el resto alfabÃ©ticamente
             const cats = Object.keys(categorias).sort((a, b) => a === 'Todos' ? -1 : b === 'Todos' ? 1 : a.localeCompare(b, 'es'));
             cats.forEach(cat => {
                 const btn = document.createElement('button');
@@ -518,7 +652,7 @@
                     document.getElementById('search-input').value = '';
                     showCategory(cat);
                     
-                    // Cerrar el desplegable automáticamente al seleccionar
+                    // Cerrar el desplegable automÃ¡ticamente al seleccionar
                     const filters = document.getElementById('category-filters');
                     if (filters.classList.contains('open')) {
                         filters.classList.remove('open');
@@ -529,7 +663,7 @@
             });
         }
 
-        // ── Buscador con debounce para no frenar mientras escribes
+        // â”€â”€ Buscador con debounce para no frenar mientras escribes
         function setupSearch() {
             let timer;
             document.getElementById('search-input').addEventListener('input', function() {
@@ -537,7 +671,7 @@
                 timer = setTimeout(() => {
                     const q = norm(this.value);
                     if (!q) {
-                        // Volver a categoría activa
+                        // Volver a categorÃ­a activa
                         const active = document.querySelector('.btn-cat.active');
                         showCategory(active ? active.dataset.cat : 'Todos');
                         return;
@@ -553,7 +687,7 @@
                             norm(v.ID_Generado).includes(q)
                         );
                     });
-                    // Quitar selección de categoría
+                    // Quitar selecciÃ³n de categorÃ­a
                     document.querySelectorAll('.btn-cat').forEach(b => b.classList.remove('active'));
                     showList(results, `"${this.value}"`);
                 }, 280);
@@ -565,7 +699,7 @@
             showList(categorias[catName] || [], catName);
         }
 
-        // ── Render por lotes: muestra PAGE_SIZE a la vez, sin frenar
+        // â”€â”€ Render por lotes: muestra PAGE_SIZE a la vez, sin frenar
         function showList(list, label) {
             currentList = list;
             currentPage = 0;
@@ -588,7 +722,7 @@
             const html = slice.map(variantes => {
                 const rep = variantes[0]; // representante: primera variante
                 
-                // Función auxiliar para parsear imagen inteligente
+                // FunciÃ³n auxiliar para parsear imagen inteligente
                 const parseImg = (val) => {
                     if (!val) return fallback;
                     const str = val.toString().trim();
@@ -609,45 +743,56 @@
                 const tieneVariantes = variantes.length > 1;
 
                 // Chips de color
-                const chips = variantes.map((v, i) => {
-                    const vImg = parseImg(v.Imagen);
-                    return `<span class="chip${i === 0 ? ' selected' : ''}" 
-                        data-variant-id="${v.ID_Generado}" 
-                        data-variant-img="${vImg}"
-                        data-variant-price="${v.precioFinal}"
-                        data-variant-color="${v.Color_o_Estilo || ('Modelo ' + (i + 1))}"
-                        data-card-id="card-${rep.ID_Generado}">${v.Color_o_Estilo || ('Modelo ' + (i + 1))}</span>`;
-                }).join('');
+                const chips = variantes.map((v, i) => buildVariantChip(v, i, rep, parseImg)).join('');
+                const singleColor = getVariantSwatchColor(rep, rep.Color_o_Estilo || '');
+                const singleVariant = rep.Color_o_Estilo
+                    ? (singleColor
+                        ? `<div class="color-chips"><span class="chip color-chip color-only selected" title="${rep.Color_o_Estilo}"><span class="chip-swatch" style="--chip-color:${singleColor}"></span></span></div>`
+                        : `<div style="font-size:0.8rem;color:#c77dff;margin-bottom:0.5rem;">${rep.Color_o_Estilo}</div>`)
+                    : '';
 
                 // Stock Logic
-                const cantidad = Number(rep.Cantidad) || 0;
+                const cantidad = getVariantStock(rep);
                 let stockBadge = '';
                 let btnHtml = '';
+                const newBadge = isNewProduct(rep) ? '<div class="new-badge badge-nuevo">Nuevo</div>' : '';
                 
                 if (cantidad <= 0) {
-                    stockBadge = '<div class="stock-badge badge-agotado">Agotado</div>';
-                    btnHtml = `<button class="btn-add" disabled style="background: rgba(255,255,255,0.1); color: #888; cursor: not-allowed; box-shadow: none;">❌ Agotado</button>`;
+                    stockBadge = `<div class="stock-badge badge-agotado" id="stock-${rep.ID_Generado}">Agotado</div>`;
+                    btnHtml = `<button class="btn-add" disabled style="background: rgba(255,255,255,0.1); color: #888; cursor: not-allowed; box-shadow: none;" id="btnAdd-${rep.ID_Generado}">Agotado</button>`;
                 } else {
                     if (cantidad <= 5) {
-                        stockBadge = '<div class="stock-badge badge-ultimas">¡Últimas '+cantidad+' unidades!</div>';
+                        stockBadge = `<div class="stock-badge badge-ultimas" id="stock-${rep.ID_Generado}">Pocas: ${cantidad}</div>`;
+                    } else {
+                        stockBadge = `<div class="stock-badge" id="stock-${rep.ID_Generado}" style="display:none;"></div>`;
                     }
                     btnHtml = `<button class="btn-add" 
                         data-id="${rep.ID_Generado}" 
                         data-price="${rep.precioFinal}"
-                        id="btnAdd-${rep.ID_Generado}">🛒 Añadir al Pedido</button>`;
+                        id="btnAdd-${rep.ID_Generado}">Añadir al Pedido</button>`;
                 }
+                const statusBadges = stockBadge || newBadge
+                    ? `<div class="status-badges" id="badges-${rep.ID_Generado}">${newBadge}${stockBadge}</div>`
+                    : '';
+
+                const repColor = rep.Color_o_Estilo || '';
+                const repHex = getVariantSwatchColor(rep, repColor);
+                const variantSummary = repColor ? `
+                    <div class="variant-summary" id="variant-${rep.ID_Generado}">
+                        ${repHex ? `<span class="variant-dot" style="--variant-dot:${repHex}"></span>` : ''}
+                        <span>${repColor}</span>
+                    </div>` : '';
 
                 return `
                 <div class="prod-card" id="card-${rep.ID_Generado}">
-                    ${stockBadge}
+                    ${statusBadges}
                     <img src="${imgSrc}" class="prod-img" loading="lazy" 
                         id="img-${rep.ID_Generado}"
                         onerror="this.onerror=null;this.src='${fallback}';">
                     <div class="prod-info">
-                        <div class="prod-cat">${rep._cat}</div>
                         <div class="prod-title">${rep.Nombre_del_Producto || 'Sin nombre'}</div>
-                        <div style="font-size:0.8rem;color:#a7a2b9;margin-bottom:0.5rem;">Ref: ${rep.ID_Producto || rep.ID_Generado}</div>
-                        ${tieneVariantes ? `<div class="color-chips" data-card="card-${rep.ID_Generado}">${chips}</div>` : `<div style="font-size:0.8rem;color:#c77dff;margin-bottom:0.5rem;">${rep.Color_o_Estilo || ''}</div>`}
+                        ${tieneVariantes ? `<div class="color-chips" data-card="card-${rep.ID_Generado}">${chips}</div>` : singleVariant}
+                        ${variantSummary}
                         <div class="prod-price" id="price-${rep.ID_Generado}">${formatMoney(rep.precioFinal)}</div>
                         ${btnHtml}
                     </div>
@@ -667,7 +812,7 @@
             }
         }
 
-        // Chips de color — cambiar imagen y precio al seleccionar variante
+        // Chips de color â€” cambiar imagen y precio al seleccionar variante
         document.getElementById('grid-productos').addEventListener('click', function(e) {
             const chip = e.target.closest('.chip');
             if (chip) {
@@ -679,19 +824,44 @@
                 const card = document.getElementById(cardId);
                 const imgEl = card.querySelector('.prod-img');
                 if (imgEl) imgEl.src = chip.dataset.variantImg;
-                // Actualizar precio y data del botón
+                // Actualizar precio y data del botÃ³n
                 const repId = cardId.replace('card-', '');
                 const priceEl = document.getElementById('price-' + repId);
                 if (priceEl) priceEl.textContent = formatMoney(chip.dataset.variantPrice);
+                const variantEl = document.getElementById('variant-' + repId);
+                const stock = Number(chip.dataset.variantStock || 0);
+                if (variantEl) {
+                    const dot = chip.dataset.variantHex ? `<span class="variant-dot" style="--variant-dot:${chip.dataset.variantHex}"></span>` : '';
+                    variantEl.innerHTML = `${dot}<span>${chip.dataset.variantColor || ''}</span>`;
+                }
+                const skuEl = document.getElementById('sku-' + repId);
+                if (skuEl) skuEl.textContent = chip.dataset.variantRef || chip.dataset.variantId;
+                const stockBadge = document.getElementById('stock-' + repId);
+                if (stockBadge) {
+                    stockBadge.className = 'stock-badge';
+                    stockBadge.style.display = stock <= 5 ? '' : 'none';
+                    if (stock <= 0) {
+                        stockBadge.classList.add('badge-agotado');
+                        stockBadge.textContent = 'Agotado';
+                    } else if (stock <= 5) {
+                        stockBadge.classList.add('badge-ultimas');
+                        stockBadge.textContent = `Pocas: ${stock}`;
+                    }
+                }
                 const addBtn = document.getElementById('btnAdd-' + repId);
                 if (addBtn) {
                     addBtn.dataset.id = chip.dataset.variantId;
                     addBtn.dataset.price = chip.dataset.variantPrice;
+                    addBtn.disabled = stock <= 0;
+                    addBtn.textContent = stock <= 0 ? 'Agotado' : 'Añadir al Pedido';
+                    addBtn.style.background = stock <= 0 ? 'rgba(255,255,255,0.1)' : '';
+                    addBtn.style.color = stock <= 0 ? '#888' : '';
+                    addBtn.style.cursor = stock <= 0 ? 'not-allowed' : '';
                 }
                 return;
             }
 
-            // Botón añadir al carrito
+            // BotÃ³n aÃ±adir al carrito
             const btn = e.target.closest('.btn-add');
             if (!btn) return;
             addToCart(btn.dataset.id, parseFloat(btn.dataset.price), btn);
@@ -702,24 +872,27 @@
         function addToCart(idGenerado, precioFinal, btnEl) {
             const prod = allProducts.find(p => String(p.ID_Generado) === String(idGenerado));
             if (!prod) { console.warn('Producto no encontrado:', idGenerado); return; }
+            const available = getVariantStock(prod);
             
             const exists = cart.find(i => String(i.item.ID_Generado) === String(idGenerado));
             if (exists) {
+                if (available > 0 && exists.qty >= available) return;
                 exists.qty += 1;
             } else {
+                if (available <= 0) return;
                 cart.push({ item: prod, qty: 1, price: precioFinal });
             }
             updateCartUI();
             
-            // Feedback visual en el botón
+            // Feedback visual en el botÃ³n
             if (btnEl) {
                 const orig = btnEl.innerHTML;
-                btnEl.innerHTML = '✅ Añadido';
+                btnEl.innerHTML = 'Añadido';
                 btnEl.style.background = 'linear-gradient(135deg, #25D366, #128C7E)';
                 setTimeout(() => { btnEl.innerHTML = orig; btnEl.style.background = ''; }, 1200);
             }
             
-            // Animación del carrito flotante
+            // AnimaciÃ³n del carrito flotante
             const btnCart = document.getElementById('btn-cart');
             btnCart.style.transform = 'scale(1.15) translateY(-10px)';
             btnCart.style.background = '#25D366';
@@ -729,7 +902,7 @@
             }, 300);
         }
 
-        // ── Actualizar el UI del carrito (paso 1)
+        // â”€â”€ Actualizar el UI del carrito (paso 1)
         function updateCartUI() {
             const total = cart.reduce((acc, c) => acc + c.qty * Number(c.price), 0);
             const totalItems = cart.reduce((acc, c) => acc + c.qty, 0);
@@ -743,13 +916,16 @@
             if (cart.length === 0) {
                 container.innerHTML = `
                     <div style="text-align:center; padding: 3rem 0;">
-                        <div style="font-size:3rem; margin-bottom:1rem;">🛒</div>
+                        <div style="font-size:3rem; margin-bottom:1rem;">Pedido</div>
                         <p style="color:#a7a2b9; font-size:1rem;">Tu carrito está vacío.<br>Agrega productos del catálogo.</p>
                     </div>`;
             } else {
                 const fallbackImg = 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=80&q=60';
                 container.innerHTML = cart.map((c, idx) => {
                     const sub = c.qty * Number(c.price);
+                    const colorLabel = c.item.Color_o_Estilo || 'Sin color';
+                    const colorHex = getVariantSwatchColor(c.item, colorLabel);
+                    const refBase = productRef(c.item);
                     
                     let img = fallbackImg;
                     if (c.item.Imagen) {
@@ -772,11 +948,14 @@
                         <img src="${img}" class="cart-item-img" onerror="this.onerror=null;this.src='${fallbackImg}';">
                         <div style="flex-grow: 1; min-width: 0;">
                             <div class="cart-item-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${c.item.Nombre_del_Producto || 'Producto'}</div>
-                            <div class="cart-item-sub">${c.item._cat} · ${c.item.Color_o_Estilo || ''} · ${formatMoney(c.price)} c/u</div>
+                            <div class="cart-item-sub">ID: ${refBase || 'Sin ID'}<br>Valor: ${formatMoney(c.price)} c/u</div>
+                            <div class="cart-variant-line">
+                                <span class="cart-pill">${colorHex ? `<span class="cart-swatch" style="--cart-swatch:${colorHex}"></span>` : ''}${colorLabel}</span>
+                            </div>
                         </div>
                         <div class="qty-control" style="display: flex; align-items: center;">
                             <div style="display: flex; align-items: center; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 2px;">
-                                <button class="qty-btn" data-action="dec" data-idx="${idx}">−</button>
+                                <button class="qty-btn" data-action="dec" data-idx="${idx}">-</button>
                                 <span class="qty-num">${c.qty}</span>
                                 <button class="qty-btn" data-action="inc" data-idx="${idx}">+</button>
                             </div>
@@ -810,7 +989,10 @@
             const qb = e.target.closest('[data-action]');
             if (qb) {
                 const idx = parseInt(qb.dataset.idx);
-                if (qb.dataset.action === 'inc') { cart[idx].qty++; }
+                if (qb.dataset.action === 'inc') {
+                    const available = getVariantStock(cart[idx].item);
+                    if (!available || cart[idx].qty < available) cart[idx].qty++;
+                }
                 else { cart[idx].qty--; if (cart[idx].qty <= 0) cart.splice(idx, 1); }
                 updateCartUI();
             }
@@ -839,7 +1021,7 @@
             document.body.classList.remove('modal-open');
         }
 
-        // LIGHTBOX — zoom de imagen
+        // LIGHTBOX â€” zoom de imagen
         document.getElementById('grid-productos').addEventListener('click', function(e) {
             const img = e.target.closest('.prod-img');
             if (img && !e.target.closest('.btn-add') && !e.target.closest('.chip')) {
@@ -849,7 +1031,7 @@
             }
         });
         
-        // ZOOM para imágenes en el carrito
+        // ZOOM para imÃ¡genes en el carrito
         document.getElementById('cart-items').addEventListener('click', function(e) {
             const img = e.target.closest('.cart-item-img');
             if (img) {
@@ -868,7 +1050,7 @@
             document.body.style.overflow = '';
         }
 
-        // Paso 1 ↔ Paso 2
+        // Paso 1 â†” Paso 2
         const btnGo2 = document.getElementById('btn-go-step2');
         const btnBack = document.getElementById('btn-back');
         if (btnGo2) btnGo2.addEventListener('click', () => goToStep(2));
@@ -904,17 +1086,21 @@
 
             const btn = document.getElementById('btn-send-order');
             btn.disabled = true;
-            btn.textContent = '⏳ Registrando pedido...';
+            btn.textContent = 'Registrando pedido...';
 
             const idRegistro = 'REG-' + Math.floor(Math.random() * 900000 + 100000);
-            let wpMessage = `Hola Blyxu! 👋 Soy *${nombre}*%0A%0A📦 *Mi Pedido:*%0A`;
+            let wpMessage = `Hola Blyxu! Soy *${nombre}*%0A%0A*Mi pedido:*%0A`;
             let totalGeneral = 0;
 
             try {
                 const requests = cart.map(c => {
                     const subtotal = c.qty * Number(c.price || 0);
+                    const refBase = productRef(c.item);
+                    const sku = variantRef(c.item);
+                    const colorLabel = c.item.Color_o_Estilo || '';
+                    const colorHex = getVariantSwatchColor(c.item, colorLabel);
                     totalGeneral += subtotal;
-                    wpMessage += `▪️ ${c.qty}x ${c.item.Nombre_del_Producto} - ${c.item.Color_o_Estilo || ''} → ${formatMoney(subtotal)}%0A`;
+                    wpMessage += `• ${c.qty}x ${c.item.Nombre_del_Producto} | ${colorLabel || 'Sin color'} | ID ${refBase} | ${formatMoney(subtotal)}%0A`;
 
                     return fetch(APP_URL, {
                         method: 'POST',
@@ -926,8 +1112,16 @@
                             idPedido: 'WEB-' + Math.floor(Math.random() * 9000 + 1000),
                             nombreCliente: nombre,
                             celular,
-                            idProducto: c.item.ID_Producto || c.item.ID_Generado || '',
-                            color: c.item.Color_o_Estilo || '',
+                            idProducto: refBase,
+                            ID_Producto: refBase,
+                            idGenerado: sku,
+                            ID_Generado: sku,
+                            sku: sku,
+                            referencia: refBase,
+                            color: colorLabel,
+                            colorHex: colorHex,
+                            Color_Hex: colorHex,
+                            imagen: c.item.Imagen || '',
                             nombreProducto: c.item.Nombre_del_Producto || c.item.Nombre || '',
                             cantidad: c.qty,
                             precioUnitario: c.price,
@@ -940,11 +1134,11 @@
 
                 await Promise.all(requests);
 
-                wpMessage += `%0A%0A💰 *Total:* ${formatMoney(totalGeneral)}`;
-                wpMessage += `%0A📦 *Tipo:* ${tipoCliente.toUpperCase()}`;
-                wpMessage += `%0A📱 *Cel:* ${celular}`;
-                if (nota) wpMessage += `%0A📝 *Nota:* ${nota}`;
-                wpMessage += `%0A🎫 *ID:* ${idRegistro}`;
+                wpMessage += `%0A%0A*Total:* ${formatMoney(totalGeneral)}`;
+                wpMessage += `%0A*Tipo:* ${tipoCliente.toUpperCase()}`;
+                wpMessage += `%0A*Cel:* ${celular}`;
+                if (nota) wpMessage += `%0A*Nota:* ${nota}`;
+                wpMessage += `%0A*ID:* ${idRegistro}`;
 
                 cart = [];
                 updateCartUI();
@@ -953,21 +1147,21 @@
                 window.location.href = `https://wa.me/573112368622?text=${wpMessage}`;
 
             } catch(err) {
-                btn.textContent = '❌ Error de conexión. Intenta de nuevo.';
+                btn.textContent = 'Error de conexión. Intenta de nuevo.';
                 btn.style.background = 'rgba(255,107,107,0.25)';
                 setTimeout(() => {
-                    btn.textContent = '📨 Enviar Pedido por WhatsApp';
+                    btn.textContent = 'Enviar pedido por WhatsApp';
                     btn.style.background = '';
                     btn.disabled = false;
                 }, 3000);
                 return;
             }
 
-            btn.textContent = '📨 Enviar Pedido por WhatsApp';
+            btn.textContent = 'Enviar pedido por WhatsApp';
             btn.disabled = false;
         });
 
-        // Botón Volver Arriba Logic
+        // BotÃ³n Volver Arriba Logic
         const btnTop = document.getElementById('btn-top');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 500) {
@@ -985,3 +1179,4 @@
     <script src="cursor.js"></script>
 </body>
 </html>
+

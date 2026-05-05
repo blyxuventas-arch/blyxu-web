@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -7,8 +7,8 @@
     <title>Blyxu | Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="cursor.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --bg: #070510;
@@ -63,7 +63,7 @@
             letter-spacing: -0.2px;
         }
 
-        /* ── BG ANIMADO ── */
+        /* â”€â”€ BG ANIMADO â”€â”€ */
         .bg {
             position: fixed;
             inset: 0;
@@ -121,7 +121,7 @@
             }
         }
 
-        /* ── LOGIN ── */
+        /* â”€â”€ LOGIN â”€â”€ */
         #login-wrap {
             position: relative;
             z-index: 10;
@@ -199,12 +199,20 @@
             }
         }
 
-        .shield-wrap {
-            font-size: 4.5rem;
+        .login-logo-wrap {
+            width: 230px;
+            max-width: 78%;
+            margin: 0 auto 2rem;
+            animation: floatIcon 4s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-logo {
+            width: 100%;
             display: block;
-            margin-bottom: 1.5rem;
-            animation: shieldPulse 3s ease infinite, floatIcon 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(199, 125, 255, 0.6));
+            object-fit: contain;
+            filter: drop-shadow(0 0 24px rgba(199, 125, 255, 0.42));
         }
 
         @keyframes shieldPulse {
@@ -260,10 +268,15 @@
             font-size: 1.2rem;
             outline: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 0.2rem;
+            letter-spacing: 0.04rem;
             margin-bottom: 1.8rem;
             text-align: center;
             box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .l-field::placeholder {
+            color: #6f6684;
+            letter-spacing: 0;
         }
 
         .l-field:focus {
@@ -349,7 +362,7 @@
             }
         }
 
-        /* ── DASHBOARD ── */
+        /* â”€â”€ DASHBOARD â”€â”€ */
         #dash {
             display: none;
             position: relative;
@@ -539,10 +552,29 @@
         .nav-opt {
             padding: 1.1rem 1.6rem; color: #a7a2b9; font-weight: 600; cursor: pointer;
             transition: all 0.2s; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid rgba(255,255,255,0.03);
+            width: 100%; background: transparent; border-top: 0; border-left: 0; border-right: 0; font-family: 'Outfit'; font-size: 0.95rem; text-align: left;
         }
         .nav-opt:last-child { border-bottom: none; }
         .nav-opt:hover { background: rgba(199, 125, 255, 0.12); color: #fff; }
         .nav-opt.active { background: linear-gradient(90deg, rgba(123, 44, 191, 0.2), transparent); color: var(--accent-light); border-left: 4px solid var(--accent-light); }
+        .tab-nav { display: none; }
+        .variant-list { display: flex; flex-direction: column; gap: 1rem; }
+        .variant-card { border: 1px solid rgba(199,125,255,0.22); border-radius: 16px; padding: 1rem; background: rgba(0,0,0,0.22); }
+        .variant-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.9rem; color: var(--accent-light); font-weight: 800; }
+        .btn-variant-add, .btn-variant-remove { border: 1px solid rgba(199,125,255,0.35); border-radius: 12px; background: rgba(199,125,255,0.12); color: #fff; padding: 0.8rem 1rem; cursor: pointer; font-family: 'Outfit'; font-weight: 700; }
+        .btn-variant-remove { color: #ff6b6b; background: rgba(255,107,107,0.12); border-color: rgba(255,107,107,0.35); padding: 0.5rem 0.75rem; }
+        select.fi { background: #1a1028; color: #e0aaff; border-color: rgba(199,125,255,0.35); }
+        select.fi option { background: #241238; color: #e0aaff; }
+        .variant-drop-zone { border: 2px dashed rgba(199,125,255,0.35); border-radius: 14px; padding: 1.1rem; text-align: center; cursor: pointer; background: rgba(0,0,0,0.25); position: relative; transition: all 0.25s; color: #a7a2b9; }
+        .variant-drop-zone.drag { border-color: #c77dff; background: rgba(199,125,255,0.1); color: #fff; }
+        .variant-drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .variant-preview { display: none; width: 100%; height: 120px; object-fit: contain; border-radius: 10px; margin-top: 0.75rem; background: rgba(0,0,0,0.25); }
+        .color-tool { display: grid; grid-template-columns: 46px 1fr auto; gap: 0.5rem; align-items: center; margin-top: 0.7rem; }
+        .color-tool input[type=color] { width: 46px; height: 46px; padding: 0; border: 1px solid rgba(199,125,255,0.35); border-radius: 12px; background: transparent; cursor: pointer; }
+        .btn-eyedropper { border: 1px solid rgba(199,125,255,0.35); border-radius: 12px; background: rgba(199,125,255,0.12); color: #fff; padding: 0.75rem 0.9rem; cursor: pointer; font-family: 'Outfit'; font-weight: 700; white-space: nowrap; }
+        .variant-mode { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+        .variant-mode-btn { border: 1px solid rgba(199,125,255,0.3); border-radius: 12px; background: rgba(0,0,0,0.25); color: #a7a2b9; padding: 0.8rem; cursor: pointer; font-family: 'Outfit'; font-weight: 800; }
+        .variant-mode-btn.active { background: linear-gradient(135deg,#7b2cbf,#9d4edd); color: #fff; border-color: transparent; }
         
         @keyframes slideDown { from { opacity: 0; transform: translateY(-15px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
@@ -700,6 +732,21 @@
         .btn-eliminar:hover {
             transform: scale(1.1);
             background: rgba(255, 107, 107, 0.2) !important;
+        }
+
+        #panel-productos,
+        #panel-productos .tbl-wrap,
+        #panel-productos table,
+        #panel-productos tbody,
+        #panel-productos tr,
+        #panel-productos td,
+        #panel-productos button {
+            pointer-events: auto;
+        }
+
+        #panel-productos button {
+            position: relative;
+            z-index: 5;
         }
 
         /* Form */
@@ -930,7 +977,7 @@
             border-left: 3px solid #25D366 !important;
         }
 
-        /* ── RESPONSIVIDAD MÓVIL ── */
+        /* Responsividad móvil */
         @media (max-width: 768px) {
             .dash-nav {
                 padding: 0.8rem 1rem !important;
@@ -950,6 +997,31 @@
 
             .dash-body {
                 padding: 1.2rem 1rem !important;
+            }
+
+            #panel-nuevo .fcard {
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            #panel-nuevo .fcard > div {
+                align-items: stretch !important;
+            }
+
+            #panel-nuevo iframe {
+                width: 100% !important;
+                min-height: 1450px !important;
+                border-radius: 14px !important;
+            }
+
+            #panel-nuevo .btn-save {
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+
+            .section-nav-container {
+                max-width: none !important;
             }
 
             .stats {
@@ -1013,7 +1085,7 @@
                 padding: 0.8rem 0.6rem !important;
             }
 
-            /* Ocultar columnas secundarias en móviles */
+            /* Ocultar columnas secundarias en mÃ³viles */
             .panel#panel-pedidos th:nth-child(1),
             .panel#panel-pedidos td:nth-child(1),
             .panel#panel-pedidos th:nth-child(3),
@@ -1082,7 +1154,7 @@
                 grid-area: del !important;
             }
 
-            /* Modal de edición */
+            /* Modal de ediciÃ³n */
             #modal-edit-pedido .fcard {
                 width: 95% !important;
                 max-height: 90vh;
@@ -1132,8 +1204,9 @@
                 font-size: 1.8rem !important;
             }
 
-            .shield-wrap {
-                font-size: 3.5rem !important;
+            .login-logo-wrap {
+                width: 190px !important;
+                margin-bottom: 1.5rem !important;
             }
         }
 
@@ -1165,9 +1238,24 @@
             <div class="loading-bar-container">
                 <div id="loading-bar" class="loading-bar"></div>
             </div>
-            <p class="loading-text">Cargando Sistema Administrativo...</p>
+            <p class="loading-text">Cargando sistema administrativo...</p>
         </div>
     </div>
+    <script>
+        (function () {
+            function hideAdminLoader() {
+                const loader = document.getElementById('loading-screen');
+                const bar = document.getElementById('loading-bar');
+                if (bar) bar.style.width = '100%';
+                if (loader) loader.classList.add('hidden');
+            }
+
+            window.hideAdminLoader = hideAdminLoader;
+            document.addEventListener('DOMContentLoaded', () => setTimeout(hideAdminLoader, 500));
+            window.addEventListener('load', () => setTimeout(hideAdminLoader, 500));
+            setTimeout(hideAdminLoader, 2500);
+        })();
+    </script>
     <div class="bg">
         <div class="orb o1"></div>
         <div class="orb o2"></div>
@@ -1180,7 +1268,7 @@
     <div id="modal-edit-pedido"
         style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
         <div class="fcard" style="width:90%; max-width:500px;">
-            <h3>✏️ Editar Pedido</h3>
+            <h3>Editar pedido</h3>
             <p style="color:#9ca3af; font-size:0.85rem; margin-bottom:1.5rem;">Actualiza los datos del cliente y la nota
                 para este pedido completo.</p>
             <input type="hidden" id="edit-ped-id">
@@ -1199,7 +1287,7 @@
 
             <div style="margin-top:1rem; border-top:1px solid rgba(199,125,255,0.2); padding-top:1rem;">
                 <div style="margin-bottom:1rem;">
-                    <label class="fl">🔍 Buscar producto para añadir...</label>
+                    <label class="fl">Buscar producto para añadir...</label>
                     <div style="position:relative;">
                         <input type="text" id="edit-ped-search" class="fi"
                             placeholder="Escribe el nombre o categoría..." oninput="buscarProdEdicion(this.value)">
@@ -1210,20 +1298,20 @@
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                    <label class="fl" style="margin-bottom:0;">🛒 Productos del Pedido</label>
+                    <label class="fl" style="margin-bottom:0;">Productos del pedido</label>
                     <button onclick="addEditItemRow()"
                         style="background:rgba(199,125,255,0.1); color:#c77dff; border:1px solid rgba(199,125,255,0.3); padding:0.3rem 0.6rem; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:700;">+
-                        Fila Vacía</button>
+                        Fila vacía</button>
                 </div>
                 <div id="edit-ped-items-list" style="max-height:200px; overflow-y:auto; padding-right:5px;">
-                    <!-- Filas de productos aquí -->
+                    <!-- Filas de productos aquÃ­ -->
                 </div>
             </div>
 
             <div style="display:flex; gap:1rem; margin-top:1.5rem;">
                 <button class="l-btn" style="background:#4b5563; flex:1;"
                     onclick="document.getElementById('modal-edit-pedido').style.display='none'">Cancelar</button>
-                <button class="l-btn" style="flex:2;" id="btn-save-ped-edit">Guardar Cambios →</button>
+                <button class="l-btn" style="flex:2;" id="btn-save-ped-edit">Guardar cambios →</button>
             </div>
         </div>
     </div>
@@ -1232,14 +1320,18 @@
     <div id="modal-edit-producto" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:11000; align-items:center; justify-content:center; backdrop-filter:blur(10px);">
         <div class="fcard" style="width:95%; max-width:800px; max-height:90vh; overflow-y:auto; border: 1px solid var(--accent-light);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:1px solid rgba(199,125,255,0.2); padding-bottom:1rem;">
-                <h3 style="margin:0; color:var(--accent-light); font-size:1.5rem;">✏️ Editar Producto</h3>
+                <h3 style="margin:0; color:var(--accent-light); font-size:1.5rem;">Editar producto</h3>
                 <button onclick="document.getElementById('modal-edit-producto').style.display='none'" style="background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
             </div>
             
             <div class="responsive-grid">
                 <div style="display:flex; flex-direction:column; gap:1rem;">
                     <div><label class="fl">Nombre del Producto</label><input type="text" id="e-nombre" class="fi"></div>
-                    <div><label class="fl">Referencia (ID)</label><input type="text" id="e-id" class="fi" readonly style="opacity:0.6; cursor:not-allowed;"></div>
+                    <input type="hidden" id="e-edit-id">
+                    <div class="fgrid-mini">
+                        <div><label class="fl">SKU / ID generado</label><input type="text" id="e-id" class="fi"></div>
+                        <div><label class="fl">ID producto base</label><input type="text" id="e-producto-id" class="fi"></div>
+                    </div>
                     <div class="fgrid-mini">
                         <div><label class="fl">Categoría</label><input type="text" id="e-cat" class="fi"></div>
                         <div><label class="fl">Color / Estilo</label><input type="text" id="e-color" class="fi"></div>
@@ -1258,7 +1350,7 @@
                     <div id="edit-upload-zone" style="width:100%; height:250px; background:rgba(0,0,0,0.3); border-radius:15px; display:flex; align-items:center; justify-content:center; overflow:hidden; border:1px dashed var(--accent-light); cursor:pointer; position:relative; transition:0.3s;">
                         <img id="e-preview" src="" style="max-width:100%; max-height:100%; object-fit:contain; display:none;">
                         <div id="e-preview-txt" style="text-align:center; color:rgba(199,125,255,0.6);">
-                            <div style="font-size:2rem; margin-bottom:0.5rem;">📸</div>
+                            <div style="font-size:2rem; margin-bottom:0.5rem;">Imagen</div>
                             <div style="font-size:0.8rem;">Haz clic o arrastra para cambiar imagen</div>
                         </div>
                         <input type="file" id="e-img-file" style="display:none;" accept="image/*">
@@ -1272,16 +1364,16 @@
             
             <div style="display:flex; gap:1rem; margin-top:2rem;">
                 <button class="l-btn" style="background:#4b5563; flex:1;" onclick="document.getElementById('modal-edit-producto').style.display='none'">Descartar</button>
-                <button class="l-btn" style="flex:2;" id="btn-save-prod-edit">Actualizar Producto →</button>
+                <button class="l-btn" style="flex:2;" id="btn-save-prod-edit">Actualizar producto</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL CONFIRMACIÓN CUSTOM -->
+    <!-- MODAL CONFIRMACIÃ“N CUSTOM -->
     <div id="modal-custom-confirm" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:20000; align-items:center; justify-content:center; backdrop-filter:blur(10px);">
         <div class="fcard" style="width:90%; max-width:400px; text-align:center; border:1px solid var(--accent-light); box-shadow:0 0 50px rgba(123,44,191,0.3);">
-            <span style="font-size:3.5rem; display:block; margin-bottom:1rem;">⚠️</span>
-            <h3 id="conf-title" style="color:#fff; margin-bottom:0.5rem; font-size:1.4rem;">Confirmar Acción</h3>
+            <span style="font-size:3.5rem; display:block; margin-bottom:1rem;">âš ï¸</span>
+            <h3 id="conf-title" style="color:#fff; margin-bottom:0.5rem; font-size:1.4rem;">Confirmar AcciÃ³n</h3>
             <p id="conf-msg" style="color:#9ca3af; margin-bottom:2rem; line-height:1.5;"></p>
             <div style="display:flex; gap:1rem;">
                 <button class="l-btn" id="btn-conf-cancel" style="background:#4b5563; flex:1;">Cancelar</button>
@@ -1293,7 +1385,7 @@
     <!-- MODAL ALERTA CUSTOM -->
     <div id="modal-custom-alert" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:21000; align-items:center; justify-content:center; backdrop-filter:blur(10px);">
         <div class="fcard" style="width:90%; max-width:400px; text-align:center; border:1px solid var(--accent-light);">
-            <span id="alert-icon" style="font-size:3.5rem; display:block; margin-bottom:1rem;">ℹ️</span>
+            <span id="alert-icon" style="font-size:3.5rem; display:block; margin-bottom:1rem;">â„¹ï¸</span>
             <h3 id="alert-title-text" style="color:#fff; margin-bottom:0.5rem;">Aviso</h3>
             <p id="alert-msg-text" style="color:#9ca3af; margin-bottom:2rem;"></p>
             <button class="l-btn" onclick="document.getElementById('modal-custom-alert').style.display='none'" style="width:100%;">Entendido</button>
@@ -1303,7 +1395,7 @@
     <div id="modal-zoom" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:30000; align-items:center; justify-content:center; backdrop-filter:blur(20px); cursor:zoom-out; animation: fadeIn 0.3s ease;">
         <div style="position:relative; width:90%; height:90%; display:flex; align-items:center; justify-content:center;">
             <img id="zoom-img" src="" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:20px; box-shadow:0 0 100px rgba(123,44,191,0.6); border:2px solid rgba(255,255,255,0.1); transform:scale(0.9); animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;">
-            <div style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.1); color:#fff; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; backdrop-filter:blur(5px); border:1px solid rgba(255,255,255,0.2);">×</div>
+            <div style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.1); color:#fff; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; backdrop-filter:blur(5px); border:1px solid rgba(255,255,255,0.2);">Ã—</div>
         </div>
     </div>
     <style>
@@ -1316,12 +1408,14 @@
     <!-- LOGIN -->
     <div id="login-wrap">
         <div class="lcard">
-            <span class="shield-wrap">🛡️</span>
+            <div class="login-logo-wrap">
+                <img src="logo.png" alt="Blyxu" class="login-logo">
+            </div>
             <h1>Panel Admin</h1>
             <p>Área privada — Solo personal Blyxu</p>
-            <div id="lerr" class="l-err">⛔ Clave incorrecta — Acceso denegado</div>
-            <input type="password" id="lpass" class="l-field" placeholder="••••••••••••" autocomplete="off">
-            <button class="l-btn" id="lbtn">Acceder al Panel →</button>
+            <div id="lerr" class="l-err">Clave incorrecta — Acceso denegado</div>
+            <input type="password" id="lpass" class="l-field" placeholder="Clave de acceso" autocomplete="off">
+            <button class="l-btn" id="lbtn">Acceder al panel</button>
             <p style="color:#374151;font-size:.78rem;margin-top:1.5rem">Los accesos no autorizados son registrados
                 automáticamente.</p>
         </div>
@@ -1342,20 +1436,35 @@
                     style="text-align: right; margin-right: 1rem; display: none; @media(min-width: 768px){display: block;}">
                     <div style="font-size: 0.75rem; color: var(--accent-pale); font-weight: 800; letter-spacing: 2px;">
                         ESTADO</div>
-                    <div style="font-size: 0.85rem; color: #25D366; font-weight: 600;">🟢 EN LÍNEA</div>
+                    <div style="font-size: 0.85rem; color: #25D366; font-weight: 600;">EN LÍNEA</div>
                 </div>
+                <a href="#panel-nuevo" onclick="openAdminSection('nuevo', 'Producto nuevo'); return false;" class="btn-exit" style="text-decoration:none; background:linear-gradient(135deg,#7b2cbf,#9d4edd); margin-right:0.6rem;">Producto nuevo</a>
                 <button class="btn-exit" id="btn-exit">Cerrar Sesión</button>
             </div>
         </nav>
 
         <div class="dash-body">
-            <!-- Navegación por Pestañas -->
+            <!-- NavegaciÃ³n por PestaÃ±as -->
             <div class="tab-nav" style="margin-bottom: 2rem;">
                 <button class="tab active" data-tab="pedidos"><i data-lucide="shopping-cart" style="width:18px; height:18px;"></i> Historial Pedidos</button>
                 <button class="tab" data-tab="productos"><i data-lucide="package" style="width:18px; height:18px;"></i> Inventario</button>
-                <button class="tab" data-tab="nuevo"><i data-lucide="plus-circle" style="width:18px; height:18px;"></i> Nuevo Producto</button>
+                <button class="tab" data-tab="nuevo"><i data-lucide="plus-circle" style="width:18px; height:18px;"></i> Producto nuevo</button>
                 <button class="tab" data-tab="facturas"><i data-lucide="file-text" style="width:18px; height:18px;"></i> Factura Digital</button>
                 <button class="tab" data-tab="analisis"><i data-lucide="bar-chart-3" style="width:18px; height:18px;"></i> Análisis</button>
+            </div>
+
+            <div class="section-nav-container">
+                <button class="section-nav-btn" id="section-nav-btn" type="button">
+                    <span id="section-nav-label">Historial Pedidos</span>
+                    <span class="nav-arrow">v</span>
+                </button>
+                <div class="section-nav-menu" id="section-nav-menu">
+                    <button class="nav-opt active" type="button" data-tab="pedidos"><i data-lucide="shopping-cart" style="width:18px; height:18px;"></i> Historial Pedidos</button>
+                    <button class="nav-opt" type="button" data-tab="productos"><i data-lucide="package" style="width:18px; height:18px;"></i> Inventario</button>
+                    <button class="nav-opt" type="button" data-tab="nuevo"><i data-lucide="plus-circle" style="width:18px; height:18px;"></i> Producto nuevo</button>
+                    <button class="nav-opt" type="button" data-tab="facturas"><i data-lucide="file-text" style="width:18px; height:18px;"></i> Factura Digital</button>
+                    <button class="nav-opt" type="button" data-tab="analisis"><i data-lucide="bar-chart-3" style="width:18px; height:18px;"></i> Análisis</button>
+                </div>
             </div>
 
             <!-- Stats -->
@@ -1374,7 +1483,7 @@
                     </span>
                     <div class="stat-lbl">Pedidos</div>
                     <div class="stat-val" id="s-pedidos">—</div>
-                    <div style="font-size: 0.7rem; color: #25D366; font-weight: 700;">↑ Actualizado hoy</div>
+                    <div style="font-size: 0.7rem; color: #25D366; font-weight: 700;">Actualizado hoy</div>
                 </div>
                 <div class="stat-card">
                     <span class="stat-icon" style="background: rgba(60, 9, 108, 0.3); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 1rem; color: var(--accent-light);">
@@ -1396,7 +1505,7 @@
 
             <!-- Pedidos -->
             <div class="panel on" id="panel-pedidos">
-                <input class="s-input" id="sp" placeholder="🔍 Buscar pedido...">
+                <input class="s-input" id="sp" placeholder="Buscar pedido...">
                 <div class="tbl-wrap">
                     <table>
                         <thead>
@@ -1415,7 +1524,7 @@
                         </thead>
                         <tbody id="tb-ped">
                             <tr>
-                                <td colspan="9" class="tbl-msg">⏳ Cargando...</td>
+                                <td colspan="9" class="tbl-msg">Cargando...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1424,7 +1533,14 @@
 
             <!-- Productos -->
             <div class="panel" id="panel-productos">
-                <input class="s-input" id="spr" placeholder="🔍 Buscar producto...">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1rem; flex-wrap:wrap;">
+                    <div>
+                        <h3 style="margin:0; color:#fff;">Inventario</h3>
+                        <p style="margin:0.35rem 0 0; color:#9ca3af; font-size:0.9rem;">Consulta productos y variantes registradas.</p>
+                    </div>
+                    <a href="#panel-nuevo" onclick="openAdminSection('nuevo', 'Producto nuevo'); return false;" class="btn-save" style="text-decoration:none; padding:0.9rem 1.2rem; border-radius:14px;">+ Producto nuevo</a>
+                </div>
+                <input class="s-input" id="spr" placeholder="Buscar producto...">
                 <div class="tbl-wrap">
                     <table>
                         <thead>
@@ -1442,7 +1558,7 @@
                         </thead>
                         <tbody id="tb-prod">
                             <tr>
-                                <td colspan="9" class="tbl-msg">⏳ Cargando...</td>
+                                <td colspan="9" class="tbl-msg">Cargando...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1452,117 +1568,28 @@
 
             <!-- Nuevo Producto -->
             <div class="panel" id="panel-nuevo">
-                <div class="fcard" style="max-width: 900px; margin: 0 auto;">
-                    <div
-                        style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(199,125,255,0.1); padding-bottom: 1rem;">
-                        <span style="font-size: 2rem;">📦</span>
+                <div class="fcard" style="max-width: 900px; margin: 0 auto 1.5rem; padding:1.5rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
                         <div>
-                            <h3 style="margin:0;">Registrar Nuevo Producto</h3>
-                            <p style="margin:0; font-size: 0.85rem; color: var(--text-muted);">Añade productos
-                                directamente a tu inventario en la nube.</p>
+                            <h3 style="margin:0; color:#fff;">Producto nuevo</h3>
+                            <p style="margin:0.4rem 0 0; color:#9ca3af;">Usa el nuevo registro para crear productos con colores, estilos, SKU, stock e imagen por variante.</p>
                         </div>
+                        <a href="admin.html" class="btn-save" style="text-decoration:none; padding:0.95rem 1.25rem; border-radius:14px;">Abrir en pantalla completa</a>
                     </div>
-
-                    <div class="form-sections-grid"
-                        style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem;">
-                        <!-- Columna Izquierda: Datos -->
-                        <div style="display: flex; flex-direction: column; gap: 2rem;">
-                            <!-- Sección 1: Información Básica -->
-                            <div class="form-section">
-                                <h4 class="section-title"><span class="icon">📝</span> Información Básica</h4>
-                                <div class="fgrid-stack" style="display: flex; flex-direction: column; gap: 1.2rem;">
-                                    <div>
-                                        <label class="fl">Referencia (ID Generado)</label>
-                                        <input class="fi" id="n-id" placeholder="Ej. ZAP-001">
-                                    </div>
-                                    <div>
-                                        <label class="fl">Nombre del Producto</label>
-                                        <input class="fi" id="n-nombre" placeholder="Ej. Zapatilla Air Max">
-                                    </div>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                        <div>
-                                            <label class="fl">Categoría</label>
-                                            <input class="fi" id="n-cat" placeholder="Zapatillas">
-                                        </div>
-                                        <div>
-                                            <label class="fl">Color / Estilo</label>
-                                            <input class="fi" id="n-color" placeholder="Blanco/Negro">
-                                        </div>
-                                    </div>
-                                    <p class="hint" style="margin-top: -0.5rem;">💡 Mismo ID + distinto color = variante
-                                        del mismo producto.</p>
-                                </div>
-                            </div>
-
-                            <!-- Sección 2: Precios y Stock -->
-                            <div class="form-section">
-                                <h4 class="section-title"><span class="icon">💰</span> Precios y Disponibilidad</h4>
-                                <div class="fgrid-mini"
-                                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
-                                    <div>
-                                        <label class="fl">Precio Detal ($ público)</label>
-                                        <input class="fi fi-money" type="number" id="n-precio" placeholder="150000">
-                                    </div>
-                                    <div>
-                                        <label class="fl">PCM / Precio Mayorista</label>
-                                        <input class="fi fi-money" type="number" id="n-pcm" placeholder="90000">
-                                    </div>
-                                    <div>
-                                        <label class="fl">Stock Inicial</label>
-                                        <input class="fi" type="number" id="n-stock" value="10">
-                                    </div>
-                                    <div>
-                                        <label class="fl">Cantidad por Unidad</label>
-                                        <input class="fi" id="n-cantidad" value="1">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Columna Derecha: Imagen -->
-                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                            <div class="form-section">
-                                <h4 class="section-title"><span class="icon">🖼️</span> Imagen del Producto</h4>
-                                <div class="upload-zone" id="upload-zone"
-                                    style="height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px dashed rgba(199,125,255,0.3); border-radius: 20px; transition: all 0.3s; background: rgba(0,0,0,0.2); position: relative; overflow: hidden; cursor: pointer;">
-                                    <input type="file" id="n-img-file" accept="image/*"
-                                        style="position:absolute; inset:0; opacity:0; cursor:pointer; z-index: 10;">
-                                    <div id="upload-placeholder" style="text-align: center;">
-                                        <span class="upload-icon"
-                                            style="font-size: 3rem; margin-bottom: 1rem; display: block;">📸</span>
-                                        <p class="upload-txt" style="margin:0; font-weight: 600;">Haz clic o arrastra
-                                            una imagen</p>
-                                        <small style="color:var(--text-muted)">JPG, PNG, WEBP (Max 5MB)</small>
-                                    </div>
-                                    <img id="img-preview" class="img-preview" src="" alt="Vista previa"
-                                        style="max-height: 100%; max-width: 100%; object-fit: contain; display: none;">
-                                </div>
-                                <div class="upload-prog" id="upload-prog"
-                                    style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 1rem; overflow: hidden; display:none;">
-                                    <div class="upload-prog-bar" id="upload-bar"
-                                        style="height: 100%; width: 0; background: var(--accent); transition: width 0.3s;">
-                                    </div>
-                                </div>
-
-                                <div style="margin-top: 1.5rem;">
-                                    <label class="fl" style="font-size: 0.75rem; color: var(--text-muted);">O ingresa un
-                                        URL manualmente</label>
-                                    <input class="fi" type="url" id="n-img" placeholder="https://ejemplo.com/imagen.jpg"
-                                        style="font-size: 0.85rem;">
-                                </div>
-                            </div>
-
-                            <div style="margin-top: auto;">
-                                <button class="btn-save" id="btn-guardar"
-                                    style="width: 100%; padding: 1.2rem; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(123, 44, 191, 0.4);">💾
-                                    Guardar Producto</button>
-                                <div id="smsg-ok" class="save-ok"
-                                    style="margin-top: 1rem; padding: 1rem; border-radius: 12px; display: none;"></div>
-                                <div id="smsg-err" class="save-err"
-                                    style="margin-top: 1rem; padding: 1rem; border-radius: 12px; display: none;"></div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <iframe src="admin.html" title="Registro avanzado de productos" style="width:100%; min-height:1200px; border:1px solid rgba(199,125,255,0.25); border-radius:24px; background:#0e0a14;"></iframe>
+                <div id="legacy-product-stubs" aria-hidden="true" style="display:none;">
+                    <input id="n-id-generado"><input id="n-id" data-auto-ref="true"><datalist id="n-ref-list"></datalist>
+                    <input id="n-nombre"><select id="n-cat"><option value=""></option></select><input id="n-cat-custom">
+                    <input id="n-color"><datalist id="color-list"></datalist>
+                    <div class="color-tool"><input type="color" id="n-color-hex" value="#c77dff"><input id="n-color-hex-text" value="#c77dff"><button type="button" class="btn-eyedropper"></button></div>
+                    <input id="n-precio"><input id="n-pcm"><input id="n-stock"><input id="n-cantidad"><input id="n-img">
+                    <div id="main-image-section"></div>
+                    <div id="upload-zone"><input type="file" id="n-img-file"><span class="upload-txt"></span><span class="upload-icon"></span></div>
+                    <img id="img-preview"><div id="upload-prog"><div id="upload-bar"></div></div>
+                    <button type="button" class="variant-mode-btn active" data-mode="color"></button><button type="button" class="variant-mode-btn" data-mode="image"></button>
+                    <div id="variant-list"></div><button type="button" id="btn-add-variant"></button><p id="variant-mode-hint"></p>
+                    <button type="button" id="btn-guardar"></button><div id="smsg-ok"></div><div id="smsg-err"></div><p id="next-id-hint"></p>
                 </div>
             </div>
 
@@ -1571,8 +1598,8 @@
                 <div class="fcard" style="max-width: 800px; margin: 0 auto;">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem;">
                         <div style="flex:1;">
-                            <h3 style="margin:0;">📄 Generador de Facturas PDF</h3>
-                            <p style="color:#9ca3af;font-size:0.9rem;margin:0.5rem 0 0 0">Llene los datos del cliente y los productos para generar una factura profesional en PDF.</p>
+                            <h3 style="margin:0;">Generador de facturas PDF</h3>
+                            <p style="color:#9ca3af;font-size:0.9rem;margin:0.5rem 0 0 0">Llena los datos del cliente y los productos para generar una factura profesional en PDF.</p>
                         </div>
                         <div style="width:80px; height:80px; background:rgba(255,255,255,0.05); border-radius:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 20px rgba(0,0,0,0.3); border:1px solid rgba(199,125,255,0.2); margin-left:1rem; overflow:hidden;">
                             <img src="logo.png" style="width:80%; height:80%; object-fit:contain; filter:drop-shadow(0 0 8px rgba(199,125,255,0.4));">
@@ -1581,22 +1608,22 @@
 
                     <div style="margin-bottom:2.5rem; background:rgba(199,125,255,0.05); padding:1.5rem; border-radius:20px; border:1px solid rgba(199,125,255,0.2);">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                            <h4 style="margin:0; font-size:1rem; color:var(--accent-light);">🔍 Importar Pedidos (Desde Google Sheets)</h4>
-                            <button onclick="loadAll(); showAlert('Sincronizando', 'Obteniendo datos actualizados de Google Sheets...', 'info')" style="background:none; border:none; color:var(--accent-light); cursor:pointer; font-size:0.8rem; font-weight:700; text-decoration:underline;">🔄 Sincronizar Ahora</button>
+                            <h4 style="margin:0; font-size:1rem; color:var(--accent-light);">Importar pedidos desde Google Sheets</h4>
+                            <button onclick="loadAll(); showAlert('Sincronizando', 'Obteniendo datos actualizados de Google Sheets...', 'info')" style="background:none; border:none; color:var(--accent-light); cursor:pointer; font-size:0.8rem; font-weight:700; text-decoration:underline;">Sincronizar ahora</button>
                         </div>
                         <div style="position:relative; width:100%;">
-                            <label class="fl" style="font-size:0.9rem; color:var(--accent-light); font-weight:700;">🔍 Buscar Registro en el Historial</label>
+                            <label class="fl" style="font-size:0.9rem; color:var(--accent-light); font-weight:700;">Buscar registro en el historial</label>
                             <input type="text" id="fac-smart-search" class="fi" placeholder="Escribe el nombre del cliente, ID de registro o fecha..." style="margin:0; padding:1.2rem; font-size:1.1rem;" autocomplete="off">
                             <div id="fac-smart-results" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#161122; border:1px solid var(--accent-light); border-radius:15px; z-index:5000; max-height:300px; overflow-y:auto; box-shadow:0 15px 50px rgba(0,0,0,0.8); margin-top:8px; border-top:2px solid var(--accent-light);"></div>
                         </div>
                         <p style="color:#9ca3af; font-size:0.8rem; margin-top:1rem; display:flex; align-items:center; gap:5px;">
-                            <span style="color:var(--accent-light);">💡</span> Tip: Selecciona un registro del listado para cargar automáticamente todos sus datos a la factura.
+                            <span style="color:var(--accent-light);"></span> Tip: selecciona un registro del listado para cargar automáticamente todos sus datos a la factura.
                         </p>
                     </div>
 
                     <div class="fgrid">
                         <div><label class="fl">Nombre del Cliente / Empresa</label><input class="fi" id="fac-cliente"
-                                placeholder="Ej. Distribuciones Martínez"></div>
+                                placeholder="Ej. Distribuciones MartÃ­nez"></div>
                         <div><label class="fl">NIT / C.C.</label><input class="fi" id="fac-nit"
                                 placeholder="Ej. 900.123.456-7"></div>
                         <div><label class="fl">Dirección</label><input class="fi" id="fac-dir"
@@ -1606,22 +1633,22 @@
                     </div>
 
                     <div style="margin-top:2rem; border-top:1px solid rgba(199,125,255,0.2); padding-top:1.5rem;">
-                        <label class="fl">🛒 Detalles de los Productos</label>
+                        <label class="fl">Detalles de los productos</label>
                         <div id="fac-items-container">
-                            <!-- Items se agregan aquí dinámicamente -->
+                            <!-- Items se agregan aquÃ­ dinÃ¡micamente -->
                         </div>
 
                         <div style="margin-top:1rem; position:relative;">
                             <input type="text" id="fac-busc-prod" class="fi"
-                                placeholder="🔍 Buscar producto en inventario para añadir...">
+                                placeholder="Buscar producto en inventario para añadir...">
                             <div id="fac-res-busc"
                                 style="position:absolute; top:100%; left:0; width:100%; background:#161122; border:1px solid #c77dff; border-radius:12px; z-index:1000; max-height:250px; overflow-y:auto; display:none; box-shadow:0 15px 50px rgba(0,0,0,0.8); border-top:none;">
                             </div>
                         </div>
 
                         <button id="btn-add-fac-item"
-                            style="background:rgba(199,125,255,0.1); border:1px dashed #c77dff; color:#e0aaff; padding:0.8rem; border-radius:12px; width:100%; cursor:pointer; font-family:'Outfit'; font-weight:700; margin-top:1.5rem; transition:all 0.2s;">➕
-                            Añadir Item Manual</button>
+                            style="background:rgba(199,125,255,0.1); border:1px dashed #c77dff; color:#e0aaff; padding:0.8rem; border-radius:12px; width:100%; cursor:pointer; font-family:'Outfit'; font-weight:700; margin-top:1.5rem; transition:all 0.2s;">âž•
+                            Añadir ítem manual</button>
                     </div>
 
                     <div
@@ -1636,18 +1663,18 @@
                         </div>
                     </div>
 
-                    <button class="btn-save" id="btn-generar-pdf" style="width:100%; margin-top:2rem;">📄 Descargar
+                    <button class="btn-save" id="btn-generar-pdf" style="width:100%; margin-top:2rem;">ðŸ“„ Descargar
                         Factura PDF</button>
                 </div>
             </div>
 
-            <!-- Análisis Futurista -->
+            <!-- AnÃ¡lisis Futurista -->
             <div class="panel" id="panel-analisis">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
                     <h2 style="font-size:2rem; font-weight:900; background:linear-gradient(90deg, #fff, var(--accent-light)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; display:flex; align-items:center; gap:10px;">
                         <i data-lucide="bar-chart-3" style="width:32px; height:32px; color:var(--accent-light);"></i> Inteligencia de Negocio
                     </h2>
-                    <button onclick="initCharts()" style="background:rgba(199,125,255,0.1); border:1px solid var(--accent-light); color:var(--accent-light); padding:0.5rem 1rem; border-radius:10px; cursor:pointer; font-weight:700;">🔄 Refrescar Gráficas</button>
+                    <button onclick="initCharts()" style="background:rgba(199,125,255,0.1); border:1px solid var(--accent-light); color:var(--accent-light); padding:0.5rem 1rem; border-radius:10px; cursor:pointer; font-weight:700;">ðŸ”„ Refrescar GrÃ¡ficas</button>
                 </div>
 
                 <!-- KPI Cards -->
@@ -1664,7 +1691,7 @@
                     </div>
                     <div class="stat-card" style="border-left: 4px solid #00d4ff;">
                         <div class="stat-icon"><i data-lucide="box"></i></div>
-                        <div class="stat-label">Órdenes Procesadas</div>
+                        <div class="stat-label">Ã“rdenes Procesadas</div>
                         <div id="ana-count" class="stat-value" style="font-size:1.8rem; color:#00d4ff;">0</div>
                     </div>
                 </div>
@@ -1672,14 +1699,14 @@
                 <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem; margin-bottom:1.5rem;" class="responsive-grid">
                     <div class="fcard" style="min-height:400px; position:relative; overflow:hidden;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                            <h3 style="margin:0; font-size:1.2rem; color:var(--accent-light);">📈 Tendencia de Ventas (30 días)</h3>
+                            <h3 style="margin:0; font-size:1.2rem; color:var(--accent-light);">ðŸ“ˆ Tendencia de Ventas (30 dÃ­as)</h3>
                         </div>
                         <div style="height:300px; width:100%;">
                             <canvas id="chart-ventas"></canvas>
                         </div>
                     </div>
                     <div class="fcard" style="min-height:400px;">
-                        <h3 style="margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent-light);">🍕 Distribución de Productos</h3>
+                        <h3 style="margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent-light);">ðŸ• DistribuciÃ³n de Productos</h3>
                         <div style="height:300px; display:flex; align-items:center; justify-content:center;">
                             <canvas id="chart-pie"></canvas>
                         </div>
@@ -1687,7 +1714,7 @@
                 </div>
 
                 <div class="fcard" style="min-height:400px;">
-                    <h3 style="margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent-light);">🏆 Los 10 Productos Más Vendidos</h3>
+                    <h3 style="margin-bottom:1.5rem; font-size:1.2rem; color:var(--accent-light);">ðŸ† Los 10 Productos MÃ¡s Vendidos</h3>
                     <div style="height:300px;">
                         <canvas id="chart-top"></canvas>
                     </div>
@@ -1707,13 +1734,13 @@
                 <div>
                     <h1 style="font-size:28px; margin:0; color:#2c1b4d;">BLYXU</h1>
                     <p style="margin:5px 0 0 0; color:#555;">Ecosistema Premium</p>
-                    <p style="margin:5px 0 0 0; color:#555;">San Andresito San José, Bogotá</p>
+                    <p style="margin:5px 0 0 0; color:#555;">San Andresito San JosÃ©, BogotÃ¡</p>
                     <p style="margin:5px 0 0 0; color:#555;">Tel: +57 311 236 8622</p>
                 </div>
             </div>
             <div style="text-align:right;">
                 <h2 style="font-size:36px; margin:0; color:#7b2cbf; text-transform:uppercase;">Factura</h2>
-                <p style="margin:5px 0 0 0; font-weight:bold; font-size:16px;">Nº <span id="tpl-fac-num">0001</span></p>
+                <p style="margin:5px 0 0 0; font-weight:bold; font-size:16px;">NÂº <span id="tpl-fac-num">0001</span></p>
                 <p style="margin:5px 0 0 0; color:#555;">Fecha: <span id="tpl-fac-fecha"></span></p>
             </div>
         </div>
@@ -1725,15 +1752,15 @@
                     Facturar a:</h3>
                 <p style="margin:5px 0; font-weight:bold; font-size:16px;" id="tpl-cliente"></p>
                 <p style="margin:5px 0; color:#555;">NIT/CC: <span id="tpl-nit"></span></p>
-                <p style="margin:5px 0; color:#555;">Dirección: <span id="tpl-dir"></span></p>
-                <p style="margin:5px 0; color:#555;">Teléfono: <span id="tpl-tel"></span></p>
+                <p style="margin:5px 0; color:#555;">DirecciÃ³n: <span id="tpl-dir"></span></p>
+                <p style="margin:5px 0; color:#555;">TelÃ©fono: <span id="tpl-tel"></span></p>
             </div>
         </div>
 
         <table style="width:100%; border-collapse:collapse; margin-bottom:30px;">
             <thead>
                 <tr style="background:#7b2cbf; color:white;">
-                    <th style="padding:12px; text-align:left;">Descripción</th>
+                    <th style="padding:12px; text-align:left;">DescripciÃ³n</th>
                     <th style="padding:12px; text-align:center; width:100px;">Cant.</th>
                     <th style="padding:12px; text-align:right; width:150px;">Precio Unit.</th>
                     <th style="padding:12px; text-align:right; width:150px;">Subtotal</th>
@@ -1764,13 +1791,12 @@
 
         <div
             style="margin-top:60px; text-align:center; color:#777; font-size:12px; border-top:1px solid #ddd; padding-top:20px;">
-            <p>Gracias por su compra. Los productos Blyxu cuentan con garantía por defectos de fábrica.</p>
+            <p>Gracias por su compra. Los productos Blyxu cuentan con garantÃ­a por defectos de fÃ¡brica.</p>
             <p>Esta factura sirve como comprobante de su compra.</p>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         const API = "https://script.google.com/macros/s/AKfycbx7ofcNdOvxv07cvLZkSemb2mTyBlzs3a7VHbTk7QNIRitLjWQPFjnYl2PnEfEDGHYo3w/exec";
         const PASS = "2015690";
@@ -1792,19 +1818,32 @@
         document.getElementById('lpass').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('lbtn').click(); });
         document.getElementById('btn-exit').onclick = () => location.reload();
 
-        // SISTEMA DE PESTAÑAS (TABS)
-        document.querySelectorAll('.tab').forEach(btn => {
-            btn.onclick = () => {
-                // UI: Botones
-                document.querySelectorAll('.tab').forEach(x => x.classList.remove('active', 'on'));
-                btn.classList.add('active', 'on');
-                
-                // UI: Paneles
-                const target = btn.getAttribute('data-tab');
-                document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-                const targetPanel = document.getElementById('panel-' + target);
-                if (targetPanel) targetPanel.classList.add('on');
-            };
+        // SISTEMA DE PESTAÃ‘AS (TABS)
+        function openAdminSection(target, label) {
+            document.querySelectorAll('.tab, .nav-opt').forEach(x => x.classList.remove('active', 'on'));
+            document.querySelectorAll(`[data-tab="${target}"]`).forEach(x => x.classList.add('active', 'on'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+            const targetPanel = document.getElementById('panel-' + target);
+            if (targetPanel) targetPanel.classList.add('on');
+            if (label) document.getElementById('section-nav-label').textContent = label;
+            document.getElementById('section-nav-menu').classList.remove('show');
+            document.getElementById('section-nav-btn').classList.remove('active');
+        }
+
+        document.querySelectorAll('.tab, .nav-opt').forEach(btn => {
+            btn.onclick = () => openAdminSection(btn.getAttribute('data-tab'), btn.textContent.trim());
+        });
+
+        document.getElementById('section-nav-btn').onclick = () => {
+            document.getElementById('section-nav-menu').classList.toggle('show');
+            document.getElementById('section-nav-btn').classList.toggle('active');
+        };
+
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.section-nav-container')) {
+                document.getElementById('section-nav-menu').classList.remove('show');
+                document.getElementById('section-nav-btn').classList.remove('active');
+            }
         });
 
         // Custom Dialogs Logic
@@ -1822,7 +1861,7 @@
             document.getElementById('alert-msg-text').textContent = msg;
             const modal = document.getElementById('modal-custom-alert');
             const icon = document.getElementById('alert-icon');
-            icon.textContent = type === 'success' ? '✅' : (type === 'error' ? '❌' : 'ℹ️');
+            icon.textContent = type === 'success' ? 'âœ…' : (type === 'error' ? 'âŒ' : 'â„¹ï¸');
             modal.style.display = 'flex';
         };
 
@@ -1833,12 +1872,36 @@
             modal.style.display = 'flex';
         };
 
-        // Normalizar texto (quitar tildes y minúsculas)
+        // Normalizar texto (quitar tildes y minÃºsculas)
         function norm(str) {
             return (str || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
         }
 
         function fmt(n) { return '$' + Number(n || 0).toLocaleString('es-CO'); }
+
+        function esc(value) {
+            return (value === null || value === undefined ? '' : value).toString()
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getProductImageUrl(value, fallback) {
+            if (!value) return fallback;
+            const str = value.toString().trim();
+            if (!str) return fallback;
+            if (str.startsWith('http')) {
+                if (str.includes('drive.google.com')) {
+                    const driveMatch = str.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || str.match(/id=([a-zA-Z0-9_-]+)/);
+                    if (driveMatch) return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w800`;
+                }
+                return str;
+            }
+            const APP_ID = '89d7e4bb-f484-4a49-bb80-d24ff40f6b4b';
+            return `https://www.appsheet.com/template/gettablefileurl?appName=${APP_ID}&tableName=Productos&fileName=${encodeURIComponent(str)}`;
+        }
 
         const g = (obj, ...keys) => {
             if (!obj) return null;
@@ -1856,21 +1919,277 @@
             return null;
         };
 
-        async function loadAll() {
-            // Productos
+        function getProductCategory(p) {
+            const key = Object.keys(p || {}).find(k => k.toLowerCase().includes('categor'));
+            return key && p[key] ? p[key].toString().trim() : '';
+        }
+
+        function populateCategorySelect() {
+            const select = document.getElementById('n-cat');
+            if (!select) return;
+            const current = select.value;
+            const categories = [...new Set(productos.map(getProductCategory).filter(Boolean))]
+                .sort((a, b) => a.localeCompare(b, 'es'));
+            select.innerHTML = '<option value="">Selecciona una categoria</option>';
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                select.appendChild(option);
+            });
+            select.insertAdjacentHTML('beforeend', '<option value="__new__">+ Nueva categoria</option>');
+            if (categories.includes(current)) select.value = current;
+        }
+
+        function getProductReference(p) {
+            return (p?.ID_Producto || p?.idProducto || p?.Referencia || p?.referencia || '').toString().trim();
+        }
+
+        function getGeneratedId(p) {
+            return (p?.ID_Generado || p?.idGenerado || p?.ID_Registro || p?.sku || '').toString().trim();
+        }
+
+        function getProductGroupId(p) {
+            const productId = (p?.ID_Producto || p?.idProducto || p?.Referencia || p?.referencia || '').toString().trim();
+            if (productId) return productId;
+            const parsed = parseGeneratedId(getGeneratedId(p));
+            return parsed ? String(parsed.root) : getGeneratedId(p);
+        }
+
+        function isValidProductRow(product) {
+            if (!product || typeof product !== 'object') return false;
+            return Boolean(
+                getGeneratedId(product) ||
+                getProductReference(product) ||
+                product.Nombre_del_Producto ||
+                product.Nombre ||
+                product.Producto
+            );
+        }
+
+        function makeInventoryGroups(data) {
+            const groups = new Map();
+            (Array.isArray(data) ? data : []).filter(isValidProductRow).forEach((product, index) => {
+                const sourceIndex = Number.isFinite(product.__inventoryIndex) ? product.__inventoryIndex : index;
+                const productRow = { ...product, __sourceIndex: sourceIndex };
+                const groupId = getProductGroupId(productRow) || getGeneratedId(productRow) || `SIN-ID-${index}`;
+                if (!groups.has(groupId)) {
+                    groups.set(groupId, {
+                        ...productRow,
+                        __isGroup: true,
+                        __groupId: groupId,
+                        __primary: productRow,
+                        __sourceIndex: sourceIndex,
+                        __variants: []
+                    });
+                }
+                groups.get(groupId).__variants.push(productRow);
+            });
+
+            return [...groups.values()].map(group => {
+                const variants = group.__variants;
+                const primary = variants.find(v => getGeneratedId(v) === group.__groupId) || variants[0] || group;
+                return {
+                    ...primary,
+                    __isGroup: true,
+                    __groupId: group.__groupId,
+                    __primary: primary,
+                    __sourceIndex: Number.isFinite(primary.__sourceIndex) ? primary.__sourceIndex : group.__sourceIndex,
+                    __variants: variants
+                };
+            });
+        }
+
+        function getGroupVariantSummary(group) {
+            const variants = group.__variants || [group];
+            const colors = variants
+                .map(v => (v?.Color_o_Estilo || v?.color || '').toString().trim())
+                .filter(Boolean);
+            const uniqueColors = [...new Set(colors)];
+            if (!uniqueColors.length) return variants.length > 1 ? `${variants.length} variantes` : '-';
+            const shown = uniqueColors.slice(0, 3).join(', ');
+            return uniqueColors.length > 3 ? `${shown} +${uniqueColors.length - 3}` : shown;
+        }
+
+        function getGroupStock(group) {
+            return (group.__variants || [group]).reduce((sum, variant) => {
+                return sum + (Number(variant?.Stock_Inicial || variant?.Stock || variant?.Cantidad || 0) || 0);
+            }, 0);
+        }
+
+        function parseGeneratedId(id) {
+            const match = (id || '').toString().trim().match(/^(\d+)(?:-(\d+))?$/);
+            if (!match) return null;
+            return {
+                root: Number(match[1]),
+                suffix: match[2] ? Number(match[2]) : 0
+            };
+        }
+
+        function getCurrentTypedIds() {
+            const ids = [document.getElementById('n-id-generado')?.value.trim()];
+            document.querySelectorAll('#variant-list .v-id').forEach(input => ids.push(input.value.trim()));
+            return ids.filter(Boolean);
+        }
+
+        function getNextRootId() {
+            const roots = productos
+                .map(p => parseGeneratedId(getGeneratedId(p))?.root)
+                .filter(Number.isFinite);
+            return String((roots.length ? Math.max(...roots) : 0) + 1);
+        }
+
+        function getRootFromId(id) {
+            return parseGeneratedId(id)?.root || Number(getNextRootId());
+        }
+
+        function getNextVariantId(root, reference = '') {
+            const usedIds = [
+                ...productos
+                    .filter(p => !reference || getProductReference(p) === reference)
+                    .map(getGeneratedId),
+                ...getCurrentTypedIds()
+            ];
+            const suffixes = usedIds
+                .map(parseGeneratedId)
+                .filter(parsed => parsed && parsed.root === Number(root))
+                .map(parsed => parsed.suffix);
+            const nextSuffix = (suffixes.length ? Math.max(...suffixes) : 0) + 1;
+            return `${root}-${nextSuffix}`;
+        }
+
+        function suggestNextGeneratedId(force = false) {
+            const input = document.getElementById('n-id-generado');
+            const hint = document.getElementById('next-id-hint');
+            if (!input) return;
+            const next = getNextRootId();
+            if (force || !input.value.trim()) {
+                input.value = next;
+                input.dataset.autoId = 'true';
+            }
+            if (hint) hint.textContent = `Siguiente ID sugerido: ${next}. Para variantes usa ${next}-1, ${next}-2...`;
+        }
+
+        function populateReferenceList() {
+            const list = document.getElementById('n-ref-list');
+            if (!list) return;
+            const references = [...new Set(productos.map(getProductReference).filter(Boolean))]
+                .sort((a, b) => a.localeCompare(b, 'es'));
+            list.innerHTML = '';
+            references.forEach(ref => {
+                const option = document.createElement('option');
+                option.value = ref;
+                list.appendChild(option);
+            });
+        }
+
+        function slugifyRef(value) {
+            return (value || '')
+                .toString()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toUpperCase()
+                .replace(/[^A-Z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .slice(0, 18);
+        }
+
+        function updateGeneratedReference() {
+            const refInput = document.getElementById('n-id');
+            if (!refInput) return;
+            if (refInput.dataset.autoRef === 'false' && refInput.value.trim()) return;
+            const nombre = document.getElementById('n-nombre').value.trim();
+            const categoria = getSelectedCategory();
+            const base = slugifyRef(categoria || nombre || 'PROD');
+            refInput.value = base;
+        }
+
+        function getSelectedCategory() {
+            const select = document.getElementById('n-cat');
+            const custom = document.getElementById('n-cat-custom');
+            return select && select.value === '__new__' ? custom.value.trim() : (select ? select.value.trim() : '');
+        }
+
+        function applyExistingReferenceDetails(ref) {
+            const product = productos.find(p => getProductReference(p) === ref);
+            if (!product) return;
+            const nameInput = document.getElementById('n-nombre');
+            const catSelect = document.getElementById('n-cat');
+            const cat = getProductCategory(product);
+            if (!nameInput.value.trim()) nameInput.value = product.Nombre_del_Producto || product.Nombre || '';
+            if (cat && !catSelect.value) catSelect.value = cat;
+            const idInput = document.getElementById('n-id-generado');
+            if (idInput && (!idInput.value.trim() || idInput.dataset.autoId === 'true')) {
+                const root = parseGeneratedId(getGeneratedId(product))?.root || getNextRootId();
+                idInput.value = getNextVariantId(root, ref);
+                idInput.dataset.autoId = 'true';
+            }
+        }
+
+        function renderProductFallback(data) {
+            const fb = 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
+            const tb = document.getElementById('tb-prod');
+            prodList = makeInventoryGroups(data);
+            prodIdx = 0;
+            tb.innerHTML = '';
+            if (!prodList.length) {
+                tb.innerHTML = '<tr><td colspan="9" class="tbl-msg">Sin productos.</td></tr>';
+                document.getElementById('btn-more-prod').style.display = 'none';
+                return;
+            }
+            renderProdChunk();
+        }
+
+        function setProducts(data, source = 'Google Sheets') {
+            productos = (Array.isArray(data) ? data : [])
+                .filter(isValidProductRow)
+                .map((product, index) => ({ ...product, __inventoryIndex: index }));
+            document.getElementById('s-productos').textContent = makeInventoryGroups(productos).length;
             try {
-                const r = await fetch(API);
+                renderProd(productos);
+            } catch (err) {
+                console.error('Error pintando inventario avanzado:', err);
+                renderProductFallback(productos);
+            }
+            try { populateCategorySelect(); } catch (err) { console.warn('Categorias no actualizadas:', err); }
+            try { populateReferenceList(); } catch (err) { console.warn('Referencias no actualizadas:', err); }
+            try { suggestNextGeneratedId(); } catch (err) { console.warn('Siguiente ID no calculado:', err); }
+            if (source !== 'cache') {
+                try { localStorage.setItem('blyxu_catalog_cache', JSON.stringify(productos)); } catch (err) {}
+            }
+        }
+
+        async function loadProductsForInventory() {
+            const cached = localStorage.getItem('blyxu_catalog_cache');
+            if (cached && (!productos || !productos.length)) {
+                try { setProducts(JSON.parse(cached), 'cache'); } catch (err) {}
+            }
+            try {
+                const r = await fetch(API + '?t=' + Date.now());
                 const d = await r.json();
-                if (d.status === 'success') { productos = d.data || []; renderProd(productos); document.getElementById('s-productos').textContent = productos.length; }
-            } catch (e) { document.getElementById('tb-prod').innerHTML = '<tr><td colspan="8" class="tbl-msg">⚠️ Error cargando productos</td></tr>'; }
+                if (d.status === 'success' && Array.isArray(d.data)) {
+                    setProducts(d.data, 'Google Sheets');
+                } else if (!productos.length) {
+                    document.getElementById('tb-prod').innerHTML = `<tr><td colspan="9" class="tbl-msg">${esc(d.message || 'No se pudo cargar el inventario.')}</td></tr>`;
+                }
+            } catch (e) {
+                console.error('Error cargando inventario:', e);
+                if (!productos.length) {
+                    document.getElementById('tb-prod').innerHTML = `<tr><td colspan="9" class="tbl-msg">No se pudo conectar al inventario: ${esc(e.message || e)}</td></tr>`;
+                }
+            }
+        }
+
+        async function loadAll() {
+            await loadProductsForInventory();
 
             // Pedidos
             try {
                 const r = await fetch(API + '?sheet=Pedidos');
                 const d = await r.json();
                 if (d.status === 'success') { pedidos = d.data || []; renderPed(pedidos); actualizarStats(); if (window.lucide) lucide.createIcons(); }
-                else { document.getElementById('tb-ped').innerHTML = '<tr><td colspan="9" class="tbl-msg">📭 Sin pedidos aún.</td></tr>'; }
-            } catch (e) { document.getElementById('tb-ped').innerHTML = '<tr><td colspan="9" class="tbl-msg">⚠️ Error cargando pedidos. Verifica el script.</td></tr>'; }
+                else { document.getElementById('tb-ped').innerHTML = '<tr><td colspan="9" class="tbl-msg">Sin pedidos aun.</td></tr>'; }
+            } catch (e) { document.getElementById('tb-ped').innerHTML = '<tr><td colspan="9" class="tbl-msg">Error cargando pedidos. Verifica el script.</td></tr>'; }
         }
 
         function actualizarStats() {
@@ -1884,9 +2203,11 @@
 
         let chartV, chartT, chartP;
         function renderCharts(dataToProcess) {
+            if (!window.Chart) return;
+
             const data = dataToProcess || pedidos.filter(p => (p.Estado || p.Status || '').toLowerCase().includes('pagado'));
             if (!data || data.length === 0) {
-                // Limpiar gráficas si no hay datos pagados
+                // Limpiar grÃ¡ficas si no hay datos pagados
                 if (chartV) chartV.destroy();
                 if (chartT) chartT.destroy();
                 if (chartP) chartP.destroy();
@@ -1913,7 +2234,7 @@
                 const sub = Number(g(p, 'Subtotal') || 0);
                 const cant = Number(g(p, 'Cantidad') || 0);
                 const prodNom = g(p, 'Nombre del Producto', 'nombreProducto') || 'Otros';
-                const cat = g(p, 'Categoría', 'Categoria') || 'General';
+                const cat = g(p, 'CategorÃ­a', 'Categoria') || 'General';
 
                 if (!isNaN(d)) {
                     const m = d.getMonth();
@@ -1933,12 +2254,12 @@
             document.getElementById('ana-mes').textContent = fmt(totalM);
             document.getElementById('ana-count').textContent = pedidos.length;
 
-            // --- CONFIGURACIÓN DE COLORES NEÓN ---
+            // --- CONFIGURACIÃ“N DE COLORES NEÃ“N ---
             const neonPurple = '#c77dff';
             const neonBlue = '#00d4ff';
             const neonGreen = '#25D366';
 
-            // 1. GRÁFICA DE VENTAS (LÍNEA FUTURISTA)
+            // 1. GRÃFICA DE VENTAS (LÃNEA FUTURISTA)
             const ctxV = document.getElementById('chart-ventas').getContext('2d');
             const gradV = ctxV.createLinearGradient(0, 0, 0, 400);
             gradV.addColorStop(0, 'rgba(199, 125, 255, 0.4)');
@@ -2000,7 +2321,7 @@
                 }
             });
 
-            // 2. GRÁFICA TOP PRODUCTOS (BARRAS GLOW)
+            // 2. GRÃFICA TOP PRODUCTOS (BARRAS GLOW)
             const sortedProd = Object.entries(prodMap).sort((a, b) => b[1] - a[1]).slice(0, 10);
             const ctxT = document.getElementById('chart-top').getContext('2d');
             
@@ -2031,7 +2352,7 @@
                 }
             });
 
-            // 3. GRÁFICA DE CATEGORÍAS (DOUGHNUT)
+            // 3. GRÃFICA DE CATEGORÃAS (DOUGHNUT)
             const ctxP = document.getElementById('chart-pie').getContext('2d');
             const sortedCat = Object.entries(catMap).sort((a, b) => b[1] - a[1]);
 
@@ -2061,12 +2382,12 @@
             });
         }
 
-        // Aliasing para el botón nuevo
+        // Aliasing para el botÃ³n nuevo
         window.initCharts = () => renderCharts();
 
         function renderPed(data) {
             const tb = document.getElementById('tb-ped');
-            if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="tbl-msg">📭 Sin pedidos.</td></tr>'; return; }
+            if (!data.length) { tb.innerHTML = '<tr><td colspan="9" class="tbl-msg">Sin pedidos.</td></tr>'; return; }
 
             const g = (obj, ...keys) => {
                 for (let k of keys) {
@@ -2085,11 +2406,11 @@
                 if (!grupos[id]) {
                     grupos[id] = {
                         id: id,
-                        cliente: g(p, 'Nombre Cliente', 'nombreCliente', 'Cliente') || '—',
-                        celular: g(p, 'Celular', 'Telefono') || '—',
+                        cliente: g(p, 'Nombre Cliente', 'nombreCliente', 'Cliente') || 'â€”',
+                        celular: g(p, 'Celular', 'Telefono') || 'â€”',
                         nota: g(p, 'Nota') || '',
-                        fecha: g(p, 'Fecha', 'Date', 'Día') || '—',
-                        registro: g(p, 'Timestamp', 'Registro', 'Hora', 'Creado') || '—',
+                        fecha: g(p, 'Fecha', 'Date', 'DÃ­a') || 'â€”',
+                        registro: g(p, 'Timestamp', 'Registro', 'Hora', 'Creado') || 'â€”',
                         estado: g(p, 'Estado', 'Status') || 'Pedido',
                         items: [],
                         total: 0
@@ -2100,8 +2421,17 @@
                 const sub = Number(g(p, 'Subtotal') || (cant * pre));
                 const prod = g(p, 'Nombre del Producto', 'nombreProducto') || '—';
                 const col = g(p, 'Color o Estilo', 'color') || '';
+                const ref = g(p, 'ID Producto', 'idProducto', 'ID_Producto', 'referencia') || '';
+                const sku = g(p, 'ID Generado', 'idGenerado', 'ID_Generado', 'sku') || '';
+                const itemMeta = [col, ref ? `Ref: ${ref}` : '', sku ? `SKU: ${sku}` : ''].filter(Boolean).join(' · ');
 
-                grupos[id].items.push(`${cant}x ${prod}${col ? ' (' + col + ')' : ''}`);
+                grupos[id].items.push(`
+                    <div style="padding:0.35rem 0;">
+                        <div style="color:#fff; font-weight:800;">${cant}x ${prod}</div>
+                        ${itemMeta ? `<div style="color:#9ca3af; font-size:0.76rem; margin-top:0.15rem;">${itemMeta}</div>` : ''}
+                        <div style="color:#c77dff; font-size:0.76rem; font-weight:800; margin-top:0.12rem;">${fmt(sub)}</div>
+                    </div>
+                `);
                 grupos[id].total += sub;
             });
 
@@ -2148,13 +2478,13 @@
                 });
                 const d = await res.json();
                 if (d.status === 'success') {
-                    showAlert('Estado Actualizado', `El pedido ${id} ahora está: ${nuevoEstado}`, 'success');
+                    showAlert('Estado Actualizado', `El pedido ${id} ahora estÃ¡: ${nuevoEstado}`, 'success');
                     loadAll();
                 } else {
                     showAlert('Error', d.message, 'error');
                 }
             } catch (e) {
-                showAlert('Error', 'No se pudo actualizar el estado. Revisa la conexión.', 'error');
+                showAlert('Error', 'No se pudo actualizar el estado. Revisa la conexiÃ³n.', 'error');
             }
         }
 
@@ -2247,7 +2577,7 @@
 
             const btn = document.getElementById('btn-save-ped-edit');
             btn.disabled = true;
-            btn.textContent = '⏳ Actualizando pedido...';
+            btn.textContent = 'â³ Actualizando pedido...';
 
             try {
                 const r = await fetch(API, {
@@ -2265,19 +2595,19 @@
                 if (d.status === 'success') {
                     document.getElementById('modal-edit-pedido').style.display = 'none';
                     loadAll();
-                    showAlert('Éxito', 'Pedido actualizado correctamente', 'success');
+                    showAlert('Ã‰xito', 'Pedido actualizado correctamente', 'success');
                 } else {
                     showAlert('Error', d.message || 'Intente de nuevo', 'error');
                 }
             } catch (e) {
-                showAlert('Error', 'Error de conexión', 'error');
+                showAlert('Error', 'Error de conexiÃ³n', 'error');
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Guardar Cambios →';
+                btn.textContent = 'Guardar Cambios â†’';
             }
         };
 
-        // Nueva función para cargar el grupo entero en la factura
+        // Nueva funciÃ³n para cargar el grupo entero en la factura
         window.cargarEnFacturaGrupo = (id) => {
             const items = pedidos.filter(p => {
                 const pId = g(p, 'ID Registro', 'id_registro', 'idRegistro', 'ID_Generado') || '';
@@ -2298,14 +2628,15 @@
             // Limpiar y poblar facItems
             facItems = [];
             items.forEach(it => {
-                const prod = g(it, 'Nombre del Producto', 'nombreProducto') || '—';
+                const prod = g(it, 'Nombre del Producto', 'nombreProducto') || 'â€”';
                 const col = g(it, 'Color o Estilo', 'color') || '';
-                const ref = g(it, 'ID Registro', 'id_registro', 'idRegistro', 'ID_Generado') || '';
+                const ref = g(it, 'ID Producto', 'idProducto', 'ID_Producto', 'referencia') || '';
+                const sku = g(it, 'ID Generado', 'idGenerado', 'ID_Generado', 'sku') || '';
                 const cant = Number(g(it, 'Cantidad') || 1);
                 const pre = Number(g(it, 'Precio Unitario', 'Precio') || 0);
 
                 facItems.push({
-                    desc: `${prod}${col ? ' (' + col + ')' : ''} [REF: ${ref}]`,
+                    desc: `${prod}${col ? ' (' + col + ')' : ''}${ref ? ' [REF: ' + ref + ']' : ''}${sku ? ' [SKU: ' + sku + ']' : ''}`,
                     qty: cant,
                     price: pre
                 });
@@ -2313,16 +2644,16 @@
 
             renderFacItems();
             
-            // Ir a la pestaña de facturas y avisar
-            document.querySelector('.tab[data-tab="facturas"]').click();
+            // Ir a la pestaÃ±a de facturas y avisar
+            openAdminSection('facturas', 'Factura Digital');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            showAlert('Éxito', 'Información del registro trasladada a la factura.', 'success');
+            showAlert('Ã‰xito', 'InformaciÃ³n del registro trasladada a la factura.', 'success');
         };
 
         window.borrarPedido = async (id) => {
-            if (!id || id === '—') { showAlert('Error', 'ID de pedido no válido', 'error'); return; }
+            if (!id || id === 'â€”') { showAlert('Error', 'ID de pedido no vÃ¡lido', 'error'); return; }
             
-            showConfirm('¿Eliminar Pedido?', '¿Estás seguro de eliminar este registro permanentemente? Esta acción borrará el pedido de la base de datos.', async () => {
+            showConfirm('Â¿Eliminar Pedido?', 'Â¿EstÃ¡s seguro de eliminar este registro permanentemente? Esta acciÃ³n borrarÃ¡ el pedido de la base de datos.', async () => {
                 try {
                     const r = await fetch(API, {
                         method: 'POST',
@@ -2330,13 +2661,13 @@
                     });
                     const d = await r.json();
                     if (d.status === 'success') {
-                        showAlert('Éxito', 'Registro eliminado correctamente', 'success');
+                        showAlert('Ã‰xito', 'Registro eliminado correctamente', 'success');
                         loadAll();
                     } else {
                         showAlert('Error', d.message || 'No se pudo eliminar', 'error');
                     }
                 } catch (e) {
-                    showAlert('Error', 'Error de conexión al eliminar', 'error');
+                    showAlert('Error', 'Error de conexiÃ³n al eliminar', 'error');
                 }
             });
         };
@@ -2348,7 +2679,7 @@
             facItems = [{ desc: prod, qty: cant, price: precio }];
             renderFacItems();
 
-            document.querySelector('.tab[data-tab="facturas"]').click();
+            openAdminSection('facturas', 'Factura Digital');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -2363,9 +2694,7 @@
         document.getElementById('spr').addEventListener('input', function () {
             const q = norm(this.value);
             document.getElementById('tb-prod').innerHTML = '';
-            renderProd(productos.filter(p =>
-                Object.values(p).some(v => v && norm(v).includes(q))
-            ));
+            renderProd(productos.filter(p => p && Object.values(p).some(v => v && norm(v).includes(q))));
         });
 
         // Imagen preview al seleccionar archivo
@@ -2383,6 +2712,222 @@
         zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
         zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
         zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag'); const f = e.dataTransfer.files[0]; if (f) { fileInput.files = e.dataTransfer.files; fileInput.dispatchEvent(new Event('change')); } });
+
+        ['n-nombre'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateGeneratedReference);
+        });
+
+        document.getElementById('n-id').addEventListener('input', function () {
+            this.dataset.autoRef = this.value.trim() ? 'false' : 'true';
+            applyExistingReferenceDetails(this.value.trim());
+        });
+
+        document.getElementById('n-id-generado').addEventListener('focus', function () {
+            if (!this.value.trim()) suggestNextGeneratedId(true);
+        });
+
+        document.getElementById('n-id-generado').addEventListener('input', function () {
+            this.dataset.autoId = 'false';
+        });
+
+        document.getElementById('n-cat').addEventListener('change', () => {
+            const custom = document.getElementById('n-cat-custom');
+            custom.style.display = document.getElementById('n-cat').value === '__new__' ? 'block' : 'none';
+            updateGeneratedReference();
+        });
+        document.getElementById('n-cat-custom').addEventListener('input', updateGeneratedReference);
+
+        function normalizeHexColor(value) {
+            const hex = (value || '').trim();
+            return /^#[0-9A-Fa-f]{6}$/.test(hex) ? hex : '';
+        }
+
+        function colorNameToHex(value) {
+            const key = (value || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+            const colors = {
+                negro: '#111111',
+                blanco: '#ffffff',
+                rojo: '#e53935',
+                azul: '#1e88e5',
+                verde: '#43a047',
+                amarillo: '#fdd835',
+                morado: '#8e24aa',
+                rosado: '#ec407a',
+                naranja: '#fb8c00',
+                cafe: '#795548',
+                gris: '#757575',
+                dorado: '#d4af37',
+                plateado: '#b0bec5'
+            };
+            return colors[key] || '';
+        }
+
+        function syncColorInputs(colorInput, textInput, value) {
+            const hex = normalizeHexColor(value) || '#c77dff';
+            colorInput.value = hex;
+            textInput.value = hex;
+        }
+
+        function setupColorTool(container) {
+            const colorInput = container.querySelector('input[type="color"]');
+            const textInput = container.querySelector('.v-color-hex-text, #n-color-hex-text');
+            const btn = container.querySelector('.btn-eyedropper');
+            if (!colorInput || !textInput) return;
+            colorInput.addEventListener('input', () => syncColorInputs(colorInput, textInput, colorInput.value));
+            textInput.addEventListener('input', () => {
+                const hex = normalizeHexColor(textInput.value);
+                if (hex) colorInput.value = hex;
+            });
+            if (btn) {
+                btn.onclick = async () => {
+                    if (!window.EyeDropper) {
+                        alert('Tu navegador no soporta gotero. Usa el selector de color manual.');
+                        return;
+                    }
+                    try {
+                        const result = await new EyeDropper().open();
+                        syncColorInputs(colorInput, textInput, result.sRGBHex);
+                    } catch (e) {}
+                };
+            }
+        }
+
+        setupColorTool(document.querySelector('#n-color-hex').closest('.color-tool'));
+        document.getElementById('n-color').addEventListener('input', function () {
+            const hex = colorNameToHex(this.value);
+            if (hex) syncColorInputs(document.getElementById('n-color-hex'), document.getElementById('n-color-hex-text'), hex);
+        });
+
+        let variantCounter = 0;
+        let variantMode = 'color';
+        function setVariantMode(mode) {
+            variantMode = mode;
+            document.querySelectorAll('.variant-mode-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+            const mainImageSection = document.getElementById('main-image-section');
+            const addVariantBtn = document.getElementById('btn-add-variant');
+            const modeHint = document.getElementById('variant-mode-hint');
+            if (mainImageSection) mainImageSection.style.display = mode === 'color' ? 'none' : '';
+            if (addVariantBtn) addVariantBtn.textContent = mode === 'color' ? '+ Agregar color' : '+ Agregar variante con imagen';
+            if (modeHint) {
+                modeHint.textContent = mode === 'color'
+                    ? 'Modo color: cada + agrega solo un color y se mostrara como circulo en el catalogo.'
+                    : 'Modo imagen: cada + agrega una variante con imagen y se mostrara como Estilo 1, Estilo 2...';
+            }
+        }
+
+        document.querySelectorAll('.variant-mode-btn').forEach(btn => {
+            btn.onclick = () => setVariantMode(btn.dataset.mode);
+        });
+        setVariantMode('color');
+
+        function addVariantCard() {
+            variantCounter += 1;
+            const firstIdInput = document.getElementById('n-id-generado');
+            if (!firstIdInput.value.trim()) suggestNextGeneratedId(true);
+            const root = getRootFromId(firstIdInput.value);
+            const nextVariantId = getNextVariantId(root, document.getElementById('n-id').value.trim());
+            const list = document.getElementById('variant-list');
+            const card = document.createElement('div');
+            card.className = 'variant-card';
+            const imageFields = variantMode === 'image' ? `
+                <div style="margin-top:0.9rem;">
+                    <label class="fl">Imagen de esta variante</label>
+                    <div class="variant-drop-zone">
+                        <input class="v-file" type="file" accept="image/*">
+                        <div class="variant-drop-text">Arrastra una imagen aqui o haz clic</div>
+                        <img class="variant-preview" alt="Vista previa variante">
+                    </div>
+                </div>
+                <div style="margin-top:0.9rem;">
+                    <label class="fl">O URL de imagen</label>
+                    <input class="fi v-img" type="url" placeholder="https://ejemplo.com/imagen.jpg">
+                </div>
+            ` : '';
+            card.innerHTML = `
+                <div class="variant-head">
+                    <span>${variantMode === 'color' ? 'Color' : 'Variante'} ${variantCounter}</span>
+                    <button type="button" class="btn-variant-remove">Quitar</button>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.9rem;">
+                    <div>
+                        <label class="fl">ID Generado</label>
+                        <input class="fi v-id" value="${nextVariantId}" placeholder="Ej. ${root}-1">
+                    </div>
+                    <div>
+                        <label class="fl">Color / Estilo</label>
+                        <input class="fi v-color" list="color-list" placeholder="Ej. Rojo o Edicion especial">
+                        <div class="color-tool">
+                            <input type="color" class="v-color-hex" value="#c77dff" title="Color para el circulo del catalogo">
+                            <input class="fi v-color-hex-text" placeholder="#c77dff" value="#c77dff">
+                            <button type="button" class="btn-eyedropper v-eyedropper">Gotero</button>
+                        </div>
+                    </div>
+                </div>
+                ${imageFields}
+            `;
+            card.querySelector('.btn-variant-remove').onclick = () => card.remove();
+            setupColorTool(card.querySelector('.color-tool'));
+            card.querySelector('.v-color').addEventListener('input', function () {
+                const hex = colorNameToHex(this.value);
+                if (hex) syncColorInputs(card.querySelector('.v-color-hex'), card.querySelector('.v-color-hex-text'), hex);
+            });
+            const dropZone = card.querySelector('.variant-drop-zone');
+            if (dropZone) setupVariantDropZone(dropZone);
+            list.appendChild(card);
+        }
+
+        function showVariantPreview(zone, file) {
+            if (!file) return;
+            const preview = zone.querySelector('.variant-preview');
+            const text = zone.querySelector('.variant-drop-text');
+            const reader = new FileReader();
+            reader.onload = e => {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                text.textContent = file.name;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function setupVariantDropZone(zone) {
+            const input = zone.querySelector('.v-file');
+            input.addEventListener('change', () => showVariantPreview(zone, input.files[0]));
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag');
+            });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag');
+                const file = e.dataTransfer.files[0];
+                if (!file || !file.type.startsWith('image/')) return;
+                input.files = e.dataTransfer.files;
+                showVariantPreview(zone, file);
+            });
+        }
+
+        document.getElementById('btn-add-variant').onclick = addVariantCard;
+
+        function getVariantRows(firstImageUrl, firstFile) {
+            const rows = [{
+                idGenerado: document.getElementById('n-id-generado').value.trim(),
+                color: document.getElementById('n-color').value.trim(),
+                colorHex: normalizeHexColor(document.getElementById('n-color-hex-text').value),
+                imgUrl: firstImageUrl,
+                file: firstFile
+            }];
+
+            document.querySelectorAll('#variant-list .variant-card').forEach(card => {
+                const idGenerado = card.querySelector('.v-id').value.trim();
+                const color = card.querySelector('.v-color').value.trim();
+                const colorHex = normalizeHexColor(card.querySelector('.v-color-hex-text').value);
+                const imgUrl = card.querySelector('.v-img')?.value.trim() || '';
+                const file = card.querySelector('.v-file')?.files[0];
+                if (idGenerado || color || colorHex || imgUrl || file) rows.push({ idGenerado, color, colorHex, imgUrl, file });
+            });
+            return rows;
+        }
 
         async function uploadImageToDrive(file) {
             return new Promise((resolve, reject) => {
@@ -2416,29 +2961,34 @@
             const ok = document.getElementById('smsg-ok');
             const err = document.getElementById('smsg-err');
             const nombre = document.getElementById('n-nombre').value.trim();
+            const idGenerado = document.getElementById('n-id-generado').value.trim();
+            updateGeneratedReference();
             const id = document.getElementById('n-id').value.trim();
-            if (!nombre || !id) { err.textContent = '⚠️ Nombre y Referencia son obligatorios.'; err.style.display = 'block'; return; }
+            const categoria = getSelectedCategory();
+            if (!nombre || !id) { err.textContent = 'âš ï¸ Nombre y Referencia son obligatorios.'; err.style.display = 'block'; return; }
+            if (!idGenerado) { err.textContent = 'El ID generado de la primera columna es obligatorio.'; err.style.display = 'block'; return; }
+            if (!categoria) { err.textContent = 'Selecciona una categoria.'; err.style.display = 'block'; return; }
 
-            btn.textContent = '⏳ Guardando...'; btn.disabled = true;
+            btn.textContent = 'â³ Guardando...'; btn.disabled = true;
             err.style.display = 'none'; ok.style.display = 'none';
 
             let imgUrl = document.getElementById('n-img').value.trim();
 
-            // Subir imagen si se seleccionó un archivo
+            // Subir imagen si se seleccionÃ³ un archivo
             const f = fileInput.files[0];
             if (f && !imgUrl) {
                 try {
-                    btn.textContent = '⏳ Subiendo imagen...';
+                    btn.textContent = 'â³ Subiendo imagen...';
                     imgUrl = await uploadImageToDrive(f);
                 } catch (e) {
-                    err.textContent = '❌ Error subiendo imagen: ' + e.message + '. Pega un URL manual en su lugar.';
+                    err.textContent = 'âŒ Error subiendo imagen: ' + e.message + '. Pega un URL manual en su lugar.';
                     err.style.display = 'block';
-                    btn.textContent = '💾 Guardar en Google Sheets'; btn.disabled = false;
+                    btn.textContent = 'ðŸ’¾ Guardar en Google Sheets'; btn.disabled = false;
                     return;
                 }
             }
 
-            btn.textContent = '⏳ Registrando en Sheets...';
+            btn.textContent = 'â³ Registrando en Sheets...';
 
             const editId = btn.getAttribute('data-edit-id');
             const actionType = editId ? 'edit_product' : 'add_product';
@@ -2446,162 +2996,342 @@
             try {
                 const res = await fetch(API, {
                     method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: actionType, editId: editId, idProducto: id, nombre, categoria: document.getElementById('n-cat').value, color: document.getElementById('n-color').value, precio: document.getElementById('n-precio').value, pcm: document.getElementById('n-pcm').value, stock: document.getElementById('n-stock').value, cantidad: document.getElementById('n-cantidad').value, imagen: imgUrl })
+                    body: JSON.stringify({ action: actionType, editId: editId, idGenerado: idGenerado, ID_Generado: idGenerado, idProducto: id, ID_Producto: id, referencia: id, nombre, categoria, color: document.getElementById('n-color').value, precio: document.getElementById('n-precio').value, pcm: document.getElementById('n-pcm').value, stock: document.getElementById('n-stock').value, cantidad: document.getElementById('n-cantidad').value, imagen: imgUrl })
                 });
                 const d = await res.json();
                 if (d.status === 'success') {
-                    ok.textContent = editId ? '✅ Producto actualizado exitosamente!' : '✅ Producto guardado exitosamente!';
+                    ok.textContent = editId ? 'âœ… Producto actualizado exitosamente!' : 'âœ… Producto guardado exitosamente!';
                     ok.style.display = 'block';
                     localStorage.removeItem('blyxu_catalog_cache');
-                    ['n-id', 'n-nombre', 'n-cat', 'n-color', 'n-precio', 'n-pcm', 'n-img', 'n-stock', 'n-cantidad'].forEach(x => document.getElementById(x).value = '');
+                    ['n-id-generado', 'n-id', 'n-nombre', 'n-cat', 'n-cat-custom', 'n-color', 'n-precio', 'n-pcm', 'n-img', 'n-stock', 'n-cantidad'].forEach(x => document.getElementById(x).value = '');
+                    document.getElementById('n-cat-custom').style.display = 'none';
+                    document.getElementById('n-id').dataset.autoRef = 'true';
                     fileInput.value = ''; preview.style.display = 'none';
                     zone.querySelector('.upload-txt').style.display = '';
                     zone.querySelector('.upload-icon').style.display = '';
 
-                    // Limpiar estado de edición
+                    // Limpiar estado de ediciÃ³n
                     btn.removeAttribute('data-edit-id');
-                    btn.textContent = '💾 Guardar en Google Sheets';
+                    btn.textContent = 'ðŸ’¾ Guardar en Google Sheets';
 
                     loadAll(); // Recargar productos para ver los cambios
                 } else throw new Error(d.message || 'Error desconocido');
-            } catch (e) { err.textContent = '❌ ' + e.message; err.style.display = 'block'; }
+            } catch (e) { err.textContent = 'âŒ ' + e.message; err.style.display = 'block'; }
 
             if (!btn.getAttribute('data-edit-id')) {
-                btn.textContent = '💾 Guardar en Google Sheets';
+                btn.textContent = 'ðŸ’¾ Guardar en Google Sheets';
             }
             btn.disabled = false;
             setTimeout(() => { ok.style.display = 'none'; err.style.display = 'none'; }, 7000);
         };
 
-        // Paginación productos
-        const PROD_PAGE = 20;
-        let prodList = [], prodIdx = 0;
+        // PaginaciÃ³n productos
+        // Guardar producto con multiples variantes independientes
+        document.getElementById('btn-guardar').onclick = async () => {
+            const btn = document.getElementById('btn-guardar');
+            const ok = document.getElementById('smsg-ok');
+            const err = document.getElementById('smsg-err');
+            const nombre = document.getElementById('n-nombre').value.trim();
+            updateGeneratedReference();
+            const id = document.getElementById('n-id').value.trim();
+            const categoria = getSelectedCategory();
+            const editId = btn.getAttribute('data-edit-id');
 
-        function renderProd(data) {
-            const fb = 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
-            prodList = data; prodIdx = 0;
-            document.getElementById('tb-prod').innerHTML = '';
-            renderProdChunk();
-        }
+            err.style.display = 'none';
+            ok.style.display = 'none';
 
-        function renderProdChunk() {
-            const fb = 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
-            const tb = document.getElementById('tb-prod');
-            if (!prodList.length) { tb.innerHTML = '<tr><td colspan="8" class="tbl-msg">📫 Sin productos.</td></tr>'; document.getElementById('btn-more-prod').style.display = 'none'; return; }
-            const slice = prodList.slice(prodIdx, prodIdx + PROD_PAGE);
-            tb.insertAdjacentHTML('beforeend', slice.map(p => {
-                const catK = Object.keys(p).find(k => k.toLowerCase().includes('categor'));
+            if (!nombre || !id) { err.textContent = 'Nombre y referencia son obligatorios.'; err.style.display = 'block'; return; }
+            if (!categoria) { err.textContent = 'Selecciona una categoria.'; err.style.display = 'block'; return; }
 
-                // Detector inteligente de imagen
-                let img = fb;
-                if (p.Imagen) {
-                    const str = p.Imagen.toString().trim();
-                    if (str.startsWith('http')) {
-                        img = str;
-                        if (str.includes('drive.google.com')) {
-                            const driveMatch = str.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || str.match(/id=([a-zA-Z0-9_-]+)/);
-                            if (driveMatch) img = `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w800`;
-                        }
+            const variants = getVariantRows(document.getElementById('n-img').value.trim(), fileInput.files[0]);
+            if (variants.some(v => !v.idGenerado)) {
+                err.textContent = 'Cada variante debe tener su propio ID generado.';
+                err.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Guardando...';
+
+            try {
+                for (let i = 0; i < variants.length; i++) {
+                    const variant = variants[i];
+                    let imgUrl = variant.imgUrl;
+                    if (variant.file && !imgUrl) {
+                        btn.textContent = `Subiendo imagen ${i + 1}/${variants.length}...`;
+                        imgUrl = await uploadImageToDrive(variant.file);
                     }
-                    else {
-                        const APP_ID = '89d7e4bb-f484-4a49-bb80-d24ff40f6b4b'; // Tu App ID
-                        img = `https://www.appsheet.com/template/gettablefileurl?appName=${APP_ID}&tableName=Productos&fileName=${encodeURIComponent(str)}`;
-                    }
+
+                    btn.textContent = `Guardando variante ${i + 1}/${variants.length}...`;
+                    const res = await fetch(API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: editId ? 'edit_product' : 'add_product',
+                            editId,
+                            idGenerado: variant.idGenerado,
+                            ID_Generado: variant.idGenerado,
+                            idProducto: id,
+                            ID_Producto: id,
+                            referencia: id,
+                            nombre,
+                            categoria,
+                            color: variant.color,
+                            colorHex: variant.colorHex,
+                            Color_Hex: variant.colorHex,
+                            Color_Codigo: variant.colorHex,
+                            precio: document.getElementById('n-precio').value,
+                            pcm: document.getElementById('n-pcm').value,
+                            stock: document.getElementById('n-stock').value,
+                            cantidad: document.getElementById('n-cantidad').value,
+                            imagen: imgUrl
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.status !== 'success') throw new Error(data.message || 'No se pudo guardar la variante.');
+                    if (editId) break;
                 }
 
-                const ref = p.ID_Generado || p.ID_Producto || '—';
-                const stock = Number(p.Stock_Inicial || 0);
-                let stockBadge = `<span class="badge-stock badge-ok">✅ ${stock}</span>`;
-                if (stock <= 0) stockBadge = `<span class="badge-stock badge-out">🚫 Agotado</span>`;
-                else if (stock <= 5) stockBadge = `<span class="badge-stock badge-low">⚠️ ${stock}</span>`;
+                ok.textContent = variants.length > 1 ? `${variants.length} variantes guardadas como filas independientes.` : 'Producto guardado exitosamente.';
+                ok.style.display = 'block';
+                localStorage.removeItem('blyxu_catalog_cache');
+                ['n-id-generado', 'n-id', 'n-nombre', 'n-cat', 'n-cat-custom', 'n-color', 'n-precio', 'n-pcm', 'n-img', 'n-stock', 'n-cantidad'].forEach(x => document.getElementById(x).value = '');
+                syncColorInputs(document.getElementById('n-color-hex'), document.getElementById('n-color-hex-text'), '#c77dff');
+                document.getElementById('n-cat-custom').style.display = 'none';
+                document.getElementById('n-id').dataset.autoRef = 'true';
+                document.getElementById('variant-list').innerHTML = '';
+                variantCounter = 0;
+                fileInput.value = '';
+                preview.style.display = 'none';
+                zone.querySelector('.upload-txt').style.display = '';
+                zone.querySelector('.upload-icon').style.display = '';
+                btn.removeAttribute('data-edit-id');
+                loadAll();
+            } catch (e) {
+                err.textContent = 'Error: ' + e.message;
+                err.style.display = 'block';
+            }
 
-                return `<tr>
-      <td><img src="${img}" class="thumb" onerror="this.src='${fb}'" onclick="window.showZoom('${img}')" title="Ver en grande"></td>
-      <td style="font-family:monospace; color:var(--accent-light);">${ref}</td>
-      <td style="font-weight:700;">${p.Nombre_del_Producto || '—'}</td>
-      <td><span style="background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:5px; font-size:0.8rem;">${catK ? p[catK] : '—'}</span></td>
-      <td>${p.Color_o_Estilo || '—'}</td>
-      <td style="color:#fff; font-weight:800;">${fmt(p.Precio)}</td>
-      <td style="color:var(--accent-pale);">${fmt(p.PCM || p.PCM_)}</td>
-      <td>${stockBadge}</td>
-      <td>
-        <div style="display:flex;gap:0.5rem;">
-          <button class="btn-editar" data-prod='${JSON.stringify(p).replace(/'/g, "&apos;")}' title="Editar Producto" style="background:rgba(199,125,255,0.15); color:#c77dff; border:1px solid rgba(199,125,255,0.4); border-radius:10px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s; font-size:1.1rem;"><i data-lucide="edit-3" style="width:18px; height:18px;"></i></button>
-          <button class="btn-eliminar" data-id="${p.ID_Generado}" title="Eliminar Producto" style="background:rgba(255,107,107,0.15); color:#ff6b6b; border:1px solid rgba(255,107,107,0.4); border-radius:10px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s; font-size:1.1rem;"><i data-lucide="trash-2" style="width:18px; height:18px;"></i></button>
-        </div>
-      </td>
-    </tr>`;
-            }).join(''));
-            prodIdx += PROD_PAGE;
-            if (window.lucide) lucide.createIcons();
+            btn.textContent = 'Guardar en Google Sheets';
+            btn.disabled = false;
+            setTimeout(() => { ok.style.display = 'none'; err.style.display = 'none'; }, 7000);
+        };
 
-            // Asignar eventos de eliminar
-            document.querySelectorAll('.btn-eliminar').forEach(btn => {
-                btn.onclick = function () {
-                    const id = this.getAttribute('data-id');
-                    showConfirm('¿Eliminar Producto?', '¿Estás seguro de que deseas eliminar este producto permanentemente? Esta acción no se puede deshacer.', async () => {
-                        const originalText = btn.innerHTML;
-                        btn.innerHTML = '⏳...';
-                        btn.disabled = true;
+        const PROD_PAGE = 12;
+        let prodList = [], prodIdx = 0;
+        let expandedProductGroups = new Set();
 
-                        try {
-                            const res = await fetch(API, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                                body: JSON.stringify({ action: 'delete_product', id: id })
-                            });
-                            const d = await res.json();
-                            if (d.status === 'success') {
-                                showAlert('Eliminado', 'Producto eliminado correctamente.', 'success');
-                                loadAll();
-                            } else {
-                                showAlert('Error', d.message, 'error');
-                                btn.innerHTML = originalText;
-                                btn.disabled = false;
-                            }
-                        } catch (e) {
-                            showAlert('Error', 'Error de conexión al eliminar.', 'error');
+        function openEditProductByIndex(index) {
+            const selected = prodList[Number(index)] || productos[Number(index)];
+            const p = selected && selected.__isGroup ? selected.__primary : selected;
+            openEditProduct(p);
+        }
+
+        function openEditProductBySourceIndex(index) {
+            if (index === null || index === undefined || index === '' || Number(index) < 0) {
+                showAlert('Error', 'No se pudo identificar ese registro del inventario.', 'error');
+                return;
+            }
+            const p = productos[Number(index)];
+            openEditProduct(p);
+        }
+
+        function openEditProduct(p) {
+            if (!p) { showAlert('Error', 'No se encontro el producto seleccionado.', 'error'); return; }
+
+            document.getElementById('e-edit-id').value = p.ID_Generado || p.ID_Producto || '';
+            document.getElementById('e-id').value = p.ID_Generado || '';
+            document.getElementById('e-producto-id').value = p.ID_Producto || p.ID_Generado || '';
+            document.getElementById('e-nombre').value = p.Nombre_del_Producto || p.Nombre || '';
+
+            const catK = Object.keys(p || {}).find(k => k.toLowerCase().includes('categor'));
+            document.getElementById('e-cat').value = catK ? p[catK] : '';
+            document.getElementById('e-color').value = p.Color_o_Estilo || '';
+            document.getElementById('e-precio').value = p.Precio || '';
+            document.getElementById('e-pcm').value = p.PCM || p.PCM_ || '';
+            document.getElementById('e-stock').value = p.Stock_Inicial || p.Stock || '';
+            document.getElementById('e-cantidad').value = p.Cantidad || '';
+            document.getElementById('e-img').value = p.Imagen || '';
+            eFileInput.value = '';
+            window.actualizarPreviewEdicion(p.Imagen);
+            document.getElementById('modal-edit-producto').style.display = 'flex';
+        }
+
+        window.deleteProductById = (id, btn) => {
+            if (!id) {
+                showAlert('Error', 'No se pudo identificar el producto para borrar.', 'error');
+                return;
+            }
+
+            showConfirm('Eliminar producto', 'Seguro que deseas eliminar este registro del inventario?', async () => {
+                const originalText = btn ? btn.innerHTML : '';
+                if (btn) {
+                    btn.innerHTML = '...';
+                    btn.disabled = true;
+                }
+
+                try {
+                    const res = await fetch(API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ action: 'delete_product', id: id })
+                    });
+                    const d = await res.json();
+                    if (d.status === 'success') {
+                        showAlert('Eliminado', 'Producto eliminado correctamente.', 'success');
+                        loadAll();
+                    } else {
+                        showAlert('Error', d.message || 'No se pudo eliminar.', 'error');
+                        if (btn) {
                             btn.innerHTML = originalText;
                             btn.disabled = false;
                         }
-                    });
-                };
+                    }
+                } catch (e) {
+                    showAlert('Error', 'Error de conexion al eliminar.', 'error');
+                    if (btn) {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }
+                }
             });
+        };
 
-            // Asignar eventos de editar
-            document.querySelectorAll('.btn-editar').forEach(btn => {
-                btn.onclick = function () {
-                    const p = JSON.parse(this.getAttribute('data-prod'));
-                    
-                    // Llenar Modal de Edición
-                    document.getElementById('e-id').value = p.ID_Generado || p.ID_Producto || '';
-                    document.getElementById('e-nombre').value = p.Nombre_del_Producto || '';
-                    
-                    const catK = Object.keys(p).find(k => k.toLowerCase().includes('categor'));
-                    document.getElementById('e-cat').value = catK ? p[catK] : '';
-                    
-                    document.getElementById('e-color').value = p.Color_o_Estilo || '';
-                    document.getElementById('e-precio').value = p.Precio || '';
-                    document.getElementById('e-pcm').value = p.PCM || p.PCM_ || '';
-                    document.getElementById('e-stock').value = p.Stock_Inicial || '';
-                    document.getElementById('e-cantidad').value = p.Cantidad || '';
-                    document.getElementById('e-img').value = p.Imagen || '';
-                    
-                    // Preview Imagen en Modal
-                    window.actualizarPreviewEdicion(p.Imagen);
-                    
-                    // Mostrar Modal
-                    document.getElementById('modal-edit-producto').style.display = 'flex';
-                };
+        window.openEditProductByIndex = openEditProductByIndex;
+        window.openEditProductBySourceIndex = openEditProductBySourceIndex;
+
+        function renderProd(data) {
+            prodList = makeInventoryGroups(data); prodIdx = 0;
+            const tb = document.getElementById('tb-prod');
+            tb.innerHTML = '<tr><td colspan="9" class="tbl-msg">Preparando inventario...</td></tr>';
+            document.getElementById('btn-more-prod').style.display = 'none';
+            requestAnimationFrame(() => {
+                tb.innerHTML = '';
+                renderProdChunk();
             });
-            const more = document.getElementById('btn-more-prod');
-            more.style.display = prodIdx < prodList.length ? 'block' : 'none';
-            if (prodIdx < prodList.length) more.textContent = `Ver más (${prodList.length - prodIdx} restantes) ↓`;
         }
+
+        function buildInventoryRow(p) {
+            const fb = 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=60&q=60';
+            const catK = Object.keys(p || {}).find(k => k.toLowerCase().includes('categor'));
+            const img = getProductImageUrl(p.Imagen, fb);
+            const groupId = p.__groupId || p.ID_Producto || p.ID_Generado || '-';
+            const variants = p.__variants || [p];
+            const stock = getGroupStock(p);
+            const primarySourceIndex = Number.isFinite(p.__sourceIndex) ? p.__sourceIndex : -1;
+            const primaryDeleteId = getGeneratedId(p) || p.ID_Producto || '';
+            const isExpanded = expandedProductGroups.has(groupId);
+            const variantsHtml = variants.map(variant => {
+                const sourceIndex = Number.isFinite(variant.__sourceIndex) ? variant.__sourceIndex : -1;
+                const variantId = getGeneratedId(variant) || '';
+                const color = variant.Color_o_Estilo || variant.color || '-';
+                const vStock = Number(variant.Stock_Inicial || variant.Stock || variant.Cantidad || 0) || 0;
+                return `<div style="display:grid; grid-template-columns:1fr 1fr auto; gap:0.5rem; align-items:center; padding:0.45rem 0; border-top:1px solid rgba(255,255,255,0.05);">
+                    <span style="font-family:monospace; color:#e0aaff;">${esc(variantId || 'Sin ID')}</span>
+                    <span>${esc(color)} · Stock ${vStock}</span>
+                    <span style="display:flex; gap:0.35rem;">
+                        <button type="button" data-product-action="edit" data-source-index="${sourceIndex}" style="border:1px solid rgba(199,125,255,0.35); background:rgba(199,125,255,0.12); color:#d8c5ff; border-radius:8px; padding:0.4rem 0.55rem; cursor:pointer;">Editar</button>
+                        <button type="button" data-product-action="delete" data-delete-id="${esc(variantId)}" style="border:1px solid rgba(255,107,107,0.35); background:rgba(255,107,107,0.12); color:#ff6b6b; border-radius:8px; width:34px; cursor:pointer;"><i data-lucide="trash-2" style="width:15px; height:15px; pointer-events:none;"></i></button>
+                    </span>
+                </div>`;
+            }).join('');
+
+            let stockBadge = `<span class="badge-stock badge-ok">${stock}</span>`;
+            if (stock <= 0) stockBadge = `<span class="badge-stock badge-out">Agotado</span>`;
+            else if (stock <= 5) stockBadge = `<span class="badge-stock badge-low">Pocas: ${stock}</span>`;
+
+            return `<tr data-group-id="${esc(groupId)}">
+                <td><img src="${esc(img)}" class="thumb" onerror="this.src='${fb}'" onclick="window.showZoom('${esc(img)}')" title="Ver en grande"></td>
+                <td style="font-family:monospace; color:var(--accent-light);">${esc(groupId)}<br><button type="button" data-product-action="toggle" data-group-id="${esc(groupId)}" style="margin-top:0.3rem; border:0; background:transparent; color:#d8c5ff; cursor:pointer; font-family:monospace; padding:0;">${variants.length} variante${variants.length !== 1 ? 's' : ''} ${variants.length > 1 ? (isExpanded ? '▲' : '▼') : ''}</button></td>
+                <td style="font-weight:700;">${esc(p.Nombre_del_Producto || p.Nombre || '-')}</td>
+                <td><span style="background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:5px; font-size:0.8rem;">${esc(catK ? p[catK] : '-')}</span></td>
+                <td>${esc(getGroupVariantSummary(p))}</td>
+                <td style="color:#fff; font-weight:800;">${fmt(p.Precio)}</td>
+                <td style="color:var(--accent-pale);">${fmt(p.PCM || p.PCM_)}</td>
+                <td>${stockBadge}</td>
+                <td>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button type="button" data-product-action="edit" data-source-index="${primarySourceIndex}" style="background:rgba(199,125,255,0.15); color:#c77dff; border:1px solid rgba(199,125,255,0.4); border-radius:10px; padding:0.65rem 0.85rem; cursor:pointer;">Editar</button>
+                        <button type="button" data-product-action="delete" data-delete-id="${esc(primaryDeleteId)}" title="Borrar producto" style="background:rgba(255,107,107,0.15); color:#ff6b6b; border:1px solid rgba(255,107,107,0.4); border-radius:10px; width:40px; cursor:pointer;"><i data-lucide="trash-2" style="width:17px; height:17px; pointer-events:none;"></i></button>
+                    </div>
+                    ${isExpanded && variants.length > 1 ? `<div style="margin-top:0.75rem; min-width:320px;">${variantsHtml}</div>` : ''}
+                </td>
+            </tr>`;
+        }
+
+        function renderProdChunk() {
+            const tb = document.getElementById('tb-prod');
+            if (!prodList.length) { tb.innerHTML = '<tr><td colspan="9" class="tbl-msg">Sin productos.</td></tr>'; document.getElementById('btn-more-prod').style.display = 'none'; return; }
+            const more = document.getElementById('btn-more-prod');
+            more.disabled = true;
+            more.textContent = 'Cargando lote...';
+            const slice = prodList.slice(prodIdx, prodIdx + PROD_PAGE);
+            requestAnimationFrame(() => {
+                tb.insertAdjacentHTML('beforeend', slice.map((p) => {
+                    try {
+                        return buildInventoryRow(p);
+                    } catch (err) {
+                        console.error('Producto omitido por datos invalidos:', err, p);
+                        return '<tr><td colspan="9" class="tbl-msg">Un producto no se pudo mostrar por datos invalidos.</td></tr>';
+                    }
+                }).join(''));
+                prodIdx += slice.length;
+                if (window.lucide) lucide.createIcons();
+
+                more.disabled = false;
+                more.style.display = prodIdx < prodList.length ? 'block' : 'none';
+                if (prodIdx < prodList.length) more.textContent = `Ver mas (${prodList.length - prodIdx} restantes)`;
+            });
+        }
+
+        function rerenderVisibleInventory() {
+            const visibleCount = Math.max(prodIdx, PROD_PAGE);
+            const tb = document.getElementById('tb-prod');
+            const more = document.getElementById('btn-more-prod');
+            tb.innerHTML = '';
+            const slice = prodList.slice(0, visibleCount);
+            tb.insertAdjacentHTML('beforeend', slice.map((p) => {
+                try {
+                    return buildInventoryRow(p);
+                } catch (err) {
+                    console.error('Producto omitido por datos invalidos:', err, p);
+                    return '<tr><td colspan="9" class="tbl-msg">Un producto no se pudo mostrar por datos invalidos.</td></tr>';
+                }
+            }).join(''));
+            prodIdx = slice.length;
+            if (window.lucide) lucide.createIcons();
+            more.disabled = false;
+            more.style.display = prodIdx < prodList.length ? 'block' : 'none';
+            if (prodIdx < prodList.length) more.textContent = `Ver mas (${prodList.length - prodIdx} restantes)`;
+        }
+
+        document.getElementById('tb-prod').addEventListener('click', (event) => {
+            const btn = event.target.closest('[data-product-action]');
+            if (!btn) return;
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (btn.dataset.productAction === 'toggle') {
+                const groupId = btn.dataset.groupId;
+                if (expandedProductGroups.has(groupId)) expandedProductGroups.delete(groupId);
+                else expandedProductGroups.add(groupId);
+                rerenderVisibleInventory();
+                return;
+            }
+
+            if (btn.dataset.productAction === 'edit') {
+                openEditProductBySourceIndex(btn.dataset.sourceIndex);
+                return;
+            }
+
+            if (btn.dataset.productAction === 'delete') {
+                deleteProductById(btn.dataset.deleteId, btn);
+            }
+        });
 
         document.getElementById('btn-more-prod').addEventListener('click', renderProdChunk);
 
-        // Helper para preview en edición
+        // Helper para preview en ediciÃ³n
         window.actualizarPreviewEdicion = (url) => {
             const pre = document.getElementById('e-preview');
             const txt = document.getElementById('e-preview-txt');
@@ -2618,7 +3348,7 @@
             pre.src = src; pre.style.display = 'block'; txt.style.display = 'none';
         };
 
-        // Lógica de Imagen en Modal de Edición
+        // LÃ³gica de Imagen en Modal de EdiciÃ³n
         const eFileInput = document.getElementById('e-img-file');
         const eZone = document.getElementById('edit-upload-zone');
         const ePreview = document.getElementById('e-preview');
@@ -2645,14 +3375,16 @@
             if (f) { eFileInput.files = e.dataTransfer.files; eFileInput.dispatchEvent(new Event('change')); }
         };
 
-        // Guardar cambios en Modal de Edición
+        // Guardar cambios en Modal de EdiciÃ³n
         document.getElementById('btn-save-prod-edit').onclick = async () => {
             const btn = document.getElementById('btn-save-prod-edit');
-            const id = document.getElementById('e-id').value;
+            const editId = document.getElementById('e-edit-id').value;
+            const id = document.getElementById('e-id').value.trim();
+            const idProducto = document.getElementById('e-producto-id').value.trim() || id;
             const nombre = document.getElementById('e-nombre').value.trim();
             if (!nombre) { showAlert('Error', 'El nombre es obligatorio', 'error'); return; }
 
-            btn.disabled = true; btn.textContent = '⏳ Procesando...';
+            btn.disabled = true; btn.textContent = 'Procesando...';
 
             let imgUrl = document.getElementById('e-img').value;
             const f = eFileInput.files[0];
@@ -2660,19 +3392,24 @@
             // Si hay un archivo nuevo, subirlo primero
             if (f) {
                 try {
-                    btn.textContent = '⏳ Subiendo imagen nueva...';
+                    btn.textContent = 'Subiendo imagen nueva...';
                     imgUrl = await uploadImageToDrive(f);
+                    document.getElementById('e-img').value = imgUrl;
                 } catch (e) {
                     showAlert('Error', 'No se pudo subir la imagen: ' + e.message, 'error');
-                    btn.disabled = false; btn.textContent = 'Actualizar Producto →';
+                    btn.disabled = false; btn.textContent = 'Actualizar producto';
                     return;
                 }
             }
 
             const payload = {
                 action: 'edit_product',
-                editId: id,
-                idProducto: id,
+                editId: editId,
+                idGenerado: id,
+                ID_Generado: id,
+                idProducto: idProducto,
+                ID_Producto: idProducto,
+                referencia: idProducto,
                 nombre: nombre,
                 categoria: document.getElementById('e-cat').value,
                 color: document.getElementById('e-color').value,
@@ -2680,7 +3417,7 @@
                 pcm: document.getElementById('e-pcm').value,
                 stock: document.getElementById('e-stock').value,
                 cantidad: document.getElementById('e-cantidad').value,
-                imagen: document.getElementById('e-img').value
+                imagen: imgUrl
             };
 
             try {
@@ -2693,15 +3430,15 @@
                 if (d.status === 'success') {
                     document.getElementById('modal-edit-producto').style.display = 'none';
                     loadAll();
-                    showAlert('Éxito', 'Producto actualizado correctamente', 'success');
+                    showAlert('Ã‰xito', 'Producto actualizado correctamente', 'success');
                 } else {
                     showAlert('Error', d.message, 'error');
                 }
-            } catch (e) { showAlert('Error', 'Error de conexión', 'error'); }
-            finally { btn.disabled = false; btn.textContent = 'Actualizar Producto →'; }
+            } catch (e) { showAlert('Error', 'Error de conexiÃ³n', 'error'); }
+            finally { btn.disabled = false; btn.textContent = 'Actualizar producto'; }
         };
 
-        // --- LÓGICA DE FACTURAS ---
+        // --- LÃ“GICA DE FACTURAS ---
         let facItems = [];
         function renderFacItems() {
             const container = document.getElementById('fac-items-container');
@@ -2712,7 +3449,7 @@
                 const header = document.createElement('div');
                 header.style = "display:grid; grid-template-columns:3fr 1fr 2fr 1fr auto; gap:10px; margin-bottom:10px; padding:0 0.5rem; color:#9ca3af; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:1px;";
                 header.innerHTML = `
-                    <div style="padding-left:10px;">Descripción del Producto</div>
+                    <div style="padding-left:10px;">DescripciÃ³n del Producto</div>
                     <div style="text-align:center;">Cant.</div>
                     <div style="padding-left:10px;">Precio Unit.</div>
                     <div style="text-align:right;">Subtotal</div>
@@ -2734,7 +3471,7 @@
       <input type="number" class="fi" placeholder="Cant." value="${item.qty}" onchange="updateFacItem(${index}, 'qty', this.value)" style="margin:0; padding:0.6rem;">
       <input type="number" class="fi" placeholder="Precio U." value="${item.price}" onchange="updateFacItem(${index}, 'price', this.value)" style="margin:0; padding:0.6rem;">
       <div style="color:#c77dff; font-weight:bold; text-align:right;">${fmt(item.qty * item.price)}</div>
-      <button onclick="removeFacItem(${index})" style="background:none; border:none; color:#ff6b6b; cursor:pointer; font-size:1.2rem;">🗑️</button>
+      <button onclick="removeFacItem(${index})" style="background:none; border:none; color:#ff6b6b; cursor:pointer; font-size:1.2rem;">ðŸ—‘ï¸</button>
     `;
                 container.appendChild(row);
                 sub += (item.qty * item.price);
@@ -2750,12 +3487,12 @@
             const res = document.getElementById('fac-smart-results');
             if (!q || q.length < 2) { res.style.display = 'none'; return; }
 
-            // Agrupar pedidos por ID Registro para mostrar opciones únicas
+            // Agrupar pedidos por ID Registro para mostrar opciones Ãºnicas
             const grupos = {};
             pedidos.forEach(p => {
                 const id = g(p, 'ID Registro', 'id_registro', 'ID_Generado') || 'S-ID';
-                const name = g(p, 'Nombre Cliente', 'nombreCliente', 'Cliente') || '—';
-                const date = g(p, 'Fecha') || '—';
+                const name = g(p, 'Nombre Cliente', 'nombreCliente', 'Cliente') || 'â€”';
+                const date = g(p, 'Fecha') || 'â€”';
                 
                 if (!grupos[id]) {
                     grupos[id] = { id, name, date, itemsCount: 0 };
@@ -2798,7 +3535,7 @@
             }
         });
 
-        // La función cargarEnFacturaGrupo ya está definida y ahora se encarga de todo.
+        // La funciÃ³n cargarEnFacturaGrupo ya estÃ¡ definida y ahora se encarga de todo.
 
         // Buscador de productos para factura
         const facBuscProd = document.getElementById('fac-busc-prod');
@@ -2810,7 +3547,7 @@
 
             if (productos.length === 0) {
                 facResBusc.innerHTML = `<div style="padding:1.5rem; color:#c77dff; text-align:center;">
-      <div style="font-size:1.5rem; margin-bottom:0.5rem;">⏳</div>
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">â³</div>
       Cargando inventario desde Google Sheets...<br>
       <small style="opacity:0.6;">Espera un momento por favor.</small>
     </div>`;
@@ -2824,7 +3561,7 @@
 
             if (matches.length === 0) {
                 facResBusc.innerHTML = `<div style="padding:1.5rem; color:#9ca3af; text-align:center;">
-      <div style="font-size:2rem; margin-bottom:0.5rem;">🔍</div>
+      <div style="font-size:2rem; margin-bottom:0.5rem;">ðŸ”</div>
       No se encontraron productos con "${this.value}"<br>
       <small style="opacity:0.6;">(Prueba con otra palabra o referencia)</small>
     </div>`;
@@ -2850,7 +3587,7 @@
 
                     const nombre = p.Nombre_del_Producto || p.Nombre || p.Producto || p.ID_Generado || 'Producto sin nombre';
                     const precio = p.Precio || p.Precio_Detal || p.Precio_Sugerido || 0;
-                    const ref = p.ID_Generado || p.ID_Producto || p.Referencia || '—';
+                    const ref = p.ID_Generado || p.ID_Producto || p.Referencia || 'â€”';
 
                     return `
         <div class="res-item" onclick="addItemFromInventory('${ref}')" style="padding:1rem; border-bottom:1px solid rgba(199,125,255,0.2); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:15px; background:rgba(22,17,34,0.95);">
@@ -2876,7 +3613,7 @@
             const p = productos.find(x => x.ID_Generado === id);
             if (!p) return;
 
-            // Si el primer item está vacío, lo reemplazamos
+            // Si el primer item estÃ¡ vacÃ­o, lo reemplazamos
             if (facItems.length === 1 && facItems[0].desc === '') {
                 facItems[0] = { desc: p.Nombre_del_Producto, qty: 1, price: p.Precio };
             } else {
@@ -2930,7 +3667,7 @@
             let subtotal = 0;
 
             facItems.forEach(item => {
-                if (!item.desc) return; // Ignorar items vacíos
+                if (!item.desc) return; // Ignorar items vacÃ­os
                 const rowSub = item.qty * item.price;
                 subtotal += rowSub;
                 tbody.innerHTML += `
@@ -2964,10 +3701,10 @@
 
             const btn = document.getElementById('btn-generar-pdf');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i data-lucide="printer" class="spin" style="width:18px; height:18px;"></i> Preparando Impresión...';
+            btn.innerHTML = '<i data-lucide="printer" class="spin" style="width:18px; height:18px;"></i> Preparando ImpresiÃ³n...';
             btn.disabled = true;
 
-            // MÉTODO ROBUSTO: Impresión nativa del navegador
+            // MÃ‰TODO ROBUSTO: ImpresiÃ³n nativa del navegador
             setTimeout(() => {
                 const originalTitle = document.title;
                 document.title = 'Factura_Blyxu_' + document.getElementById('tpl-fac-num').textContent;
@@ -2975,7 +3712,7 @@
                 // Mostrar temporalmente el template
                 element.style.display = 'block';
                 
-                // Disparar impresión
+                // Disparar impresiÃ³n
                 window.print();
                 
                 // Limpieza
@@ -2984,7 +3721,7 @@
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 if (window.lucide) lucide.createIcons();
-                showAlert('Factura Generada', 'Si el PDF no se descargó, asegúrate de seleccionar "Guardar como PDF" en el menú de impresión.', 'success');
+                showAlert('Factura Generada', 'Si el PDF no se descargÃ³, asegÃºrate de seleccionar "Guardar como PDF" en el menÃº de impresiÃ³n.', 'success');
             }, 500);
         });
 
@@ -3034,13 +3771,7 @@
 
         // Splash Screen Logic
         window.addEventListener('load', () => {
-            const bar = document.getElementById('loading-bar');
-            if (bar) {
-                bar.style.width = '100%';
-                setTimeout(() => {
-                    document.getElementById('loading-screen').classList.add('hidden');
-                }, 800);
-            }
+            if (window.hideAdminLoader) setTimeout(window.hideAdminLoader, 800);
         });
     </script>
     <style>
